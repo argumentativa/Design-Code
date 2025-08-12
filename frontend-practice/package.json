@@ -1,0 +1,17 @@
+{
+  "name": "frontend-practice",
+  "version": "1.0.0",
+  "description": "Frontend development practice environment",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx live-server --port=3000 --open=/index.html",
+    "dev": "npx live-server --port=3000 --open=/index.html --watch=css,js",
+    "build": "echo 'Production build not configured yet'"
+  },
+  "keywords": ["frontend", "practice", "html", "css", "javascript"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
