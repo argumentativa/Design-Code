@@ -82,6 +82,7 @@ body {
     border-radius: var(--border-radius-md);
     padding: var(--space-xl);
     box-shadow: var(--shadow-sm);
+    margin-bottom: var(--space-xl);
 }
 
 .card__title {
@@ -127,7 +128,108 @@ body {
     justify-content: center;
 }
 
+/* Flexbox Demo Components */
+.flex-demo {
+    margin-top: var(--space-lg);
+}
+
+.flex-demo__subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+    margin: var(--space-xl) 0 var(--space-md) 0;
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: var(--space-sm);
+}
+
+/* Card Row Layouts */
+.card-row {
+    display: flex;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.card-row--equal {
+    /* All cards get equal width */
+}
+
+.card-row--flexible {
+    /* Cards can have different flex properties */
+}
+
+/* Mini Card Component */
+.card-mini {
+    background-color: var(--color-surface);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: var(--space-md);
+    box-shadow: var(--shadow-sm);
+    flex: 1; /* Equal distribution by default */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-mini:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.card-mini--featured {
+    flex: 2; /* Takes twice the space */
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.card-mini--featured .card-mini__title {
+    color: white;
+}
+
+.card-mini__title {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+    color: var(--color-text);
+}
+
+.card-mini__content {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+}
+
+/* Three.js Components */
+.threejs-container {
+    background-color: var(--color-surface);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    height: 400px;
+    margin: var(--space-lg) 0;
+    position: relative;
+    overflow: hidden;
+    cursor: crosshair;
+    transition: border-color 0.3s ease;
+}
+
+.threejs-container:hover {
+    border-color: var(--color-primary);
+}
+
+.threejs-container canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.threejs-controls {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
 /* Responsive Design - Mobile First */
+.card-row {
+    flex-direction: column;
+}
+
 @media (min-width: 768px) {
     .header {
         padding: var(--space-2xl) var(--space-md);
@@ -135,5 +237,9 @@ body {
     
     .main {
         padding: var(--space-2xl);
+    }
+    
+    .card-row {
+        flex-direction: row;
     }
 }

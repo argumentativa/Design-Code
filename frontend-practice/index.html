@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frontend Practice</title>
     <link rel="stylesheet" href="css/main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
     <header class="header">
@@ -32,6 +33,85 @@
             <button class="button button--primary button--fixed-height" id="fixed-button">
                 Click me to test consistent sizing!
             </button>
+        </section>
+        
+        <section class="card">
+            <h2 class="card__title">Flexbox Card Layouts</h2>
+            <p class="card__content">
+                Explore different flexbox arrangements for responsive card layouts.
+            </p>
+            
+            <div class="flex-demo">
+                <h3 class="flex-demo__subtitle">Equal Width Cards</h3>
+                <div class="card-row card-row--equal">
+                    <div class="card-mini">
+                        <h4 class="card-mini__title">Design</h4>
+                        <p class="card-mini__content">User experience and visual design principles</p>
+                    </div>
+                    <div class="card-mini">
+                        <h4 class="card-mini__title">Code</h4>
+                        <p class="card-mini__content">HTML, CSS, and JavaScript fundamentals</p>
+                    </div>
+                    <div class="card-mini">
+                        <h4 class="card-mini__title">Systems</h4>
+                        <p class="card-mini__content">Design tokens and component architecture</p>
+                    </div>
+                </div>
+                
+                <h3 class="flex-demo__subtitle">Flexible Width Cards</h3>
+                <div class="card-row card-row--flexible">
+                    <div class="card-mini card-mini--featured">
+                        <h4 class="card-mini__title">Featured Content</h4>
+                        <p class="card-mini__content">This card takes up more space with flex-grow to showcase important content that needs more attention.</p>
+                    </div>
+                    <div class="card-mini">
+                        <h4 class="card-mini__title">Regular</h4>
+                        <p class="card-mini__content">Standard card size</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="card">
+            <h2 class="card__title">3D Animation with Three.js</h2>
+            <p class="card__content">
+                Retro-futuristic 3D thunderbolt with cheerful electric arcs bouncing through a bright starfield, inspired by The Jetsons! <strong>Hover over the thunderbolt</strong> to control it with your mouse! This demonstrates how to integrate playful 3D graphics with your design system.
+            </p>
+            <div class="threejs-container" id="threejs-container">
+                <!-- Three.js canvas will be inserted here -->
+            </div>
+            <div class="threejs-controls">
+                <button class="button button--primary" id="toggle-animation">
+                    Pause Animation
+                </button>
+                <button class="button button--primary" id="change-color">
+                    Change Color
+                </button>
+            </div>
+        </section>
+        
+        <section class="card">
+            <h2 class="card__title">3D Room Scene</h2>
+            <p class="card__content">
+                A modern skyscraper office with floor-to-ceiling windows overlooking the city skyline. <strong>Click and drag</strong> to orbit around the room, <strong>scroll</strong> to zoom in/out, and enjoy the breathtaking urban views! This demonstrates architectural 3D modeling with Three.js.
+            </p>
+            <div class="threejs-container" id="room-container">
+                <!-- Room Three.js canvas will be inserted here -->
+            </div>
+            <div class="threejs-controls">
+                <button class="button button--primary" id="zoom-in-room">
+                    Zoom In
+                </button>
+                <button class="button button--primary" id="zoom-out-room">
+                    Zoom Out
+                </button>
+                <button class="button button--primary" id="toggle-room-lighting">
+                    Toggle Lighting
+                </button>
+                <button class="button button--primary" id="reset-room-camera">
+                    Reset View
+                </button>
+            </div>
         </section>
     </main>
 
