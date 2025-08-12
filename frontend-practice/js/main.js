@@ -4,8 +4,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ JavaScript is working!');
     
-    // Get the test button
+    // Get the test buttons
     const testButton = document.getElementById('test-button');
+    const fixedButton = document.getElementById('fixed-button');
     
     // Add click event listener
     testButton.addEventListener('click', function() {
@@ -34,6 +35,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 2000);
         
         console.log(`Button clicked at: ${new Date().toLocaleTimeString()}`);
+    });
+    
+    // Fixed-height button event listener
+    fixedButton.addEventListener('click', function() {
+        const messages = [
+            'Great! JavaScript is working perfectly! 🎉',
+            'You clicked the button! Event handling works! ✨',
+            'Design systems + code = powerful combination! 💪',
+            'Keep practicing and building! 🚀'
+        ];
+        
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+        fixedButton.textContent = randomMessage;
+        
+        // Reset after 2 seconds
+        setTimeout(() => {
+            fixedButton.textContent = 'Click me to test consistent sizing!';
+        }, 2000);
+        
+        console.log(`Fixed button clicked at: ${new Date().toLocaleTimeString()}`);
     });
 });
 
