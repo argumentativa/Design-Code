@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lottie Practice</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <h1 class="header__title">Lottie Animation Practice</h1>
+        <p class="header__subtitle">Beautiful animations made simple</p>
+    </header>
+
+    <main class="main">
+        <section class="card">
+            <h2 class="card__title">Welcome to Lottie</h2>
+            <p class="card__content">
+                Lottie allows you to use After Effects animations on the web with perfect quality and tiny file sizes.
+            </p>
+        </section>
+
+        <section class="card">
+            <h2 class="card__title">Loading Animation</h2>
+            <p class="card__content">
+                A smooth loading spinner animation that demonstrates Lottie's capabilities.
+            </p>
+            <div class="lottie-container" id="loading-animation" 
+                 role="img" 
+                 aria-label="Loading spinner animation">
+            </div>
+            <div class="lottie-controls" role="group" aria-label="Loading animation controls">
+                <button class="button button--primary" id="play-loading">
+                    Play
+                </button>
+                <button class="button button--primary" id="pause-loading">
+                    Pause
+                </button>
+                <button class="button button--primary" id="stop-loading">
+                    Stop
+                </button>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2 class="card__title">Success Animation</h2>
+            <p class="card__content">
+                A checkmark animation that can be used for form submissions or success states.
+            </p>
+            <div class="lottie-container" id="success-animation"
+                 role="img"
+                 aria-label="Success checkmark animation">
+            </div>
+            <div class="lottie-controls" role="group" aria-label="Success animation controls">
+                <button class="button button--primary" id="play-success">
+                    Play
+                </button>
+                <button class="button button--primary" id="reverse-success">
+                    Reverse
+                </button>
+                <button class="button button--primary" id="reset-success">
+                    Reset
+                </button>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2 class="card__title">Interactive Animation</h2>
+            <p class="card__content">
+                Hover over the animation to see interactive effects. This demonstrates how Lottie can respond to user interactions.
+            </p>
+            <div class="lottie-container interactive" id="interactive-animation"
+                 role="img"
+                 aria-label="Interactive animation - hover to see effects"
+                 tabindex="0">
+            </div>
+            <div class="lottie-controls" role="group" aria-label="Interactive animation controls">
+                <label for="speed-control" class="control-label">Speed:</label>
+                <input type="range" id="speed-control" min="0.1" max="3" step="0.1" value="1" 
+                       aria-label="Animation speed control">
+                <span id="speed-display">1x</span>
+                
+                <label for="direction-control" class="control-label">Direction:</label>
+                <select id="direction-control" aria-label="Animation direction">
+                    <option value="1">Forward</option>
+                    <option value="-1">Reverse</option>
+                </select>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

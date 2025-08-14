@@ -3,9 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frontend Practice</title>
+    <meta name="description" content="Frontend Practice Environment - Design systems thinking meets code with interactive 3D animations and AI-powered suggestions">
+    <meta name="theme-color" content="#3b82f6">
+    <title>Frontend Practice Environment</title>
+    
+    <link rel="preload" href="css/main.css" as="style">
     <link rel="stylesheet" href="css/main.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <style>
+        .loading * {
+            cursor: wait !important;
+        }
+        
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .animate-on-scroll.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .animate-on-scroll {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
 </head>
 <body>
     <header class="header">
@@ -21,8 +61,19 @@
             </p>
             <div class="shimmer-container">
                 <div class="shimmer-input-wrapper">
-                    <input type="text" class="clean-input" placeholder="What would you like to know today?" id="clean-ai-input">
-                    <div class="input-loader" id="clean-input-loader">
+                    <input type="text" 
+                           class="clean-input" 
+                           placeholder="What would you like to know today?" 
+                           id="clean-ai-input"
+                           aria-label="AI assistant input field"
+                           aria-describedby="clean-ai-description"
+                           role="combobox"
+                           aria-expanded="false"
+                           aria-autocomplete="list">
+                    <span id="clean-ai-description" class="sr-only">
+                        Type your question and get AI-powered suggestions. Use arrow keys to navigate suggestions.
+                    </span>
+                    <div class="input-loader" id="clean-input-loader" aria-hidden="true">
                         <div class="input-typing-dots">
                             <div class="input-typing-dot"></div>
                             <div class="input-typing-dot"></div>
@@ -30,7 +81,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="suggestions-container" id="clean-suggestions-container">
+                <div class="suggestions-container" 
+                     id="clean-suggestions-container"
+                     role="listbox"
+                     aria-label="AI suggestions">
                     <!-- Dynamic suggestions will be inserted here -->
                 </div>
             </div>
@@ -41,14 +95,20 @@
             <p class="card__content">
                 Retro-futuristic 3D thunderbolt with cheerful electric arcs bouncing through a bright starfield, inspired by The Jetsons! <strong>Hover over the thunderbolt</strong> to control it with your mouse! This demonstrates how to integrate playful 3D graphics with your design system.
             </p>
-            <div class="threejs-container" id="threejs-container">
-                <!-- Three.js canvas will be inserted here -->
+            <div class="threejs-container" id="threejs-container" 
+                 role="img" 
+                 aria-label="Interactive 3D thunderbolt animation with electric effects and starfield background"
+                 tabindex="0">
+                <span class="sr-only">3D animation container. Use the controls below to interact with the animation.</span>
             </div>
-            <div class="threejs-controls">
-                <button class="button button--primary" id="toggle-animation">
+            <div class="threejs-controls" role="group" aria-label="Animation controls">
+                <button class="button button--primary" id="toggle-animation"
+                        aria-pressed="false"
+                        aria-label="Pause or resume the thunderbolt animation">
                     Pause Animation
                 </button>
-                <button class="button button--primary" id="change-color">
+                <button class="button button--primary" id="change-color"
+                        aria-label="Change the color of the thunderbolt">
                     Change Color
                 </button>
             </div>
@@ -85,7 +145,10 @@
                 <strong>Scroll up and down</strong> to see the magical gradient movement!
             </p>
             <div class="button-grid" id="button-grid">
-                <button class="button-shimmer">Button 1</button>
+                <button class="button-shimmer" 
+                        aria-label="Interactive shimmer button that responds to scroll position">
+                    Scroll Button
+                </button>
             </div>
         </section>
         
@@ -134,6 +197,17 @@
         </section>
     </main>
 
+    <!-- Loading Three.js from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Enhanced JavaScript with error handling and performance optimizations -->
+    <script src="js/main-enhanced.js"></script>
+    <!-- Original Main JavaScript -->
     <script src="js/main.js"></script>
+    <noscript>
+        <div style="padding: 2rem; text-align: center; background: #fee; border: 1px solid #fcc; border-radius: 8px; margin: 2rem;">
+            <h2>JavaScript Required</h2>
+            <p>This application requires JavaScript to function properly. Please enable JavaScript in your browser settings.</p>
+        </div>
+    </noscript>
 </body>
 </html>

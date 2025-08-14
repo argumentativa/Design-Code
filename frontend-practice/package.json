@@ -3,15 +3,40 @@
   "version": "1.0.0",
   "description": "Frontend development practice environment",
   "main": "index.html",
+  "type": "module",
   "scripts": {
     "start": "npx live-server --port=3000 --open=/index.html",
     "dev": "npx live-server --port=3000 --open=/index.html --watch=css,js",
-    "build": "echo 'Production build not configured yet'"
+    "build": "npm run build:css && npm run build:js && npm run build:assets",
+    "build:css": "npx postcss css/main.css -o dist/css/main.min.css --map",
+    "build:js": "npx esbuild js/main-optimized.js --bundle --minify --format=esm --outfile=dist/js/main.min.js --sourcemap",
+    "build:assets": "npx copyfiles -u 1 assets/**/* dist/ && npx copyfiles index.html dist/",
+    "lint": "npx eslint js/**/*.js",
+    "lint:fix": "npx eslint js/**/*.js --fix",
+    "format": "npx prettier --write js/**/*.js css/*.css *.html",
+    "test": "echo 'No tests configured yet'",
+    "clean": "rm -rf dist",
+    "serve:dist": "npx live-server dist --port=3001",
+    "analyze": "npx esbuild js/main-optimized.js --bundle --analyze --format=esm --outfile=/dev/null"
   },
-  "keywords": ["frontend", "practice", "html", "css", "javascript"],
+  "keywords": ["frontend", "practice", "html", "css", "javascript", "three.js", "design-systems"],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "live-server": "^1.2.2"
-  }
+    "live-server": "^1.2.2",
+    "esbuild": "^0.19.0",
+    "postcss": "^8.4.0",
+    "postcss-cli": "^10.1.0",
+    "autoprefixer": "^10.4.0",
+    "cssnano": "^6.0.0",
+    "copyfiles": "^2.4.1",
+    "eslint": "^8.50.0",
+    "prettier": "^3.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
 }
