@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize clean AI suggestions
     initCleanAISuggestions();
     
+    // Initialize filled AI suggestions
+    initFilledAISuggestions();
     
     // Three.js 3D Animation Setup
     initThreeJS();
@@ -2827,6 +2829,207 @@ function initCleanAISuggestions() {
     const input = document.getElementById('clean-ai-input');
     const suggestionsContainer = document.getElementById('clean-suggestions-container');
     const inputLoader = document.getElementById('clean-input-loader');
+    
+    let typingTimeout;
+    let isTyping = false;
+    
+    const suggestionSets = {
+        'how': [
+            { title: 'How to learn JavaScript?', subtitle: 'Programming fundamentals and best practices', icon: '🚀' },
+            { title: 'How to design better?', subtitle: 'UI/UX principles and design systems', icon: '🎨' },
+            { title: 'How to optimize performance?', subtitle: 'Web performance and optimization tips', icon: '⚡' }
+        ],
+        'what': [
+            { title: 'What is React?', subtitle: 'Modern JavaScript library for UI', icon: '⚛️' },
+            { title: 'What are design tokens?', subtitle: 'Scalable design system foundations', icon: '🎯' },
+            { title: 'What is Three.js?', subtitle: '3D graphics library for the web', icon: '🌟' }
+        ],
+        'why': [
+            { title: 'Why use TypeScript?', subtitle: 'Type safety and better experience', icon: '🛡️' },
+            { title: 'Why design systems matter?', subtitle: 'Consistency and scalability benefits', icon: '🏗️' },
+            { title: 'Why learn frontend?', subtitle: 'Career opportunities and creativity', icon: '💡' }
+        ],
+        'best': [
+            { title: 'Best practices for CSS?', subtitle: 'Modern CSS techniques and patterns', icon: '💎' },
+            { title: 'Best UI animation libraries?', subtitle: 'Smooth and performant animations', icon: '✨' },
+            { title: 'Best learning resources?', subtitle: 'Curated tutorials and documentation', icon: '📚' }
+        ],
+        'javascript': [
+            { title: 'JavaScript ES6+ features', subtitle: 'Modern syntax and capabilities', icon: '🔥' },
+            { title: 'JavaScript async/await', subtitle: 'Handling asynchronous operations', icon: '⏰' },
+            { title: 'JavaScript frameworks comparison', subtitle: 'React, Vue, Angular overview', icon: '🏆' }
+        ],
+        'css': [
+            { title: 'CSS Grid vs Flexbox', subtitle: 'Layout techniques comparison', icon: '📐' },
+            { title: 'CSS animations guide', subtitle: 'Keyframes and transitions', icon: '🎭' },
+            { title: 'CSS custom properties', subtitle: 'CSS variables and theming', icon: '🎨' }
+        ]
+    };
+    
+    function showInputLoader() {
+        inputLoader.classList.add('active');
+        input.classList.add('ai-thinking');
+    }
+    
+    function hideInputLoader() {
+        inputLoader.classList.remove('active');
+        input.classList.remove('ai-thinking');
+    }
+    
+    function createSuggestionElement(suggestion, index) {
+        return `
+            <div class="suggestion-item" style="animation-delay: ${index * 0.1}s">
+                <div class="suggestion-icon">${suggestion.icon}</div>
+                <div class="suggestion-content">
+                    <div class="suggestion-title">${suggestion.title}</div>
+                    <div class="suggestion-subtitle">${suggestion.subtitle}</div>
+                </div>
+                <div class="suggestion-sparkle"></div>
+            </div>
+        `;
+    }
+    
+    function showSuggestions(query) {
+        const lowerQuery = query.toLowerCase().trim();
+        let suggestions = [];
+        
+        // Find matching suggestions based on keywords
+        for (const [keyword, suggestionList] of Object.entries(suggestionSets)) {
+            if (lowerQuery.includes(keyword)) {
+                suggestions = suggestionList;
+                break;
+            }
+        }
+        
+        // Default suggestions if no match
+        if (suggestions.length === 0) {
+            suggestions = [
+                { title: 'Popular frontend topics', subtitle: 'Trending questions and tutorials', icon: '🔥' },
+                { title: 'Design inspiration', subtitle: 'Beautiful UI patterns and examples', icon: '💫' },
+                { title: 'Code challenges', subtitle: 'Practice problems and solutions', icon: '🧩' }
+            ];
+        }
+        
+        // Create suggestions HTML
+        const suggestionsHTML = suggestions.map(createSuggestionElement).join('');
+        suggestionsContainer.innerHTML = suggestionsHTML;
+        
+        // Show the container first
+        suggestionsContainer.classList.add('active');
+        
+        // Animate in with slow stagger and progressive opacity
+        setTimeout(() => {
+            const items = suggestionsContainer.querySelectorAll('.suggestion-item');
+            items.forEach((item, index) => {
+                setTimeout(() => {
+                    // Dramatic opacity progression: much more contrast
+                    const baseOpacity = 0.05 + (index * 0.475); // 0.05, 0.525, 1.0
+                    item.style.setProperty('--base-opacity', baseOpacity);
+                    
+                    // Add custom CSS for this specific item
+                    item.style.opacity = baseOpacity;
+                    item.style.transition = `all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)`;
+                    
+                    // Trigger the animation
+                    item.classList.add('animate-in');
+                    
+                    // Snappy opacity fade-in with fewer stages
+                    setTimeout(() => {
+                        item.style.opacity = 0.6 + (index * 0.2); // Quick mid-stage
+                    }, 80);
+                    
+                    // Final dramatic reveal
+                    setTimeout(() => {
+                        item.style.opacity = 1;
+                        item.style.filter = 'brightness(1.15)'; // Brighter flash
+                        setTimeout(() => {
+                            item.style.filter = 'brightness(1)'; // Return to normal
+                        }, 60);
+                    }, 200);
+                }, index * 120); // Much faster stagger: 120ms between items
+            });
+        }, 100);
+        
+        // Add click handlers with timeout to ensure elements exist
+        setTimeout(() => {
+            const items = suggestionsContainer.querySelectorAll('.suggestion-item');
+            items.forEach(item => {
+                item.addEventListener('click', () => {
+                    const title = item.querySelector('.suggestion-title').textContent;
+                    input.value = title;
+                    hideSuggestions();
+                    
+                    // Delight moment - shake input slightly
+                    input.style.animation = 'none';
+                    setTimeout(() => {
+                        input.style.animation = 'subtle-shake 0.5s ease-in-out';
+                    }, 10);
+                });
+            });
+        }, 150);
+    }
+    
+    function hideSuggestions() {
+        hideInputLoader();
+        suggestionsContainer.classList.remove('active');
+        setTimeout(() => {
+            suggestionsContainer.innerHTML = '';
+        }, 400);
+    }
+    
+    // Input event handlers
+    input.addEventListener('input', (e) => {
+        const query = e.target.value;
+        
+        clearTimeout(typingTimeout);
+        
+        if (query.length === 0) {
+            hideSuggestions();
+            isTyping = false;
+            return;
+        }
+        
+        if (query.length >= 2) {
+            if (!isTyping) {
+                showInputLoader();
+                isTyping = true;
+            }
+            
+            // Clear previous timeout
+            clearTimeout(typingTimeout);
+            
+            // Show suggestions after AI loader has time to play
+            typingTimeout = setTimeout(() => {
+                showSuggestions(query);
+                
+                // Keep loader for a bit longer even after showing suggestions
+                setTimeout(() => {
+                    hideInputLoader();
+                    isTyping = false;
+                }, 600 + Math.random() * 400); // Extra time for AI thinking effect
+            }, 800 + Math.random() * 600); // Longer initial delay: 800-1400ms
+        }
+    });
+    
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!input.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+            hideSuggestions();
+        }
+    });
+    
+    // Show suggestions on focus if there's content
+    input.addEventListener('focus', () => {
+        if (input.value.length >= 2) {
+            showSuggestions(input.value);
+        }
+    });
+}
+
+function initFilledAISuggestions() {
+    const input = document.getElementById('filled-ai-input');
+    const suggestionsContainer = document.getElementById('filled-suggestions-container');
+    const inputLoader = document.getElementById('filled-input-loader');
     
     let typingTimeout;
     let isTyping = false;

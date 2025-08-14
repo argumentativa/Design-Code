@@ -89,6 +89,42 @@
                 </div>
             </div>
         </section>
+
+        <section class="card">
+            <h2 class="card__title">AI Assistant - Filled Loader</h2>
+            <p class="card__content">
+                Experience a smooth gradient-filled search field that animates while AI processes your query.
+            </p>
+            <div class="shimmer-container">
+                <div class="shimmer-input-wrapper">
+                    <input type="text" 
+                           class="filled-input" 
+                           placeholder="What would you like to know today?" 
+                           id="filled-ai-input"
+                           aria-label="AI assistant input field with filled loader"
+                           aria-describedby="filled-ai-description"
+                           role="combobox"
+                           aria-expanded="false"
+                           aria-autocomplete="list">
+                    <span id="filled-ai-description" class="sr-only">
+                        Type your question and get AI-powered suggestions with animated background fill. Use arrow keys to navigate suggestions.
+                    </span>
+                    <div class="input-loader" id="filled-input-loader" aria-hidden="true">
+                        <div class="input-typing-dots">
+                            <div class="input-typing-dot"></div>
+                            <div class="input-typing-dot"></div>
+                            <div class="input-typing-dot"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="suggestions-container" 
+                     id="filled-suggestions-container"
+                     role="listbox"
+                     aria-label="AI suggestions with filled loader">
+                    <!-- Dynamic suggestions will be inserted here -->
+                </div>
+            </div>
+        </section>
         
         <section class="card">
             <h2 class="card__title">3D Animation with Three.js</h2>
