@@ -4,58 +4,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ JavaScript is working!');
     
-    // Get the test buttons
-    const testButton = document.getElementById('test-button');
-    const fixedButton = document.getElementById('fixed-button');
+    // Initialize shimmer controls
+    initShimmerControls();
     
-    // Add click event listener
-    testButton.addEventListener('click', function() {
-        // This demonstrates:
-        // 1. Event handling
-        // 2. DOM manipulation
-        // 3. Template literals (backticks)
-        // 4. Array methods
-        
-        const messages = [
-            'Great! JavaScript is working perfectly! 🎉',
-            'You clicked the button! Event handling works! ✨',
-            'Design systems + code = powerful combination! 💪',
-            'Keep practicing and building! 🚀'
-        ];
-        
-        // Get a random message
-        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-        
-        // Update button text
-        testButton.textContent = randomMessage;
-        
-        // Reset after 2 seconds
-        setTimeout(() => {
-            testButton.textContent = 'Click me to test JavaScript!';
-        }, 2000);
-        
-        console.log(`Button clicked at: ${new Date().toLocaleTimeString()}`);
-    });
+    // Initialize scroll-triggered buttons
+    initScrollShimmerButtons();
     
-    // Fixed-height button event listener
-    fixedButton.addEventListener('click', function() {
-        const messages = [
-            'Great! JavaScript is working perfectly! 🎉',
-            'You clicked the button! Event handling works! ✨',
-            'Design systems + code = powerful combination! 💪',
-            'Keep practicing and building! 🚀'
-        ];
-        
-        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-        fixedButton.textContent = randomMessage;
-        
-        // Reset after 2 seconds
-        setTimeout(() => {
-            fixedButton.textContent = 'Click me to test consistent sizing!';
-        }, 2000);
-        
-        console.log(`Fixed button clicked at: ${new Date().toLocaleTimeString()}`);
-    });
+    // Initialize AI suggestions
+    initAISuggestions();
+    
+    // Initialize clean AI suggestions
+    initCleanAISuggestions();
+    
     
     // Three.js 3D Animation Setup
     initThreeJS();
@@ -86,7 +46,7 @@ function createCard(title, content) {
 let scene, camera, renderer, thunderbolt, stars, electricity, hyperspaceStreaks;
 let isAnimating = true;
 // Bright, optimistic Jetsons color palette
-const colors = [0xff6b6b, 0x4ecdc4, 0xffe66d, 0xff8b94, 0x95e1d3, 0xffa726, 0x42a5f5, 0xab47bc];
+const colors = [0xffe66d, 0x4ecdc4, 0xff6b6b, 0xff8b94, 0x95e1d3, 0xffa726, 0x42a5f5, 0xab47bc];
 let currentColorIndex = 0;
 
 // Mouse interaction variables
@@ -188,24 +148,24 @@ function animate() {
     requestAnimationFrame(animate);
     
     if (isAnimating && !isMouseOver) {
-        // Bouncy, cheerful Jetsons-style rotation
-        const time = Date.now() * 0.001;
-        thunderbolt.rotation.x += 0.015; // Faster, more playful
-        thunderbolt.rotation.y += 0.02;
-        thunderbolt.rotation.z += 0.01;
+        // Slow, graceful rotation
+        const time = Date.now() * 0.0003; // Much slower time multiplier
+        thunderbolt.rotation.x += 0.004; // Slower, more graceful
+        thunderbolt.rotation.y += 0.006;
+        thunderbolt.rotation.z += 0.003;
         
-        // Bouncy floating motion like Jetsons cars
-        thunderbolt.position.y = Math.sin(time * 2) * 0.3 + Math.sin(time * 3.7) * 0.1;
-        thunderbolt.position.x = Math.cos(time * 1.5) * 0.15;
-        thunderbolt.scale.setScalar(1 + Math.sin(time * 4) * 0.05); // Gentle pulsing
+        // Gentle floating motion
+        thunderbolt.position.y = Math.sin(time * 1.2) * 0.15 + Math.sin(time * 2.1) * 0.05;
+        thunderbolt.position.x = Math.cos(time * 0.8) * 0.08;
+        thunderbolt.scale.setScalar(1 + Math.sin(time * 1.5) * 0.03); // Subtle pulsing
     } else if (isMouseOver) {
         // Smooth interpolation to mouse-controlled rotation
-        thunderbolt.rotation.x += (targetRotationX - thunderbolt.rotation.x) * 0.08;
-        thunderbolt.rotation.y += (targetRotationY - thunderbolt.rotation.y) * 0.08;
+        thunderbolt.rotation.x += (targetRotationX - thunderbolt.rotation.x) * 0.05; // Slower response
+        thunderbolt.rotation.y += (targetRotationY - thunderbolt.rotation.y) * 0.05;
         
-        // Playful floating effect
-        thunderbolt.position.y = Math.sin(Date.now() * 0.004) * 0.2;
-        thunderbolt.position.x = Math.cos(Date.now() * 0.003) * 0.1;
+        // Gentle floating effect
+        thunderbolt.position.y = Math.sin(Date.now() * 0.002) * 0.15;
+        thunderbolt.position.x = Math.cos(Date.now() * 0.0015) * 0.08;
     }
     
     // Animate stars twinkling with size variation
@@ -2471,6 +2431,597 @@ function onRoomWindowResize() {
     roomCamera.aspect = container.offsetWidth / container.offsetHeight;
     roomCamera.updateProjectionMatrix();
     roomRenderer.setSize(container.offsetWidth, container.offsetHeight);
+}
+
+// Shimmer Controls Function
+function initShimmerControls() {
+    const shimmerCard = document.getElementById('shimmer-card');
+    const speedSlider = document.getElementById('speed-slider');
+    const speedDisplay = document.getElementById('speed-display');
+    const directionSelect = document.getElementById('direction-select');
+    const intensitySlider = document.getElementById('intensity-slider');
+    const intensityDisplay = document.getElementById('intensity-display');
+    const pauseButton = document.getElementById('pause-shimmer');
+    
+    let isPaused = false;
+    
+    // Animation patterns
+    const animations = {
+        clockwise: `
+            0% { background-position: 0% 0%; transform: scale(1); }
+            25% { background-position: 100% 0%; transform: scale(1.005); }
+            50% { background-position: 100% 100%; transform: scale(1); }
+            75% { background-position: 0% 100%; transform: scale(0.998); }
+            100% { background-position: 0% 0%; transform: scale(1); }
+        `,
+        counterclockwise: `
+            0% { background-position: 0% 0%; transform: scale(1); }
+            25% { background-position: 0% 100%; transform: scale(1.005); }
+            50% { background-position: 100% 100%; transform: scale(1); }
+            75% { background-position: 100% 0%; transform: scale(0.998); }
+            100% { background-position: 0% 0%; transform: scale(1); }
+        `,
+        horizontal: `
+            0% { background-position: 0% 50%; transform: scale(1); }
+            50% { background-position: 100% 50%; transform: scale(1.005); }
+            100% { background-position: 0% 50%; transform: scale(1); }
+        `,
+        vertical: `
+            0% { background-position: 50% 0%; transform: scale(1); }
+            50% { background-position: 50% 100%; transform: scale(1.005); }
+            100% { background-position: 50% 0%; transform: scale(1); }
+        `
+    };
+    
+    function updateAnimation() {
+        if (!isPaused) {
+            const speed = speedSlider.value;
+            const direction = directionSelect.value;
+            const intensity = intensitySlider.value / 100;
+            
+            // Calculate color intensity
+            const purple = `rgba(147, 51, 234, ${intensity})`;
+            const magenta = `rgba(236, 72, 153, ${intensity})`;
+            const yellow = `rgba(234, 179, 8, ${intensity})`;
+            const cyan = `rgba(6, 182, 212, ${intensity})`;
+            
+            // Update background gradient with new intensity
+            shimmerCard.style.background = `linear-gradient(135deg, ${purple}, ${magenta}, ${yellow}, ${cyan}, ${purple}, ${magenta})`;
+            shimmerCard.style.backgroundSize = '600% 600%';
+            
+            // Remove existing animation
+            shimmerCard.style.animation = 'none';
+            
+            // Create new keyframes
+            const keyframeName = `shimmer-${direction}`;
+            
+            // Remove existing style element if it exists
+            const existingStyle = document.getElementById('shimmer-keyframes');
+            if (existingStyle) {
+                existingStyle.remove();
+            }
+            
+            // Create new style element
+            const style = document.createElement('style');
+            style.id = 'shimmer-keyframes';
+            style.textContent = `@keyframes ${keyframeName} { ${animations[direction]} }`;
+            document.head.appendChild(style);
+            
+            // Apply new animation
+            setTimeout(() => {
+                shimmerCard.style.animation = `${keyframeName} ${speed}s ease-in-out infinite`;
+            }, 10);
+        }
+    }
+    
+    // Speed control
+    speedSlider.addEventListener('input', function() {
+        speedDisplay.textContent = `${this.value}s`;
+        updateAnimation();
+    });
+    
+    // Direction control
+    directionSelect.addEventListener('change', updateAnimation);
+    
+    // Intensity control
+    intensitySlider.addEventListener('input', function() {
+        intensityDisplay.textContent = `${this.value}%`;
+        updateAnimation();
+    });
+    
+    // Pause/Play control
+    pauseButton.addEventListener('click', function() {
+        isPaused = !isPaused;
+        
+        if (isPaused) {
+            shimmerCard.style.animationPlayState = 'paused';
+            this.textContent = 'Play';
+        } else {
+            shimmerCard.style.animationPlayState = 'running';
+            this.textContent = 'Pause';
+            updateAnimation();
+        }
+    });
+    
+    // Initialize with default settings
+    updateAnimation();
+}
+
+// Scroll-Triggered Button Shimmer Function
+function initScrollShimmerButtons() {
+    const buttons = document.querySelectorAll('.button-shimmer');
+    let lastScrollY = window.scrollY;
+    
+    function updateButtonShimmer() {
+        const currentScrollY = window.scrollY;
+        const scrollDelta = Math.abs(currentScrollY - lastScrollY);
+        
+        // Calculate scroll progress (0-1) based on page height
+        const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+        const scrollProgress = Math.min(currentScrollY / maxScroll, 1);
+        
+        // Calculate shimmer position based on scroll (make it more dramatic)
+        const shimmerPosition = scrollProgress * 200; // Increased range for more movement
+        
+        buttons.forEach((button, index) => {
+            // Add slight offset for each button to create wave effect
+            const buttonOffset = (index * 15) % 100;
+            const finalPosition = (shimmerPosition + buttonOffset) % 100;
+            
+            // Update background position for the large gradient
+            button.style.backgroundPosition = `${finalPosition}% ${finalPosition}%`;
+            
+            // Force a repaint to ensure the change is visible
+            button.style.transform = `translateZ(0) scale(${1 + scrollDelta * 0.001})`;
+            
+            // Add intensity based on scroll speed
+            const intensity = Math.min(scrollDelta * 0.02, 0.3);
+            button.style.filter = `brightness(${1 + intensity})`;
+        });
+        
+        lastScrollY = currentScrollY;
+        
+        // Reset effects after a short delay
+        setTimeout(() => {
+            buttons.forEach(button => {
+                button.style.filter = 'brightness(1)';
+                button.style.transform = 'translateZ(0) scale(1)';
+            });
+        }, 150);
+    }
+    
+    // Throttle scroll events for performance
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+        }
+        
+        updateButtonShimmer();
+        
+        scrollTimeout = setTimeout(() => {
+            updateButtonShimmer();
+        }, 16); // ~60fps
+    });
+    
+    // Initialize button positions
+    updateButtonShimmer();
+}
+
+// AI Suggestions Function
+function initAISuggestions() {
+    const input = document.getElementById('ai-input');
+    const suggestionsContainer = document.getElementById('suggestions-container');
+    const inputLoader = document.getElementById('input-loader');
+    
+    let typingTimeout;
+    let isTyping = false;
+    
+    const suggestionSets = {
+        'how': [
+            { title: 'How to learn JavaScript?', subtitle: 'Programming fundamentals and best practices', icon: '🚀' },
+            { title: 'How to design better?', subtitle: 'UI/UX principles and design systems', icon: '🎨' },
+            { title: 'How to optimize performance?', subtitle: 'Web performance and optimization tips', icon: '⚡' }
+        ],
+        'what': [
+            { title: 'What is React?', subtitle: 'Modern JavaScript library for UI', icon: '⚛️' },
+            { title: 'What are design tokens?', subtitle: 'Scalable design system foundations', icon: '🎯' },
+            { title: 'What is Three.js?', subtitle: '3D graphics library for the web', icon: '🌟' }
+        ],
+        'why': [
+            { title: 'Why use TypeScript?', subtitle: 'Type safety and better developer experience', icon: '🛡️' },
+            { title: 'Why design systems matter?', subtitle: 'Consistency and scalability benefits', icon: '🏗️' },
+            { title: 'Why learn frontend?', subtitle: 'Career opportunities and creativity', icon: '💡' }
+        ],
+        'best': [
+            { title: 'Best practices for CSS?', subtitle: 'Modern CSS techniques and patterns', icon: '💎' },
+            { title: 'Best UI animation libraries?', subtitle: 'Smooth and performant animations', icon: '✨' },
+            { title: 'Best learning resources?', subtitle: 'Curated tutorials and documentation', icon: '📚' }
+        ],
+        'javascript': [
+            { title: 'JavaScript ES6+ features', subtitle: 'Modern syntax and capabilities', icon: '🔥' },
+            { title: 'JavaScript async/await', subtitle: 'Handling asynchronous operations', icon: '⏰' },
+            { title: 'JavaScript frameworks comparison', subtitle: 'React, Vue, Angular overview', icon: '🏆' }
+        ],
+        'css': [
+            { title: 'CSS Grid vs Flexbox', subtitle: 'Layout techniques comparison', icon: '📐' },
+            { title: 'CSS animations guide', subtitle: 'Keyframes and transitions', icon: '🎭' },
+            { title: 'CSS custom properties', subtitle: 'CSS variables and theming', icon: '🎨' }
+        ]
+    };
+    
+    function showInputLoader() {
+        inputLoader.classList.add('active');
+    }
+    
+    function hideInputLoader() {
+        inputLoader.classList.remove('active');
+    }
+    
+    function createSuggestionElement(suggestion, index) {
+        return `
+            <div class="suggestion-item" style="animation-delay: ${index * 0.1}s">
+                <div class="suggestion-icon">${suggestion.icon}</div>
+                <div class="suggestion-content">
+                    <div class="suggestion-title">${suggestion.title}</div>
+                    <div class="suggestion-subtitle">${suggestion.subtitle}</div>
+                </div>
+                <div class="suggestion-sparkle"></div>
+            </div>
+        `;
+    }
+    
+    function showSuggestions(query) {
+        const lowerQuery = query.toLowerCase().trim();
+        let suggestions = [];
+        
+        // Find matching suggestions based on keywords
+        for (const [keyword, suggestionList] of Object.entries(suggestionSets)) {
+            if (lowerQuery.includes(keyword)) {
+                suggestions = suggestionList;
+                break;
+            }
+        }
+        
+        // Default suggestions if no match
+        if (suggestions.length === 0) {
+            suggestions = [
+                { title: 'Popular frontend topics', subtitle: 'Trending questions and tutorials', icon: '🔥' },
+                { title: 'Design inspiration', subtitle: 'Beautiful UI patterns and examples', icon: '💫' },
+                { title: 'Code challenges', subtitle: 'Practice problems and solutions', icon: '🧩' }
+            ];
+        }
+        
+        // Create suggestions HTML
+        const suggestionsHTML = suggestions.map(createSuggestionElement).join('');
+        suggestionsContainer.innerHTML = suggestionsHTML;
+        
+        // Show the container first
+        suggestionsContainer.classList.add('active');
+        
+        // Animate in with slow stagger and progressive opacity
+        setTimeout(() => {
+            const items = suggestionsContainer.querySelectorAll('.suggestion-item');
+            items.forEach((item, index) => {
+                setTimeout(() => {
+                    // Dramatic opacity progression: much more contrast
+                    const baseOpacity = 0.05 + (index * 0.475); // 0.05, 0.525, 1.0
+                    item.style.setProperty('--base-opacity', baseOpacity);
+                    
+                    // Add custom CSS for this specific item
+                    item.style.opacity = baseOpacity;
+                    item.style.transition = `all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)`;
+                    
+                    // Trigger the animation
+                    item.classList.add('animate-in');
+                    
+                    // Snappy opacity fade-in with fewer stages
+                    setTimeout(() => {
+                        item.style.opacity = 0.6 + (index * 0.2); // Quick mid-stage
+                    }, 80);
+                    
+                    // Final dramatic reveal
+                    setTimeout(() => {
+                        item.style.opacity = 1;
+                        item.style.filter = 'brightness(1.15)'; // Brighter flash
+                        setTimeout(() => {
+                            item.style.filter = 'brightness(1)'; // Return to normal
+                        }, 60);
+                    }, 200);
+                }, index * 120); // Much faster stagger: 120ms between items
+            });
+        }, 100);
+        
+        // Add click handlers with timeout to ensure elements exist
+        setTimeout(() => {
+            const items = suggestionsContainer.querySelectorAll('.suggestion-item');
+            items.forEach(item => {
+                item.addEventListener('click', () => {
+                    const title = item.querySelector('.suggestion-title').textContent;
+                    input.value = title;
+                    hideSuggestions();
+                    
+                    // Delight moment - shake input slightly
+                    input.style.animation = 'none';
+                    setTimeout(() => {
+                        input.style.animation = 'subtle-shake 0.5s ease-in-out';
+                    }, 10);
+                });
+            });
+        }, 150);
+    }
+    
+    function hideSuggestions() {
+        hideInputLoader();
+        suggestionsContainer.classList.remove('active');
+        setTimeout(() => {
+            suggestionsContainer.innerHTML = '';
+        }, 400);
+    }
+    
+    // Input event handlers
+    input.addEventListener('input', (e) => {
+        const query = e.target.value;
+        
+        clearTimeout(typingTimeout);
+        
+        if (query.length === 0) {
+            hideSuggestions();
+            isTyping = false;
+            return;
+        }
+        
+        if (query.length >= 2) {
+            if (!isTyping) {
+                showInputLoader();
+                isTyping = true;
+            }
+            
+            // Clear previous timeout
+            clearTimeout(typingTimeout);
+            
+            // Show suggestions after AI loader has time to play
+            typingTimeout = setTimeout(() => {
+                showSuggestions(query);
+                
+                // Keep loader for a bit longer even after showing suggestions
+                setTimeout(() => {
+                    hideInputLoader();
+                    isTyping = false;
+                }, 600 + Math.random() * 400); // Extra time for AI thinking effect
+            }, 800 + Math.random() * 600); // Longer initial delay: 800-1400ms
+        }
+    });
+    
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!input.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+            hideSuggestions();
+        }
+    });
+    
+    // Show suggestions on focus if there's content
+    input.addEventListener('focus', () => {
+        if (input.value.length >= 2) {
+            showSuggestions(input.value);
+        }
+    });
+}
+
+// Add subtle shake animation to CSS
+const shakeStyles = `
+@keyframes subtle-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+}
+`;
+
+// Inject the shake animation
+const styleSheet = document.createElement('style');
+styleSheet.textContent = shakeStyles;
+document.head.appendChild(styleSheet);
+
+// Clean AI Suggestions Function (duplicate without shimmer background)
+function initCleanAISuggestions() {
+    const input = document.getElementById('clean-ai-input');
+    const suggestionsContainer = document.getElementById('clean-suggestions-container');
+    const inputLoader = document.getElementById('clean-input-loader');
+    
+    let typingTimeout;
+    let isTyping = false;
+    
+    const suggestionSets = {
+        'how': [
+            { title: 'How to learn JavaScript?', subtitle: 'Programming fundamentals and best practices', icon: '🚀' },
+            { title: 'How to design better?', subtitle: 'UI/UX principles and design systems', icon: '🎨' },
+            { title: 'How to optimize performance?', subtitle: 'Web performance and optimization tips', icon: '⚡' }
+        ],
+        'what': [
+            { title: 'What is React?', subtitle: 'Modern JavaScript library for UI', icon: '⚛️' },
+            { title: 'What are design tokens?', subtitle: 'Scalable design system foundations', icon: '🎯' },
+            { title: 'What is Three.js?', subtitle: '3D graphics library for the web', icon: '🌟' }
+        ],
+        'why': [
+            { title: 'Why use TypeScript?', subtitle: 'Type safety and better experience', icon: '🛡️' },
+            { title: 'Why design systems matter?', subtitle: 'Consistency and scalability benefits', icon: '🏗️' },
+            { title: 'Why learn frontend?', subtitle: 'Career opportunities and creativity', icon: '💡' }
+        ],
+        'best': [
+            { title: 'Best practices for CSS?', subtitle: 'Modern CSS techniques and patterns', icon: '💎' },
+            { title: 'Best UI animation libraries?', subtitle: 'Smooth and performant animations', icon: '✨' },
+            { title: 'Best learning resources?', subtitle: 'Curated tutorials and documentation', icon: '📚' }
+        ],
+        'javascript': [
+            { title: 'JavaScript ES6+ features', subtitle: 'Modern syntax and capabilities', icon: '🔥' },
+            { title: 'JavaScript async/await', subtitle: 'Handling asynchronous operations', icon: '⏰' },
+            { title: 'JavaScript frameworks comparison', subtitle: 'React, Vue, Angular overview', icon: '🏆' }
+        ],
+        'css': [
+            { title: 'CSS Grid vs Flexbox', subtitle: 'Layout techniques comparison', icon: '📐' },
+            { title: 'CSS animations guide', subtitle: 'Keyframes and transitions', icon: '🎭' },
+            { title: 'CSS custom properties', subtitle: 'CSS variables and theming', icon: '🎨' }
+        ]
+    };
+    
+    function showInputLoader() {
+        inputLoader.classList.add('active');
+        input.classList.add('ai-thinking');
+    }
+    
+    function hideInputLoader() {
+        inputLoader.classList.remove('active');
+        input.classList.remove('ai-thinking');
+    }
+    
+    function createSuggestionElement(suggestion, index) {
+        return `
+            <div class="suggestion-item" style="animation-delay: ${index * 0.1}s">
+                <div class="suggestion-icon">${suggestion.icon}</div>
+                <div class="suggestion-content">
+                    <div class="suggestion-title">${suggestion.title}</div>
+                    <div class="suggestion-subtitle">${suggestion.subtitle}</div>
+                </div>
+                <div class="suggestion-sparkle"></div>
+            </div>
+        `;
+    }
+    
+    function showSuggestions(query) {
+        const lowerQuery = query.toLowerCase().trim();
+        let suggestions = [];
+        
+        // Find matching suggestions based on keywords
+        for (const [keyword, suggestionList] of Object.entries(suggestionSets)) {
+            if (lowerQuery.includes(keyword)) {
+                suggestions = suggestionList;
+                break;
+            }
+        }
+        
+        // Default suggestions if no match
+        if (suggestions.length === 0) {
+            suggestions = [
+                { title: 'Popular frontend topics', subtitle: 'Trending questions and tutorials', icon: '🔥' },
+                { title: 'Design inspiration', subtitle: 'Beautiful UI patterns and examples', icon: '💫' },
+                { title: 'Code challenges', subtitle: 'Practice problems and solutions', icon: '🧩' }
+            ];
+        }
+        
+        // Create suggestions HTML
+        const suggestionsHTML = suggestions.map(createSuggestionElement).join('');
+        suggestionsContainer.innerHTML = suggestionsHTML;
+        
+        // Show the container first
+        suggestionsContainer.classList.add('active');
+        
+        // Animate in with slow stagger and progressive opacity
+        setTimeout(() => {
+            const items = suggestionsContainer.querySelectorAll('.suggestion-item');
+            items.forEach((item, index) => {
+                setTimeout(() => {
+                    // Dramatic opacity progression: much more contrast
+                    const baseOpacity = 0.05 + (index * 0.475); // 0.05, 0.525, 1.0
+                    item.style.setProperty('--base-opacity', baseOpacity);
+                    
+                    // Add custom CSS for this specific item
+                    item.style.opacity = baseOpacity;
+                    item.style.transition = `all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)`;
+                    
+                    // Trigger the animation
+                    item.classList.add('animate-in');
+                    
+                    // Snappy opacity fade-in with fewer stages
+                    setTimeout(() => {
+                        item.style.opacity = 0.6 + (index * 0.2); // Quick mid-stage
+                    }, 80);
+                    
+                    // Final dramatic reveal
+                    setTimeout(() => {
+                        item.style.opacity = 1;
+                        item.style.filter = 'brightness(1.15)'; // Brighter flash
+                        setTimeout(() => {
+                            item.style.filter = 'brightness(1)'; // Return to normal
+                        }, 60);
+                    }, 200);
+                }, index * 120); // Much faster stagger: 120ms between items
+            });
+        }, 100);
+        
+        // Add click handlers with timeout to ensure elements exist
+        setTimeout(() => {
+            const items = suggestionsContainer.querySelectorAll('.suggestion-item');
+            items.forEach(item => {
+                item.addEventListener('click', () => {
+                    const title = item.querySelector('.suggestion-title').textContent;
+                    input.value = title;
+                    hideSuggestions();
+                    
+                    // Delight moment - shake input slightly
+                    input.style.animation = 'none';
+                    setTimeout(() => {
+                        input.style.animation = 'subtle-shake 0.5s ease-in-out';
+                    }, 10);
+                });
+            });
+        }, 150);
+    }
+    
+    function hideSuggestions() {
+        hideInputLoader();
+        suggestionsContainer.classList.remove('active');
+        setTimeout(() => {
+            suggestionsContainer.innerHTML = '';
+        }, 400);
+    }
+    
+    // Input event handlers
+    input.addEventListener('input', (e) => {
+        const query = e.target.value;
+        
+        clearTimeout(typingTimeout);
+        
+        if (query.length === 0) {
+            hideSuggestions();
+            isTyping = false;
+            return;
+        }
+        
+        if (query.length >= 2) {
+            if (!isTyping) {
+                showInputLoader();
+                isTyping = true;
+            }
+            
+            // Clear previous timeout
+            clearTimeout(typingTimeout);
+            
+            // Show suggestions after AI loader has time to play
+            typingTimeout = setTimeout(() => {
+                showSuggestions(query);
+                
+                // Keep loader for a bit longer even after showing suggestions
+                setTimeout(() => {
+                    hideInputLoader();
+                    isTyping = false;
+                }, 600 + Math.random() * 400); // Extra time for AI thinking effect
+            }, 800 + Math.random() * 600); // Longer initial delay: 800-1400ms
+        }
+    });
+    
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!input.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+            hideSuggestions();
+        }
+    });
+    
+    // Show suggestions on focus if there's content
+    input.addEventListener('focus', () => {
+        if (input.value.length >= 2) {
+            showSuggestions(input.value);
+        }
+    });
 }
 
 // Export for potential module use later

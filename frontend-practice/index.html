@@ -15,59 +15,23 @@
 
     <main class="main">
         <section class="card">
-            <h2 class="card__title">Welcome to Your Practice Space</h2>
+            <h2 class="card__title">AI Assistant - Clean Version</h2>
             <p class="card__content">
-                This environment is set up for practicing modern frontend development
-                with a design systems approach.
+                Ask any question and get intelligent responses with this clean, minimal interface.
             </p>
-            <button class="button button--primary" id="test-button">
-                Click me to test JavaScript!
-            </button>
-        </section>
-        
-        <section class="card">
-            <h2 class="card__title">Button Sizing Demo</h2>
-            <p class="card__content">
-                This button maintains consistent height regardless of content length or emoji usage.
-            </p>
-            <button class="button button--primary button--fixed-height" id="fixed-button">
-                Click me to test consistent sizing!
-            </button>
-        </section>
-        
-        <section class="card">
-            <h2 class="card__title">Flexbox Card Layouts</h2>
-            <p class="card__content">
-                Explore different flexbox arrangements for responsive card layouts.
-            </p>
-            
-            <div class="flex-demo">
-                <h3 class="flex-demo__subtitle">Equal Width Cards</h3>
-                <div class="card-row card-row--equal">
-                    <div class="card-mini">
-                        <h4 class="card-mini__title">Design</h4>
-                        <p class="card-mini__content">User experience and visual design principles</p>
-                    </div>
-                    <div class="card-mini">
-                        <h4 class="card-mini__title">Code</h4>
-                        <p class="card-mini__content">HTML, CSS, and JavaScript fundamentals</p>
-                    </div>
-                    <div class="card-mini">
-                        <h4 class="card-mini__title">Systems</h4>
-                        <p class="card-mini__content">Design tokens and component architecture</p>
+            <div class="shimmer-container">
+                <div class="shimmer-input-wrapper">
+                    <input type="text" class="clean-input" placeholder="What would you like to know today?" id="clean-ai-input">
+                    <div class="input-loader" id="clean-input-loader">
+                        <div class="input-typing-dots">
+                            <div class="input-typing-dot"></div>
+                            <div class="input-typing-dot"></div>
+                            <div class="input-typing-dot"></div>
+                        </div>
                     </div>
                 </div>
-                
-                <h3 class="flex-demo__subtitle">Flexible Width Cards</h3>
-                <div class="card-row card-row--flexible">
-                    <div class="card-mini card-mini--featured">
-                        <h4 class="card-mini__title">Featured Content</h4>
-                        <p class="card-mini__content">This card takes up more space with flex-grow to showcase important content that needs more attention.</p>
-                    </div>
-                    <div class="card-mini">
-                        <h4 class="card-mini__title">Regular</h4>
-                        <p class="card-mini__content">Standard card size</p>
-                    </div>
+                <div class="suggestions-container" id="clean-suggestions-container">
+                    <!-- Dynamic suggestions will be inserted here -->
                 </div>
             </div>
         </section>
@@ -111,6 +75,61 @@
                 <button class="button button--primary" id="reset-room-camera">
                     Reset View
                 </button>
+            </div>
+        </section>
+        
+        <section class="card">
+            <h2 class="card__title">Scroll-Triggered Button Grid</h2>
+            <p class="card__content">
+                A single button with shimmer effects that respond to your scroll position. 
+                <strong>Scroll up and down</strong> to see the magical gradient movement!
+            </p>
+            <div class="button-grid" id="button-grid">
+                <button class="button-shimmer">Button 1</button>
+            </div>
+        </section>
+        
+        <section class="card card--shimmer" id="shimmer-card">
+            <h2 class="card__title">AI Assistant</h2>
+            <p class="card__content">
+                Ask any question and get intelligent responses with this beautiful animated interface.
+            </p>
+            <div class="shimmer-container">
+                <div class="shimmer-input-wrapper">
+                    <input type="text" class="shimmer-input" placeholder="What would you like to know today?" id="ai-input">
+                    <div class="input-loader" id="input-loader">
+                        <div class="input-typing-dots">
+                            <div class="input-typing-dot"></div>
+                            <div class="input-typing-dot"></div>
+                            <div class="input-typing-dot"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="suggestions-container" id="suggestions-container">
+                    <!-- Dynamic suggestions will be inserted here -->
+                </div>
+            </div>
+            <div class="shimmer-controls">
+                <div class="control-group">
+                    <label for="speed-slider" class="control-label">Speed:</label>
+                    <input type="range" id="speed-slider" min="1" max="120" value="40" class="slider">
+                    <span id="speed-display" class="control-value">40s</span>
+                </div>
+                <div class="control-group">
+                    <label for="direction-select" class="control-label">Direction:</label>
+                    <select id="direction-select" class="select">
+                        <option value="clockwise">Clockwise</option>
+                        <option value="counterclockwise">Counterclockwise</option>
+                        <option value="horizontal">Horizontal</option>
+                        <option value="vertical">Vertical</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="intensity-slider" class="control-label">Intensity:</label>
+                    <input type="range" id="intensity-slider" min="10" max="100" value="100" class="slider">
+                    <span id="intensity-display" class="control-value">100%</span>
+                </div>
+                <button class="button button--primary" id="pause-shimmer">Pause</button>
             </div>
         </section>
     </main>
