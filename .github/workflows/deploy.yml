@@ -18,4 +18,4 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./
-        server-dir: /home1/wcoimlmy/public_html/play/
+        server-dir: /home1/wcoimlmy/public_html/play
