@@ -309,6 +309,10 @@
     --primary-background-disabled: var(--neutral-300);
     --primary-text-default: var(--neutral-white);
     --primary-text-disabled: var(--neutral-500);
+    --primary-icon-default: var(--neutral-white);
+    --primary-icon-hover: var(--neutral-white);
+    --primary-icon-pressed: var(--neutral-white);
+    --primary-icon-disabled: var(--neutral-500);
     
     /* Brand Button Tokens */
     --brand-background-default: var(--brand-tertiary-yellow-brand-500);
@@ -317,6 +321,10 @@
     --brand-background-disabled: var(--neutral-300);
     --brand-text-default: var(--green-800);
     --brand-text-disabled: var(--neutral-500);
+    --brand-icon-default: var(--green-800);
+    --brand-icon-hover: var(--green-800);
+    --brand-icon-pressed: var(--green-800);
+    --brand-icon-disabled: var(--neutral-500);
     
     /* Secondary Button Tokens */
     --secondary-background-default: var(--neutral-100);
@@ -325,6 +333,10 @@
     --secondary-background-disabled: var(--neutral-50);
     --secondary-text-default: var(--text-color-primary);
     --secondary-text-disabled: var(--text-color-disabled);
+    --secondary-icon-default: var(--text-color-primary);
+    --secondary-icon-hover: var(--text-color-primary);
+    --secondary-icon-pressed: var(--text-color-primary);
+    --secondary-icon-disabled: var(--text-color-disabled);
     
     /* Naked Button Tokens */
     --naked-background-default: rgba(255, 255, 255, 0);
@@ -333,6 +345,10 @@
     --naked-background-disabled: rgba(255, 255, 255, 0);
     --naked-text-default: var(--text-color-primary);
     --naked-text-disabled: var(--text-color-disabled);
+    --naked-icon-default: var(--text-color-primary);
+    --naked-icon-hover: var(--text-color-primary);
+    --naked-icon-pressed: var(--text-color-primary);
+    --naked-icon-disabled: var(--text-color-disabled);
     
     /* Outline Button Tokens */
     --outline-background-default: var(--neutral-white);
@@ -346,6 +362,10 @@
     --outline-stroke-disabled: var(--neutral-50);
     --outline-text-default: var(--text-color-primary);
     --outline-text-disabled: var(--text-color-disabled);
+    --outline-icon-default: var(--text-color-primary);
+    --outline-icon-hover: var(--text-color-primary);
+    --outline-icon-pressed: var(--text-color-primary);
+    --outline-icon-disabled: var(--text-color-disabled);
     
     /* ============================================
        SPACING SCALE
