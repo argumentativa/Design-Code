@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizontal Swipe Navigation</title>
+    <link rel="stylesheet" href="design-system.css">
+    <style>
+        /* Horizontal Swipe Navigation Specific Styles */
+        .app-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: var(--space-6);
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-8);
+            color: white;
+        }
+
+        .header h1 {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-2);
+        }
+
+        .header p {
+            font-size: var(--font-size-lg);
+            opacity: 0.9;
+        }
+
+        .category-swipe-container {
+            background: white;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
+            margin-bottom: var(--space-6);
+            overflow: hidden;
+        }
+
+        .category-swipe-header {
+            padding: var(--space-4) var(--space-6);
+            background: var(--gray-50);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .category-swipe-header h2 {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            color: var(--gray-700);
+            margin-bottom: var(--space-3);
+        }
+
+        .category-swipe-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-swipe-track {
+            display: flex;
+            gap: var(--space-4);
+            padding: var(--space-4) var(--space-6);
+            transition: transform var(--transition-slow);
+            cursor: grab;
+        }
+
+        .category-swipe-track:active {
+            cursor: grabbing;
+        }
+
+        .category-card {
+            min-width: 200px;
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-xl);
+            padding: var(--space-4);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-500), var(--primary-600));
+            transform: scaleX(0);
+            transition: transform var(--transition-normal);
+        }
+
+        .category-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-200);
+        }
+
+        .category-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .category-card.active {
+            border-color: var(--primary-500);
+            background: var(--primary-50);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .category-card.active::before {
+            transform: scaleX(1);
+        }
+
+        .category-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-lg);
+            background: var(--primary-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-600);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: var(--space-3);
+        }
+
+        .category-card.active .category-icon {
+            background: var(--primary-500);
+            color: white;
+        }
+
+        .category-info h3 {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--gray-900);
+            margin-bottom: var(--space-1);
+        }
+
+        .category-info p {
+            font-size: var(--font-size-sm);
+            color: var(--gray-600);
+            line-height: 1.4;
+        }
+
+        .category-stats {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin-top: var(--space-3);
+            padding-top: var(--space-3);
+            border-top: 1px solid var(--gray-100);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            font-size: var(--font-size-xs);
+            color: var(--gray-500);
+        }
+
+        .swipe-indicator {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-2);
+            padding: var(--space-3) 0;
+            background: var(--gray-50);
+        }
+
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gray-300);
+            transition: all var(--transition-normal);
+        }
+
+        .indicator-dot.active {
+            background: var(--primary-500);
+            transform: scale(1.2);
+        }
+
+        .destination-container {
+            background: white;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+        }
+
+        .destination-header {
+            padding: var(--space-4) var(--space-6);
+            background: var(--primary-50);
+            border-bottom: 1px solid var(--primary-200);
+        }
+
+        .destination-header h2 {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-semibold);
+            color: var(--primary-700);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .destination-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--space-4);
+            padding: var(--space-6);
+        }
+
+        .destination-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            transition: all var(--transition-normal);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .destination-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-500), var(--primary-600));
+            transform: scaleX(0);
+            transition: transform var(--transition-normal);
+        }
+
+        .destination-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-200);
+        }
+
+        .destination-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .destination-header-card {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-3);
+        }
+
+        .destination-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-lg);
+            background: var(--primary-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-600);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .destination-info h3 {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--gray-900);
+            margin-bottom: var(--space-1);
+        }
+
+        .destination-info p {
+            font-size: var(--font-size-sm);
+            color: var(--gray-600);
+            line-height: 1.4;
+        }
+
+        .destination-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-top: var(--space-3);
+            padding-top: var(--space-3);
+            border-top: 1px solid var(--gray-100);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            font-size: var(--font-size-xs);
+            color: var(--gray-500);
+        }
+
+        .search-bar {
+            background: white;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
+            margin-bottom: var(--space-6);
+            padding: var(--space-4) var(--space-6);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            padding-left: 2.5rem;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-base);
+            transition: all var(--transition-normal);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: var(--space-3);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+            font-size: var(--font-size-sm);
+        }
+
+        .swipe-controls {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-4);
+            padding: var(--space-4) 0;
+            background: var(--gray-50);
+        }
+
+        .swipe-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            border: 1px solid var(--gray-300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            color: var(--gray-600);
+        }
+
+        .swipe-btn:hover {
+            background: var(--primary-50);
+            border-color: var(--primary-300);
+            color: var(--primary-600);
+        }
+
+        .swipe-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                padding: var(--space-4);
+            }
+
+            .header h1 {
+                font-size: var(--font-size-2xl);
+            }
+
+            .category-card {
+                min-width: 160px;
+                padding: var(--space-3);
+            }
+
+            .destination-grid {
+                grid-template-columns: 1fr;
+                padding: var(--space-4);
+            }
+
+            .category-swipe-track {
+                padding: var(--space-3) var(--space-4);
+            }
+        }
+
+        /* Touch-friendly styles */
+        @media (hover: none) {
+            .category-card:hover {
+                transform: none;
+            }
+            
+            .destination-card:hover {
+                transform: none;
+            }
+        }
+
+        /* Animation for category switching */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .destination-container {
+            animation: fadeInUp 0.4s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>🔄 Swipe Navigation</h1>
+                <p>Gesture-driven category browsing</p>
+            </header>
+
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="Search destinations...">
+                </div>
+            </div>
+
+            <!-- Category Swipe Container -->
+            <div class="category-swipe-container">
+                <div class="category-swipe-header">
+                    <h2>Browse Categories</h2>
+                </div>
+                
+                <div class="category-swipe-wrapper">
+                    <div class="category-swipe-track" id="categoryTrack">
+                        <div class="category-card active" data-category="official">
+                            <div class="category-icon">🏢</div>
+                            <div class="category-info">
+                                <h3>Official</h3>
+                                <p>Company tools and resources</p>
+                            </div>
+                            <div class="category-stats">
+                                <span class="stat-item">📊 4 tools</span>
+                                <span class="stat-item">🆕 2 new</span>
+                            </div>
+                        </div>
+
+                        <div class="category-card" data-category="community">
+                            <div class="category-icon">👥</div>
+                            <div class="category-info">
+                                <h3>Community</h3>
+                                <p>Shared knowledge and collaboration</p>
+                            </div>
+                            <div class="category-stats">
+                                <span class="stat-item">💬 3 spaces</span>
+                                <span class="stat-item">🆕 1 new</span>
+                            </div>
+                        </div>
+
+                        <div class="category-card" data-category="personal">
+                            <div class="category-icon">👤</div>
+                            <div class="category-info">
+                                <h3>Personal</h3>
+                                <p>Your private workspace</p>
+                            </div>
+                            <div class="category-stats">
+                                <span class="stat-item">⭐ 3 items</span>
+                                <span class="stat-item">📝 23 notes</span>
+                            </div>
+                        </div>
+
+                        <div class="category-card" data-category="development">
+                            <div class="category-icon">⚡</div>
+                            <div class="category-info">
+                                <h3>Development</h3>
+                                <p>Code and technical resources</p>
+                            </div>
+                            <div class="category-stats">
+                                <span class="stat-item">📦 5 tools</span>
+                                <span class="stat-item">🆕 3 new</span>
+                            </div>
+                        </div>
+
+                        <div class="category-card" data-category="marketing">
+                            <div class="category-icon">📈</div>
+                            <div class="category-info">
+                                <h3>Marketing</h3>
+                                <p>Campaigns and analytics</p>
+                            </div>
+                            <div class="category-stats">
+                                <span class="stat-item">📊 4 campaigns</span>
+                                <span class="stat-item">📈 12.5k views</span>
+                            </div>
+                        </div>
+
+                        <div class="category-card" data-category="support">
+                            <div class="category-icon">🛠️</div>
+                            <div class="category-info">
+                                <h3>Support</h3>
+                                <p>Help and documentation</p>
+                            </div>
+                            <div class="category-stats">
+                                <span class="stat-item">📚 8 guides</span>
+                                <span class="stat-item">❓ 5 tickets</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swipe-controls">
+                    <button class="swipe-btn" id="prevBtn">‹</button>
+                    <div class="swipe-indicator">
+                        <div class="indicator-dot active"></div>
+                        <div class="indicator-dot"></div>
+                        <div class="indicator-dot"></div>
+                        <div class="indicator-dot"></div>
+                        <div class="indicator-dot"></div>
+                        <div class="indicator-dot"></div>
+                    </div>
+                    <button class="swipe-btn" id="nextBtn">›</button>
+                </div>
+            </div>
+
+            <!-- Destination Container -->
+            <div class="destination-container">
+                <div class="destination-header">
+                    <h2 id="destinationTitle">🏢 Official Tools</h2>
+                </div>
+                <div class="destination-grid" id="destinationGrid">
+                    <!-- Official destinations (default) -->
+                    <div class="destination-card">
+                        <div class="destination-header-card">
+                            <div class="destination-icon">📊</div>
+                            <div class="destination-info">
+                                <h3>Analytics Dashboard</h3>
+                                <p>Real-time metrics and insights</p>
+                            </div>
+                        </div>
+                        <div class="destination-meta">
+                            <span class="meta-item">📈 2.4k visits</span>
+                            <span class="meta-item">🕒 Updated 2h ago</span>
+                        </div>
+                    </div>
+
+                    <div class="destination-card">
+                        <div class="destination-header-card">
+                            <div class="destination-icon">📧</div>
+                            <div class="destination-info">
+                                <h3>Email Campaigns</h3>
+                                <p>Manage and track email outreach</p>
+                            </div>
+                        </div>
+                        <div class="destination-meta">
+                            <span class="meta-item">📤 156 sent</span>
+                            <span class="meta-item">🕒 Updated 1h ago</span>
+                        </div>
+                    </div>
+
+                    <div class="destination-card">
+                        <div class="destination-header-card">
+                            <div class="destination-icon">💼</div>
+                            <div class="destination-info">
+                                <h3>Project Management</h3>
+                                <p>Track tasks and milestones</p>
+                            </div>
+                        </div>
+                        <div class="destination-meta">
+                            <span class="meta-item">✅ 12 completed</span>
+                            <span class="meta-item">🕒 Updated 30m ago</span>
+                        </div>
+                    </div>
+
+                    <div class="destination-card">
+                        <div class="destination-header-card">
+                            <div class="destination-icon">💰</div>
+                            <div class="destination-info">
+                                <h3>Financial Reports</h3>
+                                <p>Revenue and expense tracking</p>
+                            </div>
+                        </div>
+                        <div class="destination-meta">
+                            <span class="meta-item">💵 $45.2k revenue</span>
+                            <span class="meta-item">🕒 Updated 5m ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Category data
+        const categories = {
+            official: {
+                title: '🏢 Official Tools',
+                destinations: [
+                    { icon: '📊', name: 'Analytics Dashboard', desc: 'Real-time metrics and insights', meta: ['📈 2.4k visits', '🕒 Updated 2h ago'] },
+                    { icon: '📧', name: 'Email Campaigns', desc: 'Manage and track email outreach', meta: ['📤 156 sent', '🕒 Updated 1h ago'] },
+                    { icon: '💼', name: 'Project Management', desc: 'Track tasks and milestones', meta: ['✅ 12 completed', '🕒 Updated 30m ago'] },
+                    { icon: '💰', name: 'Financial Reports', desc: 'Revenue and expense tracking', meta: ['💵 $45.2k revenue', '🕒 Updated 5m ago'] }
+                ]
+            },
+            community: {
+                title: '👥 Community Resources',
+                destinations: [
+                    { icon: '💬', name: 'Discussion Forums', desc: 'Community conversations and Q&A', meta: ['💬 89 new posts', '🕒 Updated 15m ago'] },
+                    { icon: '📚', name: 'Knowledge Base', desc: 'Shared resources and guides', meta: ['📖 234 articles', '🕒 Updated 1h ago'] },
+                    { icon: '🎯', name: 'Events & Meetups', desc: 'Upcoming community events', meta: ['📅 3 upcoming', '🕒 Updated 2h ago'] }
+                ]
+            },
+            personal: {
+                title: '👤 Personal Workspace',
+                destinations: [
+                    { icon: '⭐', name: 'Favorites', desc: 'Your bookmarked destinations', meta: ['⭐ 8 saved', '🕒 Updated 1d ago'] },
+                    { icon: '📝', name: 'Personal Notes', desc: 'Your private workspace', meta: ['📝 23 notes', '🕒 Updated 3h ago'] },
+                    { icon: '🎨', name: 'Custom Themes', desc: 'Personalize your experience', meta: ['🎨 5 themes', '🕒 Updated 1w ago'] }
+                ]
+            },
+            development: {
+                title: '⚡ Development Tools',
+                destinations: [
+                    { icon: '📦', name: 'GitHub Repositories', desc: 'Source code and version control', meta: ['📦 12 repos', '🕒 Updated 10m ago'] },
+                    { icon: '🚀', name: 'CI/CD Pipeline', desc: 'Automated deployment workflows', meta: ['🚀 8 builds', '🕒 Updated 25m ago'] },
+                    { icon: '🐛', name: 'Bug Tracker', desc: 'Issue management and bug reports', meta: ['🐛 5 open', '🕒 Updated 45m ago'] },
+                    { icon: '📊', name: 'Performance Monitoring', desc: 'Application performance metrics', meta: ['📊 99.9% uptime', '🕒 Updated 1h ago'] },
+                    { icon: '🔒', name: 'Security Dashboard', desc: 'Security monitoring and alerts', meta: ['🔒 0 threats', '🕒 Updated 2h ago'] }
+                ]
+            },
+            marketing: {
+                title: '📈 Marketing Tools',
+                destinations: [
+                    { icon: '📊', name: 'Campaign Analytics', desc: 'Track marketing performance', meta: ['📊 12.5k views', '🕒 Updated 1h ago'] },
+                    { icon: '📧', name: 'Email Marketing', desc: 'Newsletter and automation', meta: ['📧 2.1k subscribers', '🕒 Updated 30m ago'] },
+                    { icon: '📱', name: 'Social Media', desc: 'Social media management', meta: ['📱 4 platforms', '🕒 Updated 15m ago'] },
+                    { icon: '🎯', name: 'Lead Generation', desc: 'Capture and nurture leads', meta: ['🎯 156 leads', '🕒 Updated 5m ago'] }
+                ]
+            },
+            support: {
+                title: '🛠️ Support Resources',
+                destinations: [
+                    { icon: '📚', name: 'Documentation', desc: 'Comprehensive guides and tutorials', meta: ['📚 8 guides', '🕒 Updated 2h ago'] },
+                    { icon: '❓', name: 'Help Desk', desc: 'Customer support tickets', meta: ['❓ 5 open tickets', '🕒 Updated 1h ago'] },
+                    { icon: '🎥', name: 'Video Tutorials', desc: 'Step-by-step video guides', meta: ['🎥 23 videos', '🕒 Updated 3h ago'] },
+                    { icon: '💬', name: 'Live Chat', desc: 'Real-time customer support', meta: ['💬 2 agents online', '🕒 Updated 5m ago'] }
+                ]
+            }
+        };
+
+        // Swipe functionality
+        let currentIndex = 0;
+        const categoryCards = document.querySelectorAll('.category-card');
+        const indicatorDots = document.querySelectorAll('.indicator-dot');
+        const track = document.getElementById('categoryTrack');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function updateCategory(index) {
+            // Update active category card
+            categoryCards.forEach((card, i) => {
+                card.classList.toggle('active', i === index);
+            });
+
+            // Update indicator dots
+            indicatorDots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+
+            // Update destination content
+            const categoryKeys = Object.keys(categories);
+            const currentCategory = categoryKeys[index];
+            const categoryData = categories[currentCategory];
+
+            document.getElementById('destinationTitle').textContent = categoryData.title;
+            
+            const destinationGrid = document.getElementById('destinationGrid');
+            destinationGrid.innerHTML = '';
+
+            categoryData.destinations.forEach(dest => {
+                const card = document.createElement('div');
+                card.className = 'destination-card';
+                card.innerHTML = `
+                    <div class="destination-header-card">
+                        <div class="destination-icon">${dest.icon}</div>
+                        <div class="destination-info">
+                            <h3>${dest.name}</h3>
+                            <p>${dest.desc}</p>
+                        </div>
+                    </div>
+                    <div class="destination-meta">
+                        <span class="meta-item">${dest.meta[0]}</span>
+                        <span class="meta-item">${dest.meta[1]}</span>
+                    </div>
+                `;
+                destinationGrid.appendChild(card);
+            });
+
+            // Add animation to new cards
+            const newCards = destinationGrid.querySelectorAll('.destination-card');
+            newCards.forEach((card, i) => {
+                card.style.animationDelay = `${i * 0.1}s`;
+                card.style.animation = 'fadeInUp 0.4s ease-out forwards';
+            });
+        }
+
+        function nextCategory() {
+            currentIndex = (currentIndex + 1) % categoryCards.length;
+            updateCategory(currentIndex);
+        }
+
+        function prevCategory() {
+            currentIndex = (currentIndex - 1 + categoryCards.length) % categoryCards.length;
+            updateCategory(currentIndex);
+        }
+
+        // Event listeners
+        categoryCards.forEach((card, index) => {
+            card.addEventListener('click', () => {
+                currentIndex = index;
+                updateCategory(currentIndex);
+            });
+        });
+
+        indicatorDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentIndex = index;
+                updateCategory(currentIndex);
+            });
+        });
+
+        prevBtn.addEventListener('click', prevCategory);
+        nextBtn.addEventListener('click', nextCategory);
+
+        // Touch/swipe functionality
+        let startX = 0;
+        let currentX = 0;
+        let isDragging = false;
+
+        track.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+        });
+
+        track.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            currentX = e.touches[0].clientX;
+            const diff = startX - currentX;
+            
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    nextCategory();
+                } else {
+                    prevCategory();
+                }
+                isDragging = false;
+            }
+        });
+
+        track.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+
+        // Mouse drag functionality
+        track.addEventListener('mousedown', (e) => {
+            startX = e.clientX;
+            isDragging = true;
+            track.style.cursor = 'grabbing';
+        });
+
+        track.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            currentX = e.clientX;
+            const diff = startX - currentX;
+            
+            if (Math.abs(diff) > 100) {
+                if (diff > 0) {
+                    nextCategory();
+                } else {
+                    prevCategory();
+                }
+                isDragging = false;
+                track.style.cursor = 'grab';
+            }
+        });
+
+        track.addEventListener('mouseup', () => {
+            isDragging = false;
+            track.style.cursor = 'grab';
+        });
+
+        track.addEventListener('mouseleave', () => {
+            isDragging = false;
+            track.style.cursor = 'grab';
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                prevCategory();
+            } else if (e.key === 'ArrowRight') {
+                nextCategory();
+            }
+        });
+
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const destinationCards = document.querySelectorAll('.destination-card');
+            
+            destinationCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const description = card.querySelector('p').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Add hover effects
+        document.querySelectorAll('.destination-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Initialize
+        updateCategory(0);
+    </script>
+</body>
+</html>
+
+
+
+
+

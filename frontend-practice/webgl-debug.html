@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGL & Three.js Diagnostics</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        .test-result {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+        .success {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        .warning {
+            background: #fff3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+        .info {
+            background: #d1ecf1;
+            border-color: #17a2b8;
+            color: #0c5460;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #canvas-container {
+            margin: 2rem 0;
+            padding: 1rem;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            min-height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 WebGL & Three.js Diagnostics</h1>
+    
+    <div id="browser-info" class="test-result info">
+        <h3>Browser Information</h3>
+        <div id="browser-details"></div>
+    </div>
+
+    <div id="webgl-test" class="test-result">
+        <h3>WebGL Support Test</h3>
+        <div id="webgl-result"></div>
+    </div>
+
+    <div id="threejs-test" class="test-result">
+        <h3>Three.js Loading Test</h3>
+        <div id="threejs-result"></div>
+    </div>
+
+    <div id="canvas-test" class="test-result info">
+        <h3>Canvas Test</h3>
+        <div id="canvas-container">
+            <p>Test canvas will appear here...</p>
+        </div>
+        <button onclick="runCanvasTest()">Run Canvas Test</button>
+        <button onclick="runThreeJSTest()">Run Three.js Test</button>
+    </div>
+
+    <div id="recommendations" class="test-result warning">
+        <h3>📋 Troubleshooting Steps</h3>
+        <div id="recommendations-content">
+            <ol>
+                <li><strong>Check browser compatibility:</strong> Chrome, Firefox, Safari, Edge support WebGL</li>
+                <li><strong>Enable hardware acceleration:</strong> Browser settings → Advanced → Use hardware acceleration</li>
+                <li><strong>Update graphics drivers:</strong> Ensure your GPU drivers are up to date</li>
+                <li><strong>Check browser flags:</strong> Chrome: chrome://flags/ → Enable WebGL</li>
+                <li><strong>Disable extensions:</strong> Some ad blockers or privacy extensions block WebGL</li>
+                <li><strong>Try incognito/private mode:</strong> Rules out extension conflicts</li>
+            </ol>
+        </div>
+    </div>
+
+    <div id="detailed-info" class="test-result info">
+        <h3>Detailed System Information</h3>
+        <pre id="system-info">Loading...</pre>
+    </div>
+
+    <!-- Three.js CDN - Multiple versions to test -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r158/three.min.js" onload="onThreeJSLoad()" onerror="onThreeJSError()"></script>
+
+    <script>
+        let webglSupported = false;
+        let threeJSLoaded = false;
+
+        // Browser information
+        function displayBrowserInfo() {
+            const browserInfo = {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                language: navigator.language,
+                cookieEnabled: navigator.cookieEnabled,
+                onLine: navigator.onLine,
+                hardwareConcurrency: navigator.hardwareConcurrency || 'Unknown',
+                maxTouchPoints: navigator.maxTouchPoints || 'Unknown'
+            };
+
+            let html = '<ul>';
+            for (const [key, value] of Object.entries(browserInfo)) {
+                html += `<li><strong>${key}:</strong> ${value}</li>`;
+            }
+            html += '</ul>';
+            
+            document.getElementById('browser-details').innerHTML = html;
+        }
+
+        // WebGL detection
+        function checkWebGL() {
+            const canvas = document.createElement('canvas');
+            let gl = null;
+            let debugInfo = null;
+            let result = '';
+
+            try {
+                gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            } catch (e) {
+                result += `❌ WebGL context creation failed: ${e.message}\n`;
+            }
+
+            if (gl) {
+                webglSupported = true;
+                result += '✅ WebGL is supported!\n';
+                
+                // Get WebGL info
+                debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                if (debugInfo) {
+                    result += `🎮 Vendor: ${gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL)}\n`;
+                    result += `🔧 Renderer: ${gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)}\n`;
+                }
+                
+                result += `📊 WebGL Version: ${gl.getParameter(gl.VERSION)}\n`;
+                result += `🎯 Max Texture Size: ${gl.getParameter(gl.MAX_TEXTURE_SIZE)}\n`;
+                result += `🔺 Max Vertex Attributes: ${gl.getParameter(gl.MAX_VERTEX_ATTRIBS)}\n`;
+                
+                document.getElementById('webgl-test').className = 'test-result success';
+            } else {
+                result += '❌ WebGL is not supported or disabled\n';
+                result += '💡 This could be due to:\n';
+                result += '   • Hardware acceleration disabled\n';
+                result += '   • Outdated graphics drivers\n';
+                result += '   • Browser settings\n';
+                result += '   • Security restrictions\n';
+                
+                document.getElementById('webgl-test').className = 'test-result error';
+            }
+
+            document.getElementById('webgl-result').innerHTML = `<pre>${result}</pre>`;
+        }
+
+        // Three.js loading callbacks
+        function onThreeJSLoad() {
+            threeJSLoaded = true;
+            let result = '✅ Three.js loaded successfully!\n';
+            result += `📦 Version: ${THREE.REVISION}\n`;
+            result += `🛠️ Available: THREE object is accessible\n`;
+            
+            // Test basic Three.js functionality
+            try {
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+                result += '✅ Scene and Camera creation successful\n';
+                
+                if (webglSupported) {
+                    const renderer = new THREE.WebGLRenderer();
+                    result += '✅ WebGL Renderer creation successful\n';
+                    renderer.dispose(); // Clean up
+                }
+            } catch (e) {
+                result += `❌ Three.js functionality test failed: ${e.message}\n`;
+            }
+            
+            document.getElementById('threejs-test').className = 'test-result success';
+            document.getElementById('threejs-result').innerHTML = `<pre>${result}</pre>`;
+        }
+
+        function onThreeJSError() {
+            let result = '❌ Three.js failed to load from CDN\n';
+            result += '🌐 Network connectivity issue or CDN unavailable\n';
+            result += '💡 Solutions:\n';
+            result += '   • Check internet connection\n';
+            result += '   • Try different CDN\n';
+            result += '   • Download Three.js locally\n';
+            
+            document.getElementById('threejs-test').className = 'test-result error';
+            document.getElementById('threejs-result').innerHTML = `<pre>${result}</pre>`;
+        }
+
+        // Canvas test
+        function runCanvasTest() {
+            const container = document.getElementById('canvas-container');
+            container.innerHTML = '';
+            
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = 400;
+                canvas.height = 300;
+                canvas.style.border = '1px solid #ccc';
+                canvas.style.borderRadius = '4px';
+                
+                const ctx = canvas.getContext('2d');
+                
+                // Draw test pattern
+                ctx.fillStyle = '#e3f2fd';
+                ctx.fillRect(0, 0, 400, 300);
+                
+                ctx.fillStyle = '#1976d2';
+                ctx.fillRect(50, 50, 100, 100);
+                
+                ctx.fillStyle = '#ff5722';
+                ctx.beginPath();
+                ctx.arc(300, 100, 50, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                ctx.fillStyle = '#4caf50';
+                ctx.beginPath();
+                ctx.moveTo(150, 200);
+                ctx.lineTo(250, 200);
+                ctx.lineTo(200, 120);
+                ctx.closePath();
+                ctx.fill();
+                
+                ctx.fillStyle = '#333';
+                ctx.font = '16px Arial';
+                ctx.fillText('Canvas 2D Test - Success!', 50, 280);
+                
+                container.appendChild(canvas);
+                
+                const result = document.createElement('p');
+                result.innerHTML = '✅ <strong>Canvas 2D works perfectly!</strong>';
+                result.style.color = '#155724';
+                container.appendChild(result);
+                
+            } catch (e) {
+                container.innerHTML = `<p style="color: #721c24;">❌ Canvas test failed: ${e.message}</p>`;
+            }
+        }
+
+        // Three.js test
+        function runThreeJSTest() {
+            const container = document.getElementById('canvas-container');
+            container.innerHTML = '';
+            
+            if (!threeJSLoaded) {
+                container.innerHTML = '<p style="color: #721c24;">❌ Three.js not loaded. Cannot run test.</p>';
+                return;
+            }
+            
+            if (!webglSupported) {
+                container.innerHTML = '<p style="color: #721c24;">❌ WebGL not supported. Cannot run Three.js test.</p>';
+                return;
+            }
+            
+            try {
+                // Create Three.js scene
+                const scene = new THREE.Scene();
+                scene.background = new THREE.Color(0x87ceeb);
+                
+                const camera = new THREE.PerspectiveCamera(75, 400/300, 0.1, 1000);
+                camera.position.z = 5;
+                
+                const renderer = new THREE.WebGLRenderer({ antialias: true });
+                renderer.setSize(400, 300);
+                renderer.domElement.style.border = '1px solid #ccc';
+                renderer.domElement.style.borderRadius = '4px';
+                
+                // Create a simple cube
+                const geometry = new THREE.BoxGeometry();
+                const material = new THREE.MeshBasicMaterial({ color: 0x0077ff });
+                const cube = new THREE.Mesh(geometry, material);
+                scene.add(cube);
+                
+                // Add lighting
+                const light = new THREE.DirectionalLight(0xffffff, 1);
+                light.position.set(5, 5, 5);
+                scene.add(light);
+                
+                // Animation loop
+                function animate() {
+                    requestAnimationFrame(animate);
+                    cube.rotation.x += 0.01;
+                    cube.rotation.y += 0.01;
+                    renderer.render(scene, camera);
+                }
+                
+                container.appendChild(renderer.domElement);
+                animate();
+                
+                const result = document.createElement('p');
+                result.innerHTML = '✅ <strong>Three.js WebGL test successful!</strong> You should see a rotating blue cube.';
+                result.style.color = '#155724';
+                result.style.marginTop = '1rem';
+                container.appendChild(result);
+                
+            } catch (e) {
+                container.innerHTML = `<p style="color: #721c24;">❌ Three.js test failed: ${e.message}</p>`;
+            }
+        }
+
+        // System information
+        function getSystemInfo() {
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            
+            let info = 'SYSTEM DIAGNOSTICS\n';
+            info += '==================\n\n';
+            
+            info += 'Browser Information:\n';
+            info += `- User Agent: ${navigator.userAgent}\n`;
+            info += `- Platform: ${navigator.platform}\n`;
+            info += `- Language: ${navigator.language}\n`;
+            info += `- Hardware Concurrency: ${navigator.hardwareConcurrency || 'Unknown'}\n`;
+            info += `- Max Touch Points: ${navigator.maxTouchPoints || 'Unknown'}\n\n`;
+            
+            info += 'Screen Information:\n';
+            info += `- Resolution: ${screen.width}x${screen.height}\n`;
+            info += `- Available: ${screen.availWidth}x${screen.availHeight}\n`;
+            info += `- Color Depth: ${screen.colorDepth} bits\n`;
+            info += `- Pixel Depth: ${screen.pixelDepth} bits\n\n`;
+            
+            if (gl) {
+                info += 'WebGL Information:\n';
+                info += `- Version: ${gl.getParameter(gl.VERSION)}\n`;
+                info += `- Vendor: ${gl.getParameter(gl.VENDOR)}\n`;
+                info += `- Renderer: ${gl.getParameter(gl.RENDERER)}\n`;
+                info += `- Max Texture Size: ${gl.getParameter(gl.MAX_TEXTURE_SIZE)}\n`;
+                info += `- Max Vertex Attributes: ${gl.getParameter(gl.MAX_VERTEX_ATTRIBS)}\n`;
+                info += `- Max Vertex Uniform Vectors: ${gl.getParameter(gl.MAX_VERTEX_UNIFORM_VECTORS)}\n`;
+                info += `- Max Fragment Uniform Vectors: ${gl.getParameter(gl.MAX_FRAGMENT_UNIFORM_VECTORS)}\n`;
+                
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                if (debugInfo) {
+                    info += `- Unmasked Vendor: ${gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL)}\n`;
+                    info += `- Unmasked Renderer: ${gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)}\n`;
+                }
+            } else {
+                info += 'WebGL Information:\n';
+                info += '- Status: NOT AVAILABLE\n';
+            }
+            
+            if (typeof THREE !== 'undefined') {
+                info += `\nThree.js Information:\n`;
+                info += `- Version: r${THREE.REVISION}\n`;
+                info += `- Available Objects: Scene, Camera, Renderer, etc.\n`;
+            } else {
+                info += `\nThree.js Information:\n`;
+                info += `- Status: NOT LOADED\n`;
+            }
+            
+            return info;
+        }
+
+        // Initialize diagnostics
+        function init() {
+            displayBrowserInfo();
+            checkWebGL();
+            
+            // Wait a moment for Three.js to load
+            setTimeout(() => {
+                if (!threeJSLoaded) {
+                    onThreeJSError();
+                }
+                document.getElementById('system-info').textContent = getSystemInfo();
+            }, 2000);
+        }
+
+        // Run diagnostics when page loads
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

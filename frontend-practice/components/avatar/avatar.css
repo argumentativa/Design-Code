@@ -1,0 +1,364 @@
+/**
+ * Avatar Component Styles
+ * Comprehensive avatar system with all sizes, variants, and states
+ * Uses design tokens from css/design-tokens.css
+ */
+
+@import url('../../css/design-tokens.css');
+
+/* ============================================
+   BASE AVATAR
+   ============================================ */
+.avatar {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    /* Note: overflow is NOT hidden here to allow badges/indicators to extend outside */
+}
+
+/* Note: Main avatar content (image/initials/icon) is clipped using clip-path
+   to allow badges and indicators to extend outside the circle */
+
+/* ============================================
+   AVATAR SIZES
+   ============================================ */
+.avatar--xxsmall {
+    width: var(--avatar-size-xxsmall);
+    height: var(--avatar-size-xxsmall);
+}
+
+.avatar--xs {
+    width: var(--avatar-size-xs);
+    height: var(--avatar-size-xs);
+}
+
+.avatar--small {
+    width: var(--avatar-size-small);
+    height: var(--avatar-size-small);
+}
+
+.avatar--medium {
+    width: var(--avatar-size-medium);
+    height: var(--avatar-size-medium);
+}
+
+.avatar--large {
+    width: var(--avatar-size-large);
+    height: var(--avatar-size-large);
+}
+
+.avatar--xlarge {
+    width: var(--avatar-size-xlarge);
+    height: var(--avatar-size-xlarge);
+}
+
+/* ============================================
+   AVATAR IMAGE
+   ============================================ */
+.avatar__image {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: var(--avatar-border-radius);
+    z-index: 0;
+    /* Clip to circle - allows negative positioning while keeping circular shape */
+    clip-path: circle(50%);
+}
+
+/* Image wrapper for small creator avatars */
+.avatar__image-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--avatar-border-radius);
+    overflow: hidden;
+    background-color: var(--neutral-50);
+    z-index: 0;
+}
+
+.avatar__image-wrapper .avatar__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+}
+
+/* Image positioning offsets from Figma */
+.avatar--large .avatar__image,
+.avatar--xlarge .avatar__image {
+    left: -1.04%;
+    right: 1.04%;
+}
+
+.avatar--medium .avatar__image {
+    left: -1.25%;
+    right: 1.25%;
+}
+
+.avatar--xs .avatar__image,
+.avatar--xxsmall .avatar__image {
+    left: -2.08%;
+    right: 2.08%;
+}
+
+/* ============================================
+   AVATAR INITIALS
+   ============================================ */
+.avatar__initials {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--purple-100);
+    border-radius: var(--avatar-border-radius);
+    z-index: 0;
+    /* Clip to circle - ensures circular shape */
+    clip-path: circle(50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+}
+
+/* Large and XLarge initials - container fills full circle, text uses percentage positioning */
+.avatar--large .avatar__initials {
+    width: var(--avatar-size-large);
+    height: var(--avatar-size-large);
+}
+
+.avatar--xlarge .avatar__initials {
+    width: var(--avatar-size-xlarge);
+    height: var(--avatar-size-xlarge);
+}
+
+/* Initials background fill (SVG) */
+.avatar__initials-fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -1.04%;
+    right: 1.04%;
+    width: calc(100% + 2.08%);
+    height: 100%;
+    z-index: -1;
+}
+
+.avatar__initials-fill img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.avatar__initials p {
+    margin: 0;
+    font-family: var(--ff-primary);
+    font-weight: var(--fw-bold);
+    color: var(--text-color-inverse);
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Large and XLarge initials text - flexbox centers it, no need for percentage margins */
+
+/* Initials font sizes per design tokens */
+.avatar--xxsmall .avatar__initials p {
+    font-size: var(--avatar-initials-size-xxsmall);
+    line-height: var(--avatar-initials-size-xxsmall);
+}
+
+.avatar--xs .avatar__initials p {
+    font-size: var(--avatar-initials-size-xs);
+    line-height: var(--avatar-initials-size-xs);
+}
+
+.avatar--small .avatar__initials p {
+    font-size: var(--avatar-initials-size-small);
+    line-height: 16px;
+}
+
+.avatar--medium .avatar__initials p {
+    font-size: var(--avatar-initials-size-medium);
+    line-height: 20px;
+}
+
+.avatar--large .avatar__initials p {
+    font-size: var(--avatar-initials-size-large);
+    line-height: 24px;
+    margin: 0;
+}
+
+.avatar--xlarge .avatar__initials p {
+    font-size: var(--avatar-initials-size-xlarge);
+    line-height: 48px;
+    margin: 0;
+}
+
+/* ============================================
+   AVATAR ICON (for icon type)
+   ============================================ */
+.avatar__icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--purple-100);
+    padding: 6px 4px;
+    box-sizing: border-box;
+    border-radius: var(--avatar-border-radius);
+    z-index: 0;
+    /* Clip to circle - ensures circular shape */
+    clip-path: circle(50%);
+}
+
+.avatar__icon img {
+    width: var(--icon-size-16);
+    height: var(--icon-size-16);
+    object-fit: contain;
+    display: block;
+}
+
+/* ============================================
+   ONLINE STATUS INDICATOR
+   ============================================ */
+.avatar__online {
+    position: absolute;
+    z-index: 2;
+    box-sizing: border-box;
+}
+
+/* Online indicator wrapper with inset for stroke */
+.avatar__online > div {
+    position: absolute;
+    inset: -25%;
+    width: calc(100% + 50%);
+    height: calc(100% + 50%);
+}
+
+.avatar__online img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+}
+
+/* XXsmall online status */
+.avatar--xxsmall .avatar__online {
+    width: var(--avatar-online-size-xxsmall);
+    height: var(--avatar-online-size-xxsmall);
+    bottom: var(--avatar-online-offset-xxsmall-bottom);
+    right: var(--avatar-online-offset-xxsmall-right);
+}
+
+/* XS online status */
+.avatar--xs .avatar__online {
+    width: var(--avatar-online-size-xs);
+    height: var(--avatar-online-size-xs);
+    bottom: var(--avatar-online-offset-xs-bottom);
+    right: var(--avatar-online-offset-xs-right);
+}
+
+/* Small online status */
+.avatar--small .avatar__online {
+    width: var(--avatar-online-size-small);
+    height: var(--avatar-online-size-small);
+    bottom: var(--avatar-online-offset-small-bottom);
+    right: var(--avatar-online-offset-small-right);
+}
+
+/* Medium online status - uses percentage positioning from Figma */
+.avatar--medium .avatar__online {
+    width: var(--avatar-online-size-medium);
+    height: var(--avatar-online-size-medium);
+    bottom: var(--avatar-online-offset-medium-bottom);
+    left: 75.83%;
+    right: 7.5%;
+    aspect-ratio: 1 / 1;
+}
+
+/* Large online status */
+.avatar--large .avatar__online {
+    width: var(--avatar-online-size-large);
+    height: var(--avatar-online-size-large);
+    bottom: var(--avatar-online-offset-large-bottom);
+    right: var(--avatar-online-offset-large-right);
+}
+
+/* XLarge online status */
+.avatar--xlarge .avatar__online {
+    width: var(--avatar-online-size-xlarge);
+    height: var(--avatar-online-size-xlarge);
+    bottom: var(--avatar-online-offset-xlarge-bottom);
+    right: var(--avatar-online-offset-xlarge-right);
+}
+
+/* ============================================
+   CREATOR BADGE (overlay avatar)
+   ============================================ */
+.avatar__creator-badge {
+    position: absolute;
+    bottom: 0;
+    right: var(--avatar-creator-badge-offset-small);
+    width: var(--avatar-creator-badge-size-small);
+    height: var(--avatar-creator-badge-size-small);
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: 3;
+    box-sizing: border-box;
+}
+
+/* Large avatar uses small avatar size token for creator badge */
+.avatar--large .avatar__creator-badge {
+    width: var(--avatar-size-small);
+    height: var(--avatar-size-small);
+    right: var(--avatar-creator-badge-offset-small);
+}
+
+/* XLarge avatar uses large badge size */
+.avatar--xlarge .avatar__creator-badge {
+    width: var(--avatar-creator-badge-size-large);
+    height: var(--avatar-creator-badge-size-large);
+    right: var(--avatar-creator-badge-offset-large);
+}
+
+/* Creator badge wrapper with inset for XLarge */
+.avatar__creator-badge > div {
+    position: absolute;
+    inset: -6.944%;
+    width: calc(100% + 13.888%);
+    height: calc(100% + 13.888%);
+}
+
+.avatar__creator-badge img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+/* Note: alt attributes should be set in HTML, not CSS */
+/* Ensure avatars with labels are accessible via HTML aria-label */
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+/* Avatars are static components with no transitions */
+

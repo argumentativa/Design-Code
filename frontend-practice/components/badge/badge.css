@@ -1,0 +1,238 @@
+/**
+ * Badge Component Styles
+ * Uses design tokens from css/design-tokens.css
+ * Supports: small (16px), large (24px) sizes
+ * Types: superfan, contributor, creator (with gradient)
+ * Icons from assets/icons/
+ */
+
+@import url('../../css/design-tokens.css');
+
+/* ============================================
+   BASE BADGE
+   ============================================ */
+.badge {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ============================================
+   BADGE SIZES
+   ============================================ */
+.badge--small {
+    height: var(--badge-height-small);
+    padding: var(--badge-padding-y-small) var(--badge-padding-x-small);
+    padding-left: var(--space-xxs);
+    gap: var(--badge-gap-small);
+    border-radius: var(--badge-border-radius-small);
+}
+
+.badge--large {
+    height: var(--badge-height-large);
+    padding: var(--badge-padding-y-large) var(--badge-padding-x-large);
+    padding-left: var(--space-xxs);
+    gap: var(--badge-gap-large);
+    border-radius: var(--badge-border-radius-large);
+}
+
+/* ============================================
+   BADGE ICON
+   Uses color-icon-black semantic token for icon color
+   ============================================ */
+.badge__icon {
+    flex-shrink: 0;
+    display: block;
+    color: var(--color-icon-black);
+}
+
+.badge__icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* Icon container with padding for role badges (Leader, Creator) */
+.badge__icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.badge--small .badge__icon {
+    width: var(--badge-icon-size-small);
+    height: var(--badge-icon-size-small);
+}
+
+.badge--large .badge__icon {
+    width: var(--badge-icon-size-large);
+    height: var(--badge-icon-size-large);
+}
+
+/* Icon container sizes for role badges */
+.badge--small .badge__icon-container {
+    width: var(--icon-size-16);
+    height: var(--icon-size-16);
+    padding: 2.667px;
+    box-sizing: border-box;
+}
+
+.badge--large .badge__icon-container {
+    width: var(--icon-size-24);
+    height: var(--icon-size-24);
+    padding: 4px 4px 6px;
+    box-sizing: border-box;
+}
+
+/* Icon sizes inside containers for role badges (smaller than standard) */
+.badge--small.badge--leader .badge__icon-container .badge__icon,
+.badge--small.badge--role-creator .badge__icon-container .badge__icon {
+    width: 10.667px; /* Calculated size for nested icon in container */
+    height: 10.667px;
+}
+
+.badge--large.badge--leader .badge__icon-container .badge__icon,
+.badge--large.badge--role-creator .badge__icon-container .badge__icon {
+    width: var(--icon-size-16);
+    height: var(--icon-size-16);
+}
+
+/* ============================================
+   BADGE TEXT
+   Uses specific typography tokens: label-sm-bold (small) and label-md-bold (large)
+   ============================================ */
+.badge__text {
+    white-space: pre;
+    margin: 0;
+    color: var(--text-color-primary);
+}
+
+/* Text wrapper for small badges (flex column structure from Figma) */
+.badge__text-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 0;
+    flex-shrink: 0;
+}
+
+.badge__text-wrapper .badge__text {
+    line-height: var(--lh-sm);
+    white-space: pre;
+}
+
+/* Small badge uses label-sm-bold typography token */
+.badge--small .badge__text {
+    font-family: var(--text-label-sm-bold);
+    font-size: var(--text-label-sm-bold-size);
+    font-weight: var(--text-label-sm-bold-weight);
+    line-height: var(--text-label-sm-bold-line-height);
+    letter-spacing: var(--ls-md);
+}
+
+/* Large badge uses label-md-bold typography token */
+.badge--large .badge__text {
+    font-family: var(--text-label-md-bold);
+    font-size: var(--text-label-md-bold-size);
+    font-weight: var(--text-label-md-bold-weight);
+    line-height: var(--text-label-md-bold-line-height);
+    letter-spacing: var(--ls-md);
+}
+
+/* ============================================
+   BADGE TYPES
+   ============================================ */
+
+/* Superfan Badge (with Gradient) */
+.badge--superfan {
+    background: var(--badge-gradient-superfan);
+}
+
+/* Fallback for browsers that don't support gradients */
+@supports not (background: linear-gradient(0deg, #000, #000)) {
+    .badge--superfan {
+        background-color: rgba(249, 168, 212, 0.5);
+    }
+}
+
+/* Contributor Badge (with Gradient) */
+.badge--contributor {
+    background: var(--badge-gradient-contributor);
+}
+
+/* Fallback for browsers that don't support gradients */
+@supports not (background: linear-gradient(0deg, #000, #000)) {
+    .badge--contributor {
+        background-color: rgba(34, 197, 94, 0.5);
+    }
+}
+
+/* Creator/Tastemaker Badge (with Gradient) */
+.badge--creator {
+    background: var(--badge-gradient-creator);
+}
+
+/* Fallback for browsers that don't support gradients */
+@supports not (background: linear-gradient(0deg, #000, #000)) {
+    .badge--creator {
+        background-color: rgba(236, 136, 117, 0.5);
+    }
+}
+
+/* ============================================
+   ROLE BADGE TYPES (Author, Leader, Creator)
+   Different from streak badges - solid backgrounds with borders
+   ============================================ */
+
+/* Author Badge - Dark background, white text, no icon */
+.badge--author {
+    background: var(--neutral-1000);
+    border: none;
+    /* Author badges use --space-xxs on both sides (from Figma: px-[var(--space-xxs,4px)]) */
+    padding-right: var(--space-xxs);
+}
+
+.badge--author .badge__text {
+    color: var(--text-color-inverse);
+}
+
+/* Leader Badge - White background, border, shield-heart icon */
+.badge--leader {
+    background: var(--neutral-white);
+    border: 1px solid var(--neutral-100);
+    /* Leader badges use --space-xxs on left, --space-xs on right (from Figma) */
+    padding-right: var(--space-xs);
+}
+
+.badge--leader .badge__text {
+    color: var(--text-color-primary);
+}
+
+/* Creator Role Badge - White background, border, crown icon */
+.badge--role-creator {
+    background: var(--neutral-white);
+    border: 1px solid var(--neutral-100);
+    /* Creator role badges use --space-xxs on left, --space-xs on right (from Figma) */
+    padding-right: var(--space-xs);
+}
+
+.badge--role-creator .badge__text {
+    color: var(--text-color-primary);
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+.badge[aria-hidden="true"] {
+    pointer-events: none;
+}
+
+/* ============================================
+   VARIANTS & STATES
+   ============================================ */
+/* Badges are static components with no interactive states */
+

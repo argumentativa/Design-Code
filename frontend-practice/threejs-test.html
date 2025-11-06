@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js Loading Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .test-container {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .success { border-color: #28a745; background: #d4edda; }
+        .error { border-color: #dc3545; background: #f8d7da; }
+        .loading { border-color: #ffc107; background: #fff3cd; }
+        #three-canvas {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .log {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.25rem;
+        }
+        button:hover { background: #0056b3; }
+        button:disabled { background: #6c757d; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Three.js Loading Test</h1>
+
+    <div class="test-container loading" id="status-container">
+        <h3>Loading Status</h3>
+        <div id="loading-status">Initializing...</div>
+    </div>
+
+    <div class="test-container">
+        <h3>Load Three.js from Different Sources</h3>
+        <button onclick="loadFromCDN1()">Try CDN 1 (cdnjs r158)</button>
+        <button onclick="loadFromCDN2()">Try CDN 2 (jsDelivr r158)</button>
+        <button onclick="loadFromCDN3()">Try CDN 3 (unpkg latest)</button>
+        <button onclick="loadFromCDN4()">Try CDN 4 (cdnjs r150)</button>
+        <button onclick="clearThreeJS()">Clear Three.js</button>
+    </div>
+
+    <div class="test-container">
+        <h3>Test Three.js Scene</h3>
+        <div id="three-canvas"></div>
+        <div>
+            <button onclick="createBasicScene()" id="test-basic">Test Basic Scene</button>
+            <button onclick="createAnimatedScene()" id="test-animated">Test Animated Scene</button>
+            <button onclick="clearCanvas()">Clear Canvas</button>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h3>Console Log</h3>
+        <div class="log" id="console-log">Ready...\n</div>
+        <button onclick="clearLog()">Clear Log</button>
+    </div>
+
+    <script>
+        let currentRenderer = null;
+        let animationId = null;
+
+        function log(message) {
+            const logElement = document.getElementById('console-log');
+            const timestamp = new Date().toLocaleTimeString();
+            logElement.textContent += `[${timestamp}] ${message}\n`;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(message);
+        }
+
+        function updateStatus(message, type = 'loading') {
+            const container = document.getElementById('status-container');
+            const status = document.getElementById('loading-status');
+            
+            container.className = `test-container ${type}`;
+            status.textContent = message;
+            
+            log(`STATUS: ${message}`);
+        }
+
+        function clearLog() {
+            document.getElementById('console-log').textContent = 'Log cleared...\n';
+        }
+
+        function clearThreeJS() {
+            if (window.THREE) {
+                log('Clearing existing THREE object...');
+                delete window.THREE;
+            }
+            
+            // Remove any existing Three.js script tags
+            const scripts = document.querySelectorAll('script[src*="three"]');
+            scripts.forEach(script => script.remove());
+            
+            updateStatus('Three.js cleared', 'loading');
+        }
+
+        function loadThreeJS(url, source) {
+            return new Promise((resolve, reject) => {
+                if (window.THREE) {
+                    log(`Three.js already loaded (r${THREE.REVISION})`);
+                    resolve();
+                    return;
+                }
+
+                log(`Loading Three.js from ${source}: ${url}`);
+                updateStatus(`Loading from ${source}...`, 'loading');
+
+                const script = document.createElement('script');
+                script.src = url;
+                script.onload = () => {
+                    if (window.THREE) {
+                        log(`✅ Three.js loaded successfully from ${source} (r${THREE.REVISION})`);
+                        updateStatus(`Three.js loaded from ${source} (r${THREE.REVISION})`, 'success');
+                        resolve();
+                    } else {
+                        log(`❌ Three.js script loaded but THREE object not available`);
+                        updateStatus('THREE object not available', 'error');
+                        reject(new Error('THREE object not available'));
+                    }
+                };
+                script.onerror = () => {
+                    log(`❌ Failed to load Three.js from ${source}`);
+                    updateStatus(`Failed to load from ${source}`, 'error');
+                    reject(new Error(`Failed to load from ${source}`));
+                };
+
+                document.head.appendChild(script);
+            });
+        }
+
+        async function loadFromCDN1() {
+            try {
+                await loadThreeJS('https://cdnjs.cloudflare.com/ajax/libs/three.js/r158/three.min.js', 'CDNJS r158');
+            } catch (e) {
+                log(`Error: ${e.message}`);
+            }
+        }
+
+        async function loadFromCDN2() {
+            try {
+                await loadThreeJS('https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js', 'jsDelivr r158');
+            } catch (e) {
+                log(`Error: ${e.message}`);
+            }
+        }
+
+        async function loadFromCDN3() {
+            try {
+                await loadThreeJS('https://unpkg.com/three@latest/build/three.min.js', 'unpkg latest');
+            } catch (e) {
+                log(`Error: ${e.message}`);
+            }
+        }
+
+        async function loadFromCDN4() {
+            try {
+                await loadThreeJS('https://cdnjs.cloudflare.com/ajax/libs/three.js/r150/three.min.js', 'CDNJS r150');
+            } catch (e) {
+                log(`Error: ${e.message}`);
+            }
+        }
+
+        function clearCanvas() {
+            const container = document.getElementById('three-canvas');
+            container.innerHTML = '';
+            
+            if (currentRenderer) {
+                currentRenderer.dispose();
+                currentRenderer = null;
+            }
+            
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+            
+            log('Canvas cleared');
+        }
+
+        function createBasicScene() {
+            if (!window.THREE) {
+                log('❌ Three.js not loaded. Please load Three.js first.');
+                return;
+            }
+
+            log('Creating basic Three.js scene...');
+            clearCanvas();
+
+            try {
+                const container = document.getElementById('three-canvas');
+                
+                // Scene setup
+                const scene = new THREE.Scene();
+                scene.background = new THREE.Color(0x87ceeb);
+
+                // Camera setup
+                const camera = new THREE.PerspectiveCamera(75, 600/400, 0.1, 1000);
+                camera.position.z = 5;
+
+                // Renderer setup
+                const renderer = new THREE.WebGLRenderer({ antialias: true });
+                renderer.setSize(600, 400);
+                container.appendChild(renderer.domElement);
+                currentRenderer = renderer;
+
+                // Create a cube
+                const geometry = new THREE.BoxGeometry();
+                const material = new THREE.MeshBasicMaterial({ color: 0x0077ff });
+                const cube = new THREE.Mesh(geometry, material);
+                scene.add(cube);
+
+                // Render
+                renderer.render(scene, camera);
+                
+                log('✅ Basic scene created successfully!');
+
+            } catch (error) {
+                log(`❌ Error creating basic scene: ${error.message}`);
+                console.error(error);
+            }
+        }
+
+        function createAnimatedScene() {
+            if (!window.THREE) {
+                log('❌ Three.js not loaded. Please load Three.js first.');
+                return;
+            }
+
+            log('Creating animated Three.js scene...');
+            clearCanvas();
+
+            try {
+                const container = document.getElementById('three-canvas');
+                
+                // Scene setup
+                const scene = new THREE.Scene();
+                scene.background = new THREE.Color(0x87ceeb);
+
+                // Camera setup
+                const camera = new THREE.PerspectiveCamera(75, 600/400, 0.1, 1000);
+                camera.position.z = 5;
+
+                // Renderer setup
+                const renderer = new THREE.WebGLRenderer({ antialias: true });
+                renderer.setSize(600, 400);
+                container.appendChild(renderer.domElement);
+                currentRenderer = renderer;
+
+                // Create multiple objects
+                const cubeGeometry = new THREE.BoxGeometry();
+                const cubeMaterial = new THREE.MeshPhongMaterial({ color: 0x0077ff });
+                const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+                cube.position.x = -2;
+                scene.add(cube);
+
+                const sphereGeometry = new THREE.SphereGeometry(0.7, 32, 32);
+                const sphereMaterial = new THREE.MeshPhongMaterial({ color: 0xff7700 });
+                const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+                sphere.position.x = 2;
+                scene.add(sphere);
+
+                // Add lighting
+                const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+                scene.add(ambientLight);
+
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                directionalLight.position.set(5, 5, 5);
+                scene.add(directionalLight);
+
+                // Animation loop
+                function animate() {
+                    animationId = requestAnimationFrame(animate);
+                    
+                    cube.rotation.x += 0.01;
+                    cube.rotation.y += 0.01;
+                    
+                    sphere.rotation.x += 0.02;
+                    sphere.rotation.z += 0.01;
+                    
+                    renderer.render(scene, camera);
+                }
+
+                animate();
+                log('✅ Animated scene created successfully!');
+
+            } catch (error) {
+                log(`❌ Error creating animated scene: ${error.message}`);
+                console.error(error);
+            }
+        }
+
+        // Initialize
+        updateStatus('Ready - Please load Three.js from one of the CDN options above', 'loading');
+        log('Three.js Test Page Ready');
+        log('Please click one of the CDN loading buttons to test Three.js loading');
+    </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+/**
+ * Navigation Component Styles
+ * Shared navigation component for all component pages
+ * Uses design tokens from css/design-tokens.css
+ */
+
+@import url('../../css/design-tokens.css');
+
+/* ============================================
+   BASE NAVIGATION
+   ============================================ */
+.component-nav {
+    position: sticky;
+    top: 0;
+    background-color: var(--neutral-white);
+    border-bottom: 1px solid var(--neutral-100);
+    padding: var(--space-md) var(--space-xl);
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.component-nav__container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+}
+
+.component-nav__home {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    text-decoration: none;
+    color: var(--text-color-primary);
+    font-family: var(--ff-primary);
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-h2);
+    transition: color 0.2s ease;
+}
+
+.component-nav__home:hover {
+    color: var(--brand-raptive-primary-blue);
+}
+
+.component-nav__home-icon {
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+/* ============================================
+   NAVIGATION LINKS
+   ============================================ */
+.component-nav__links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.component-nav__link {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-xs) var(--space-sm);
+    text-decoration: none;
+    color: var(--text-color-secondary);
+    font-family: var(--ff-primary);
+    font-size: var(--fs-body-default);
+    font-weight: var(--fw-regular);
+    border-radius: var(--border-radius-sm);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.component-nav__link:hover {
+    color: var(--text-color-primary);
+    background-color: var(--neutral-50);
+}
+
+.component-nav__link--active {
+    color: var(--brand-raptive-primary-blue);
+    font-weight: var(--fw-bold);
+    background-color: var(--neutral-50);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .component-nav {
+        padding: var(--space-sm) var(--space-md);
+    }
+    
+    .component-nav__container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-sm);
+    }
+    
+    .component-nav__links {
+        width: 100%;
+        justify-content: flex-start;
+        gap: var(--space-xs);
+    }
+    
+    .component-nav__link {
+        font-size: var(--fs-label-md);
+        padding: var(--space-xxs) var(--space-xs);
+    }
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    .component-nav__home,
+    .component-nav__link {
+        transition: none;
+    }
+}
+
+
+

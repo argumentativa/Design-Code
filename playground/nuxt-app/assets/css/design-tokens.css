@@ -1,0 +1,626 @@
+/**
+ * Design Tokens - Localized Design System
+ * All design tokens extracted from Figma: CDS - Variables - Tokens
+ * Source: https://www.figma.com/design/Xv6bifymc8uiAkri28DvZM/CDS---Variables---Tokens?node-id=7-278
+ */
+
+:root {
+    /* ============================================
+       TYPOGRAPHY - Font Families
+       ============================================ */
+    --ff-primary: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --ff-system: 'Roboto Mono', 'Courier New', monospace;
+    
+    /* ============================================
+       TYPOGRAPHY - Font Weights
+       ============================================ */
+    --fw-regular: 400;
+    --fw-medium: 500;
+    --fw-bold: 700;
+    
+    /* ============================================
+       TYPOGRAPHY - Font Sizes
+       ============================================ */
+    --fs-display: 32px;
+    --fs-h1: 24px;
+    --fs-h2: 18px;
+    --fs-body-default: 15px;
+    --fs-label-lg: 14px;
+    --fs-label-md: 12px;
+    --fs-label-sm: 10px;
+    
+    /* ============================================
+       TYPOGRAPHY - Line Heights
+       ============================================ */
+    --lh-xl: 42px;
+    --lh-lg: 28px;
+    --lh-md: 24px;
+    --lh-xs: 16px;
+    
+    /* ============================================
+       TYPOGRAPHY - Letter Spacing
+       ============================================ */
+    --ls-sm: -0.2px;
+    --ls-md: -0.1px;
+    
+    /* ============================================
+       TYPOGRAPHY - System Font Styles
+       ============================================ */
+    /* System Header - Roboto Mono Bold 52px */
+    --system-header-size: 52px;
+    --system-header-weight: 700;
+    --system-header-line-height: 100%;
+    
+    /* System Title - Roboto Mono Bold 32px */
+    --system-title-size: 32px;
+    --system-title-weight: 700;
+    --system-title-line-height: 100%;
+    
+    /* System Subtitle - Roboto Mono Bold 24px */
+    --system-subtitle-size: 24px;
+    --system-subtitle-weight: 700;
+    --system-subtitle-line-height: 36px;
+    
+    /* System Small - Roboto Mono Bold 14px */
+    --system-small-size: 14px;
+    --system-small-weight: 700;
+    --system-small-line-height: 100%;
+    
+    /* System Tiny - Roboto Mono Bold 12px */
+    --system-tiny-size: 12px;
+    --system-tiny-weight: 700;
+    --system-tiny-line-height: 100%;
+    
+    /* ============================================
+       TYPOGRAPHY - Text Styles (Complete Font Definitions)
+       ============================================ */
+    /* Display - Bold 32px/42px */
+    --text-display: var(--ff-primary);
+    --text-display-size: var(--fs-display);
+    --text-display-weight: var(--fw-bold);
+    --text-display-line-height: var(--lh-xl);
+    
+    /* H1 Regular - 24px/28px */
+    --text-h1-regular: var(--ff-primary);
+    --text-h1-regular-size: var(--fs-h1);
+    --text-h1-regular-weight: var(--fw-regular);
+    --text-h1-regular-line-height: var(--lh-lg);
+    
+    /* H1 Bold - 24px/28px */
+    --text-h1-bold: var(--ff-primary);
+    --text-h1-bold-size: var(--fs-h1);
+    --text-h1-bold-weight: var(--fw-bold);
+    --text-h1-bold-line-height: var(--lh-lg);
+    
+    /* H2 Regular - 18px/24px */
+    --text-h2-regular: var(--ff-primary);
+    --text-h2-regular-size: var(--fs-h2);
+    --text-h2-regular-weight: var(--fw-regular);
+    --text-h2-regular-line-height: var(--lh-md);
+    
+    /* H2 Bold - 18px/24px */
+    --text-h2-bold: var(--ff-primary);
+    --text-h2-bold-size: var(--fs-h2);
+    --text-h2-bold-weight: var(--fw-bold);
+    --text-h2-bold-line-height: var(--lh-md);
+    
+    /* Body Default Regular - 15px/24px */
+    --text-body-regular: var(--ff-primary);
+    --text-body-regular-size: var(--fs-body-default);
+    --text-body-regular-weight: var(--fw-regular);
+    --text-body-regular-line-height: var(--lh-md);
+    
+    /* Body Default Bold - 15px/24px */
+    --text-body-bold: var(--ff-primary);
+    --text-body-bold-size: var(--fs-body-default);
+    --text-body-bold-weight: var(--fw-bold);
+    --text-body-bold-line-height: var(--lh-md);
+    
+    /* Label Large - 14px/20px */
+    --text-label-lg: var(--ff-primary);
+    --text-label-lg-size: var(--fs-label-lg);
+    --text-label-lg-weight: var(--fw-regular);
+    --text-label-lg-line-height: 20px;
+    
+    /* Label Large Bold - 14px/20px */
+    --text-label-lg-bold: var(--ff-primary);
+    --text-label-lg-bold-size: var(--fs-label-lg);
+    --text-label-lg-bold-weight: var(--fw-bold);
+    --text-label-lg-bold-line-height: 20px;
+    
+    /* Label Medium - 12px/20px */
+    --text-label-md: var(--ff-primary);
+    --text-label-md-size: var(--fs-label-md);
+    --text-label-md-weight: var(--fw-medium);
+    --text-label-md-line-height: 20px;
+    
+    /* Label Medium Bold - 12px/20px */
+    --text-label-md-bold: var(--ff-primary);
+    --text-label-md-bold-size: var(--fs-label-md);
+    --text-label-md-bold-weight: var(--fw-bold);
+    --text-label-md-bold-line-height: 20px;
+    
+    /* Label Small - 10px/16px */
+    --text-label-sm: var(--ff-primary);
+    --text-label-sm-size: var(--fs-label-sm);
+    --text-label-sm-weight: var(--fw-medium);
+    --text-label-sm-line-height: var(--lh-xs);
+    
+    /* Label Small Bold - 10px/20px */
+    --text-label-sm-bold: var(--ff-primary);
+    --text-label-sm-bold-size: var(--fs-label-sm);
+    --text-label-sm-bold-weight: var(--fw-bold);
+    --text-label-sm-bold-line-height: 20px;
+    
+    /* ============================================
+       COLORS - PRIMITIVE COLORS
+       Base color palette that semantic tokens reference
+       ============================================ */
+    
+    /* Neutral Scale */
+    --neutral-black: #000000;
+    --neutral-1000: #242526;
+    --neutral-900: #444648;
+    --neutral-800: #595b5e;
+    --neutral-700: #6b6e70;
+    --neutral-600: #7d8083;
+    --neutral-500: #8f9295;
+    --neutral-400: #a1a3a6;
+    --neutral-300: #b3b5b7;
+    --neutral-200: #c5c6c8;
+    --neutral-100: #d7d8d9;
+    --neutral-50: #e9e9ea;
+    --neutral-30: #eff0f0;
+    --neutral-20: #f8f8f8;
+    --neutral-10: #fdfdfd;
+    --neutral-white: #ffffff;
+    
+    /* Pink Scale */
+    --pink-50: #fff2f5;
+    --pink-100: #fce7f3;
+    --pink-200: #fbcfe8;
+    --pink-300: #f9a8d4;
+    --pink-400: #f472b6;
+    --pink-500: #ec4899;
+    --pink-600: #db2777;
+    --pink-700: #be185d;
+    --pink-800: #9d174d;
+    --pink-900: #831843;
+    
+    /* Red Scale */
+    --red-50: #feeae7;
+    --red-100: #fdd4ce;
+    --red-200: #fcb6aa;
+    --red-300: #fa9e8d;
+    --red-400: #f8745c;
+    --red-500: #f75942;
+    --red-600: #f53c1b;
+    --red-700: #dc2626;
+    --red-800: #b91c1c;
+    --red-900: #991b1b;
+    
+    /* Orange Scale */
+    --orange-50: #fcdbd4;
+    --orange-100: #f8beb3;
+    --orange-200: #f2a394;
+    --orange-300: #ec8875;
+    --orange-400: #e56e57;
+    --orange-500: #dd543a;
+    --orange-600: #c7462d;
+    --orange-700: #af3922;
+    --orange-800: #962d19;
+    --orange-900: #7b2211;
+    
+    /* Yellow Scale */
+    --yellow-50: #fff9dd;
+    --yellow-100: #ffeea3;
+    --yellow-200: #ffe57a;
+    --yellow-300: #ffdb55;
+    --yellow-400: #ffd031;
+    --yellow-500: #ffc50e;
+    --yellow-600: #dfb104;
+    --yellow-700: #bf9b00;
+    --yellow-800: #9f8400;
+    --yellow-900: #806c00;
+    
+    /* Green Scale */
+    --green-50: #ebffe6;
+    --green-100: #d1f7cc;
+    --green-200: #a7f3a0;
+    --green-300: #4ade80;
+    --green-400: #22c55e;
+    --green-500: #16a34a;
+    --green-600: #15803d;
+    --green-700: #166534;
+    --green-800: #14532d;
+    --green-900: #0f3d1a;
+    
+    /* Blue Scale */
+    --blue-50: #f0f8ff;
+    --blue-100: #dbeafe;
+    --blue-200: #bfdbfe;
+    --blue-300: #93c5fd;
+    --blue-400: #60a5fa;
+    --blue-500: #3b82f6;
+    --blue-600: #2563eb;
+    --blue-700: #1d4ed8;
+    --blue-800: #1e40af;
+    --blue-900: #1e3a8a;
+    
+    /* Purple Scale */
+    --purple-50: #ede9fe;
+    --purple-100: #ddd6fe;
+    --purple-200: #c4b5fd;
+    --purple-300: #a78bfa;
+    --purple-400: #8b5cf6;
+    --purple-500: #7c3aed;
+    --purple-600: #6d28d9;
+    --purple-700: #5b21b6;
+    --purple-800: #5b21b6;
+    --purple-900: #4c1d95;
+    
+    /* ============================================
+       COLORS - BRAND PRIMITIVE COLORS
+       ============================================ */
+    --brand-raptive-primary-blue: #6b65ff;
+    --brand-secondary-orange: #ff7858;
+    --brand-tertiary-yellow-brand-500: #d2ff66;
+    --brand-quarternary-pink: #ecb5d2;
+    --brand-light-gray: #f0edeb;
+    --brand-warm-gray: #e1dad4;
+    --brand-accent-blue: #354786;
+    --brand-accent-green: #00785d;
+    --brand-accent-red: #a23b4c;
+    --brand-accent-gray: #978985;
+    --brand-data-viz-blue: #76ffff;
+    --brand-data-viz-green: #00e945;
+    --brand-data-viz-pink: #d95fff;
+    
+    /* ============================================
+       COLORS - SEMANTIC TOKENS
+       Semantic tokens that reference primitive colors
+       ============================================ */
+    --text-color-primary: var(--neutral-900);
+    --text-color-inverse: var(--neutral-white);
+    --text-color-secondary: var(--neutral-700);
+    --text-color-tertiary: var(--neutral-500);
+    --text-color-disabled: var(--neutral-50);
+    --text-color-placeholder: var(--neutral-300);
+    --text-color-link-raptive-primary: var(--brand-raptive-primary-blue);
+    --text-color-link-community-primary: var(--orange-500);
+    
+    /* Icon Colors */
+    --color-icon-black: var(--neutral-900); /* #242526 */
+    
+    /* ============================================
+       ICON SIZES - Standard Icon Dimensions
+       ============================================ */
+    --icon-size-16: 16px;
+    --icon-size-24: 24px;
+    --icon-size-32: 32px;
+    
+    /* Button Semantic Tokens */
+    --button-outlined-disabled: var(--neutral-50);
+    
+    /* Primary Button Tokens */
+    --primary-background-default: #dd543a;
+    --primary-background-hover: #c84a32;
+    --primary-background-pressed: #b3402a;
+    --primary-background-disabled: var(--neutral-300);
+    --primary-text-default: var(--neutral-white);
+    --primary-text-disabled: var(--neutral-500);
+    
+    /* Brand Button Tokens */
+    --brand-background-default: var(--brand-tertiary-yellow-brand-500);
+    --brand-background-hover: #c4f04d;
+    --brand-background-pressed: #b8e645;
+    --brand-background-disabled: var(--neutral-300);
+    --brand-text-default: var(--green-800);
+    --brand-text-disabled: var(--neutral-500);
+    
+    /* Secondary Button Tokens */
+    --secondary-background-default: var(--neutral-100);
+    --secondary-background-hover: var(--neutral-200);
+    --secondary-background-pressed: var(--neutral-300);
+    --secondary-background-disabled: var(--neutral-50);
+    --secondary-text-default: var(--text-color-primary);
+    --secondary-text-disabled: var(--text-color-disabled);
+    
+    /* Naked Button Tokens */
+    --naked-background-default: rgba(255, 255, 255, 0);
+    --naked-background-hover: var(--neutral-20);
+    --naked-background-pressed: var(--neutral-30);
+    --naked-background-disabled: rgba(255, 255, 255, 0);
+    --naked-text-default: var(--text-color-primary);
+    --naked-text-disabled: var(--text-color-disabled);
+    
+    /* Outline Button Tokens */
+    --outline-background-default: var(--neutral-white);
+    --outline-background-hover: var(--neutral-20);
+    --outline-background-pressed: var(--neutral-30);
+    --outline-background-disabled: var(--neutral-white);
+    --outline-stroke-default: var(--neutral-50);
+    --outline-stroke-default-reactions: var(--neutral-50);
+    --outline-stroke-hover: var(--neutral-300);
+    --outline-stroke-pressed: var(--neutral-400);
+    --outline-stroke-disabled: var(--neutral-50);
+    --outline-text-default: var(--text-color-primary);
+    --outline-text-disabled: var(--text-color-disabled);
+    
+    /* ============================================
+       SPACING SCALE
+       ============================================ */
+    --space-xxxs: 2px;
+    --space-xxs: 4px;
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-s: 16px;
+    --space-md: 24px;
+    --space-lg: 32px;
+    --space-xl: 48px;
+    --space-xxl: 64px;
+    --space-xxxxl: 128px;
+    
+    /* ============================================
+       BORDER RADIUS
+       ============================================ */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 16px;
+    --border-radius-xl: 24px;
+    
+    /* ============================================
+       COMPONENT TOKENS - Button
+       ============================================ */
+    /* Button Sizes */
+    --button-height-small: 32px;
+    --button-height-medium: 44px;
+    --button-height-xsmall: 32px;
+    
+    /* Button Padding - Small */
+    --button-padding-x-small: 12px;
+    --button-padding-y-small: var(--space-xxs); /* 4px */
+    --button-padding-y-small-naked: 7px; /* Special case for naked buttons */
+    
+    /* Button Padding - Medium */
+    --button-padding-x-medium: var(--space-s); /* 16px */
+    --button-padding-y-medium: var(--space-xs); /* 8px */
+    
+    /* Button Padding - Xsmall */
+    --button-padding-x-xsmall: 12px;
+    --button-padding-y-xsmall: 7px;
+    
+    /* Button Icon Sizes */
+    --button-icon-size-small: 24px;
+    --button-icon-size-medium: 24px;
+    --button-icon-size-xsmall: 24px;
+    
+    /* Button Spacing */
+    --button-gap: var(--space-xxs); /* 4px */
+    --button-gap-medium-icon: var(--space-lg); /* 32px for icon-only medium buttons */
+    
+    /* Button Border Radius */
+    --button-border-radius-small: var(--space-s); /* 16px */
+    --button-border-radius-medium: var(--border-radius-xl); /* 24px */
+    --button-border-radius-xsmall: var(--space-s); /* 16px */
+    --button-border-radius-medium-icon: 32px; /* Special case for icon-only medium buttons */
+    
+    /* ============================================
+       COMPONENT TOKENS - Avatar
+       ============================================ */
+    --avatar-size-xxsmall: 16px;
+    --avatar-size-xs: 24px;
+    --avatar-size-small: 32px;
+    --avatar-size-medium: 40px;
+    --avatar-size-large: 48px;
+    --avatar-size-xlarge: 96px;
+    
+    /* Avatar Online Status Indicator */
+    --avatar-online-size-xxsmall: 4.5px;
+    --avatar-online-size-xs: 6.7px;
+    --avatar-online-size-small: 8px;
+    --avatar-online-size-medium: 8px;
+    --avatar-online-size-large: 8px;
+    --avatar-online-size-xlarge: 16px;
+    
+    /* Avatar Online Status Position (bottom/right offset) */
+    --avatar-online-offset-xxsmall-bottom: 0.33px;
+    --avatar-online-offset-xxsmall-right: 0.67px;
+    --avatar-online-offset-xs-bottom: 0.5px;
+    --avatar-online-offset-xs-right: 1px;
+    --avatar-online-offset-small-bottom: 2px;
+    --avatar-online-offset-small-right: 2px;
+    --avatar-online-offset-medium-bottom: 2.5px;
+    --avatar-online-offset-medium-right: 2.5px;
+    --avatar-online-offset-large-bottom: 3px;
+    --avatar-online-offset-large-right: 3px;
+    --avatar-online-offset-xlarge-bottom: 6px;
+    --avatar-online-offset-xlarge-right: 7px;
+    
+    /* Avatar Creator Badge (overlay avatar) */
+    --avatar-creator-badge-size-small: 24px;
+    --avatar-creator-badge-size-large: 48px;
+    --avatar-creator-badge-offset-small: -3.5px;
+    --avatar-creator-badge-offset-large: -7px;
+    
+    /* Avatar Initials Font Size */
+    --avatar-initials-size-xxsmall: 8px;
+    --avatar-initials-size-xs: 8px;
+    --avatar-initials-size-small: 12px;
+    --avatar-initials-size-medium: 14px;
+    --avatar-initials-size-large: 16px;
+    --avatar-initials-size-xlarge: 32px;
+    
+    /* Avatar Border Radius */
+    --avatar-border-radius: 50%;
+    
+    /* ============================================
+       COMPONENT TOKENS - Badge
+       ============================================ */
+    --badge-height-small: 16px;
+    --badge-height-large: 24px;
+    --badge-border-radius-small: 6px;
+    --badge-border-radius-large: 8px;
+    --badge-padding-x-small: 8px;
+    --badge-padding-x-large: 8px;
+    --badge-padding-y-small: 0px;
+    --badge-padding-y-large: 0px;
+    --badge-gap-small: 2px;
+    --badge-gap-large: 4px;
+    
+    /* Badge Icon Sizes */
+    --badge-icon-size-small: 16px;
+    --badge-icon-size-large: 24px;
+    
+    /* Badge Typography - Uses specific typography tokens */
+    /* Small badges use: body/label-sm-bold (10px, bold, 20px line-height) */
+    /* Large badges use: body/label-md-bold (12px, bold, 20px line-height) */
+    /* Both use --ls-md letter spacing (-0.1px) */
+    
+    /* Badge Gradients */
+    /* Superfan Badge Gradient */
+    /* Pink 300: #f9a8d4 = rgb(249, 168, 212) */
+    /* Purple 200: #c4b5fd = rgb(196, 181, 253) */
+    --badge-gradient-superfan: linear-gradient(103.08deg, rgba(249, 168, 212, 0.5) 5.22%, rgba(196, 181, 253, 0.5) 97.23%);
+    
+    /* Contributor Badge Gradient */
+    /* Green 400: #22c55e = rgb(34, 197, 94) */
+    /* Blue 300: #93c5fd = rgb(147, 197, 253) */
+    --badge-gradient-contributor: linear-gradient(103.08deg, rgba(34, 197, 94, 0.5) 5.22%, rgba(147, 197, 253, 0.5) 97.23%);
+    
+    /* Creator/Tastemaker Badge Gradient */
+    /* Orange 300: #ec8875 = rgb(236, 136, 117) */
+    /* Yellow 500: #ffc50e = rgb(255, 197, 14) */
+    --badge-gradient-creator: linear-gradient(103.08deg, rgba(236, 136, 117, 0.5) 5.22%, rgba(255, 197, 14, 0.5) 97.23%);
+}
+
+/**
+ * Typography Utility Classes
+ * Use these classes to apply complete text styles
+ */
+.text-display {
+    font-family: var(--text-display);
+    font-size: var(--text-display-size);
+    font-weight: var(--text-display-weight);
+    line-height: var(--text-display-line-height);
+}
+
+.text-h1-regular {
+    font-family: var(--text-h1-regular);
+    font-size: var(--text-h1-regular-size);
+    font-weight: var(--text-h1-regular-weight);
+    line-height: var(--text-h1-regular-line-height);
+}
+
+.text-h1-bold {
+    font-family: var(--text-h1-bold);
+    font-size: var(--text-h1-bold-size);
+    font-weight: var(--text-h1-bold-weight);
+    line-height: var(--text-h1-bold-line-height);
+}
+
+.text-h2-regular {
+    font-family: var(--text-h2-regular);
+    font-size: var(--text-h2-regular-size);
+    font-weight: var(--text-h2-regular-weight);
+    line-height: var(--text-h2-regular-line-height);
+}
+
+.text-h2-bold {
+    font-family: var(--text-h2-bold);
+    font-size: var(--text-h2-bold-size);
+    font-weight: var(--text-h2-bold-weight);
+    line-height: var(--text-h2-bold-line-height);
+}
+
+.text-body-regular {
+    font-family: var(--text-body-regular);
+    font-size: var(--text-body-regular-size);
+    font-weight: var(--text-body-regular-weight);
+    line-height: var(--text-body-regular-line-height);
+}
+
+.text-body-bold {
+    font-family: var(--text-body-bold);
+    font-size: var(--text-body-bold-size);
+    font-weight: var(--text-body-bold-weight);
+    line-height: var(--text-body-bold-line-height);
+}
+
+.text-label-lg {
+    font-family: var(--text-label-lg);
+    font-size: var(--text-label-lg-size);
+    font-weight: var(--text-label-lg-weight);
+    line-height: var(--text-label-lg-line-height);
+}
+
+.text-label-lg-bold {
+    font-family: var(--text-label-lg-bold);
+    font-size: var(--text-label-lg-bold-size);
+    font-weight: var(--text-label-lg-bold-weight);
+    line-height: var(--text-label-lg-bold-line-height);
+}
+
+.text-label-md {
+    font-family: var(--text-label-md);
+    font-size: var(--text-label-md-size);
+    font-weight: var(--text-label-md-weight);
+    line-height: var(--text-label-md-line-height);
+}
+
+.text-label-md-bold {
+    font-family: var(--text-label-md-bold);
+    font-size: var(--text-label-md-bold-size);
+    font-weight: var(--text-label-md-bold-weight);
+    line-height: var(--text-label-md-bold-line-height);
+}
+
+.text-label-sm {
+    font-family: var(--text-label-sm);
+    font-size: var(--text-label-sm-size);
+    font-weight: var(--text-label-sm-weight);
+    line-height: var(--text-label-sm-line-height);
+}
+
+.text-label-sm-bold {
+    font-family: var(--text-label-sm-bold);
+    font-size: var(--text-label-sm-bold-size);
+    font-weight: var(--text-label-sm-bold-weight);
+    line-height: var(--text-label-sm-bold-line-height);
+}
+
+/* System Font Styles */
+.text-system-header {
+    font-family: var(--ff-system);
+    font-size: var(--system-header-size);
+    font-weight: var(--system-header-weight);
+    line-height: var(--system-header-line-height);
+}
+
+.text-system-title {
+    font-family: var(--ff-system);
+    font-size: var(--system-title-size);
+    font-weight: var(--system-title-weight);
+    line-height: var(--system-title-line-height);
+}
+
+.text-system-subtitle {
+    font-family: var(--ff-system);
+    font-size: var(--system-subtitle-size);
+    font-weight: var(--system-subtitle-weight);
+    line-height: var(--system-subtitle-line-height);
+}
+
+.text-system-small {
+    font-family: var(--ff-system);
+    font-size: var(--system-small-size);
+    font-weight: var(--system-small-weight);
+    line-height: var(--system-small-line-height);
+}
+
+.text-system-tiny {
+    font-family: var(--ff-system);
+    font-size: var(--system-tiny-size);
+    font-weight: var(--system-tiny-weight);
+    line-height: var(--system-tiny-line-height);
+}

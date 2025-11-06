@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Design Patterns</title>
+    <link rel="stylesheet" href="design-system.css">
+    <style>
+        /* Index Page Specific Styles */
+        .app-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: var(--space-6);
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-8);
+            color: white;
+        }
+
+        .header h1 {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-2);
+        }
+
+        .header p {
+            font-size: var(--font-size-lg);
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .patterns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+
+        .pattern-card {
+            background: white;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            transition: all var(--transition-normal);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .pattern-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .pattern-preview {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-100), var(--primary-200));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-3xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pattern-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .pattern-card:hover .pattern-preview::before {
+            transform: translateX(100%);
+        }
+
+        .pattern-content {
+            padding: var(--space-6);
+        }
+
+        .pattern-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-3);
+        }
+
+        .pattern-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-lg);
+            background: var(--primary-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-600);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .pattern-info h3 {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            color: var(--gray-900);
+            margin-bottom: var(--space-1);
+        }
+
+        .pattern-info p {
+            font-size: var(--font-size-sm);
+            color: var(--gray-600);
+        }
+
+        .pattern-description {
+            font-size: var(--font-size-base);
+            color: var(--gray-700);
+            line-height: 1.6;
+            margin-bottom: var(--space-4);
+        }
+
+        .pattern-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .pattern-features li {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: var(--font-size-sm);
+            color: var(--gray-600);
+            margin-bottom: var(--space-2);
+        }
+
+        .pattern-features li::before {
+            content: '✓';
+            color: var(--success-500);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .pattern-actions {
+            display: flex;
+            gap: var(--space-3);
+            margin-top: var(--space-4);
+        }
+
+        .btn-view {
+            flex: 1;
+            background: var(--primary-500);
+            color: white;
+            border: none;
+            border-radius: var(--radius-lg);
+            padding: var(--space-3) var(--space-4);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+        }
+
+        .btn-view:hover {
+            background: var(--primary-600);
+            transform: translateY(-1px);
+        }
+
+        .btn-demo {
+            background: var(--gray-100);
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius-lg);
+            padding: var(--space-3) var(--space-4);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+        }
+
+        .btn-demo:hover {
+            background: var(--gray-200);
+            border-color: var(--gray-400);
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            opacity: 0.8;
+            margin-top: var(--space-8);
+        }
+
+        .footer p {
+            font-size: var(--font-size-sm);
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                padding: var(--space-4);
+            }
+
+            .header h1 {
+                font-size: var(--font-size-2xl);
+            }
+
+            .patterns-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-4);
+            }
+
+            .pattern-content {
+                padding: var(--space-4);
+            }
+
+            .pattern-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Animation for cards */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pattern-card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .pattern-card:nth-child(1) { animation-delay: 0.1s; }
+        .pattern-card:nth-child(2) { animation-delay: 0.2s; }
+        .pattern-card:nth-child(3) { animation-delay: 0.3s; }
+        .pattern-card:nth-child(4) { animation-delay: 0.4s; }
+        .pattern-card:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>🧭 Navigation Design Patterns</h1>
+                <p>Explore 5 modern navigation approaches designed to improve user experience and reduce visual clutter while maintaining efficient access to destinations.</p>
+            </header>
+
+            <!-- Navigation Patterns Grid -->
+            <div class="patterns-grid">
+                <!-- Tab-Based Navigation -->
+                <div class="pattern-card">
+                    <div class="pattern-preview">📱</div>
+                    <div class="pattern-content">
+                        <div class="pattern-header">
+                            <div class="pattern-icon">📱</div>
+                            <div class="pattern-info">
+                                <h3>Tab-Based Navigation</h3>
+                                <p>Category-focused browsing</p>
+                            </div>
+                        </div>
+                        <p class="pattern-description">
+                            Bottom tabs for main content types with focused destination lists. Maintains single-tap access while reducing visual clutter.
+                        </p>
+                        <ul class="pattern-features">
+                            <li>Bottom tabs for main categories</li>
+                            <li>Focused destination lists</li>
+                            <li>Cross-tab activity indicators</li>
+                            <li>Clean, organized interface</li>
+                        </ul>
+                        <div class="pattern-actions">
+                            <a href="01-tab-based-navigation.html" class="btn-view">View Design</a>
+                            <a href="01-tab-based-navigation.html" target="_blank" class="btn-demo">Open Demo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion Navigation -->
+                <div class="pattern-card">
+                    <div class="pattern-preview">📚</div>
+                    <div class="pattern-content">
+                        <div class="pattern-header">
+                            <div class="pattern-icon">📚</div>
+                            <div class="pattern-info">
+                                <h3>Expandable Accordion</h3>
+                                <p>Space-efficient organization</p>
+                            </div>
+                        </div>
+                        <p class="pattern-description">
+                            Categories collapsed by default with summary badges. Tap to expand/collapse destination lists, saving vertical space.
+                        </p>
+                        <ul class="pattern-features">
+                            <li>Collapsible categories</li>
+                            <li>Summary badges</li>
+                            <li>Space-efficient design</li>
+                            <li>Quick-access favorites</li>
+                        </ul>
+                        <div class="pattern-actions">
+                            <a href="02-accordion-navigation.html" class="btn-view">View Design</a>
+                            <a href="02-accordion-navigation.html" target="_blank" class="btn-demo">Open Demo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Horizontal Swipe -->
+                <div class="pattern-card">
+                    <div class="pattern-preview">🔄</div>
+                    <div class="pattern-content">
+                        <div class="pattern-header">
+                            <div class="pattern-icon">🔄</div>
+                            <div class="pattern-info">
+                                <h3>Horizontal Swipe</h3>
+                                <p>Gesture-driven browsing</p>
+                            </div>
+                        </div>
+                        <p class="pattern-description">
+                            Category cards that swipe horizontally with dynamic destination lists. Perfect for platforms with many content categories.
+                        </p>
+                        <ul class="pattern-features">
+                            <li>Horizontal swipe gestures</li>
+                            <li>Dynamic category switching</li>
+                            <li>Touch-friendly interface</li>
+                            <li>Visual category indicators</li>
+                        </ul>
+                        <div class="pattern-actions">
+                            <a href="03-horizontal-swipe-navigation.html" class="btn-view">View Design</a>
+                            <a href="03-horizontal-swipe-navigation.html" target="_blank" class="btn-demo">Open Demo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hybrid Drawer -->
+                <div class="pattern-card">
+                    <div class="pattern-preview">🎯</div>
+                    <div class="pattern-content">
+                        <div class="pattern-header">
+                            <div class="pattern-icon">🎯</div>
+                            <div class="pattern-info">
+                                <h3>Hybrid Drawer</h3>
+                                <p>Quick access + full navigation</p>
+                            </div>
+                        </div>
+                        <p class="pattern-description">
+                            Most-used destinations pinned at top with contextual drawer for full navigation. Balances immediate access with clean interface.
+                        </p>
+                        <ul class="pattern-features">
+                            <li>Pinned quick access</li>
+                            <li>Contextual drawer</li>
+                            <li>Smart recommendations</li>
+                            <li>Clean main interface</li>
+                        </ul>
+                        <div class="pattern-actions">
+                            <a href="04-hybrid-drawer-navigation.html" class="btn-view">View Design</a>
+                            <a href="04-hybrid-drawer-navigation.html" target="_blank" class="btn-demo">Open Demo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search-First -->
+                <div class="pattern-card">
+                    <div class="pattern-preview">🔍</div>
+                    <div class="pattern-content">
+                        <div class="pattern-header">
+                            <div class="pattern-icon">🔍</div>
+                            <div class="pattern-info">
+                                <h3>Search-First</h3>
+                                <p>Find what you need instantly</p>
+                            </div>
+                        </div>
+                        <p class="pattern-description">
+                            Prominent search bar as primary navigation with smart categorization in results. Reduces visual hierarchy dependency.
+                        </p>
+                        <ul class="pattern-features">
+                            <li>Prominent search bar</li>
+                            <li>Smart categorization</li>
+                            <li>Recent/suggested items</li>
+                            <li>Minimal visual hierarchy</li>
+                        </ul>
+                        <div class="pattern-actions">
+                            <a href="05-search-first-navigation.html" class="btn-view">View Design</a>
+                            <a href="05-search-first-navigation.html" target="_blank" class="btn-demo">Open Demo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <p>Each pattern is designed to address specific navigation challenges while maintaining excellent user experience and accessibility.</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // Add hover effects and click animations
+        document.querySelectorAll('.pattern-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Don't trigger if clicking on buttons
+                if (e.target.closest('.btn-view, .btn-demo')) {
+                    return;
+                }
+                
+                // Navigate to the pattern
+                const viewLink = card.querySelector('.btn-view').href;
+                window.location.href = viewLink;
+            });
+
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-6px)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(-4px)';
+            });
+        });
+
+        // Add ripple effect to buttons
+        document.querySelectorAll('.btn-view, .btn-demo').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                
+                // Add ripple effect
+                const ripple = document.createElement('div');
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.left = '50%';
+                ripple.style.top = '50%';
+                ripple.style.width = '20px';
+                ripple.style.height = '20px';
+                ripple.style.marginLeft = '-10px';
+                ripple.style.marginTop = '-10px';
+                
+                btn.style.position = 'relative';
+                btn.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && document.activeElement.classList.contains('pattern-card')) {
+                const viewLink = document.activeElement.querySelector('.btn-view').href;
+                window.location.href = viewLink;
+            }
+        });
+
+        // Add focus styles for accessibility
+        document.querySelectorAll('.pattern-card').forEach(card => {
+            card.setAttribute('tabindex', '0');
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+

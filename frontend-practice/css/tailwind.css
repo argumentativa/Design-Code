@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+/* Import design tokens for CSS custom properties */
+@import url('./design-tokens.css');
+

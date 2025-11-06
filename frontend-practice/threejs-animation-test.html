@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js Animation Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #f8f9fa;
+        }
+        .test-container {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        .canvas-container {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 1rem 0;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        button:hover { background: #0056b3; }
+        button.success { background: #28a745; }
+        button.danger { background: #dc3545; }
+        .logs {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #e9ecef;
+            white-space: pre-wrap;
+        }
+        .status {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        .status.warning { background: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <h1>🎬 Three.js Animation Test</h1>
+    
+    <div class="test-container">
+        <h3>Animation Status</h3>
+        <div id="status" class="status warning">Ready to test animations...</div>
+    </div>
+
+    <div class="test-container">
+        <h3>Test Controls</h3>
+        <button onclick="testStaticCube()">📦 Static Cube Test</button>
+        <button onclick="testSimpleRotation()">🔄 Simple Rotation Test</button>
+        <button onclick="testComplexAnimation()">✨ Complex Animation Test</button>
+        <button onclick="testThunderboltAnimation()">⚡ Thunderbolt Animation Test</button>
+        <button onclick="stopAllAnimations()" class="danger">⏹️ Stop All</button>
+        <button onclick="clearCanvas()">🗑️ Clear Canvas</button>
+    </div>
+
+    <div class="test-container">
+        <h3>Animation Canvas</h3>
+        <div id="canvas-container" class="canvas-container">
+            <p>Click a test button above to see animations</p>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h3>Debug Logs</h3>
+        <div id="logs" class="logs">Ready...\n</div>
+        <button onclick="clearLogs()">Clear Logs</button>
+    </div>
+
+    <script>
+        let scene, camera, renderer, animationId;
+        let testObjects = [];
+        let isAnimating = false;
+
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logElement = document.getElementById('logs');
+            logElement.textContent += `[${timestamp}] ${message}\n`;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(`[Animation Test] ${message}`);
+        }
+
+        function updateStatus(message, type = 'warning') {
+            const statusElement = document.getElementById('status');
+            statusElement.textContent = message;
+            statusElement.className = `status ${type}`;
+            log(`STATUS: ${message}`);
+        }
+
+        function clearLogs() {
+            document.getElementById('logs').textContent = 'Logs cleared...\n';
+        }
+
+        function clearCanvas() {
+            const container = document.getElementById('canvas-container');
+            container.innerHTML = '<p>Canvas cleared</p>';
+            
+            stopAllAnimations();
+            
+            if (renderer) {
+                renderer.dispose();
+                renderer = null;
+            }
+            
+            scene = null;
+            camera = null;
+            testObjects = [];
+            
+            log('Canvas and objects cleared');
+        }
+
+        function stopAllAnimations() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+                isAnimating = false;
+                log('Animation stopped');
+                updateStatus('Animation stopped', 'warning');
+            }
+        }
+
+        function initScene() {
+            log('Initializing Three.js scene...');
+            
+            try {
+                // Clear existing
+                clearCanvas();
+                
+                const container = document.getElementById('canvas-container');
+                container.innerHTML = '';
+                
+                // Scene
+                scene = new THREE.Scene();
+                scene.background = new THREE.Color(0x87ceeb);
+                log('Scene created');
+                
+                // Camera
+                camera = new THREE.PerspectiveCamera(75, 600/400, 0.1, 1000);
+                camera.position.z = 5;
+                log('Camera created');
+                
+                // Renderer
+                renderer = new THREE.WebGLRenderer({ antialias: true });
+                renderer.setSize(600, 400);
+                renderer.shadowMap.enabled = true;
+                renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+                container.appendChild(renderer.domElement);
+                log('Renderer created and added to DOM');
+                
+                // Lighting
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+                scene.add(ambientLight);
+                
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                directionalLight.position.set(5, 5, 5);
+                directionalLight.castShadow = true;
+                scene.add(directionalLight);
+                log('Lighting added');
+                
+                return true;
+            } catch (error) {
+                log(`Error initializing scene: ${error.message}`);
+                updateStatus(`Initialization failed: ${error.message}`, 'error');
+                return false;
+            }
+        }
+
+        function testStaticCube() {
+            updateStatus('Testing static cube...', 'warning');
+            
+            if (!initScene()) return;
+            
+            try {
+                // Create cube
+                const geometry = new THREE.BoxGeometry();
+                const material = new THREE.MeshPhongMaterial({ color: 0x0077ff });
+                const cube = new THREE.Mesh(geometry, material);
+                cube.castShadow = true;
+                scene.add(cube);
+                
+                testObjects = [cube];
+                
+                // Single render (no animation)
+                renderer.render(scene, camera);
+                
+                log('Static cube rendered');
+                updateStatus('✅ Static cube test successful', 'success');
+                
+            } catch (error) {
+                log(`Static cube test failed: ${error.message}`);
+                updateStatus(`Static cube failed: ${error.message}`, 'error');
+            }
+        }
+
+        function testSimpleRotation() {
+            updateStatus('Testing simple rotation animation...', 'warning');
+            
+            if (!initScene()) return;
+            
+            try {
+                // Create cube
+                const geometry = new THREE.BoxGeometry();
+                const material = new THREE.MeshPhongMaterial({ color: 0xff4444 });
+                const cube = new THREE.Mesh(geometry, material);
+                cube.castShadow = true;
+                scene.add(cube);
+                
+                testObjects = [cube];
+                
+                log('Cube created, starting animation...');
+                
+                // Animation loop
+                function animate() {
+                    if (!isAnimating) return;
+                    
+                    animationId = requestAnimationFrame(animate);
+                    
+                    // Rotate cube
+                    cube.rotation.x += 0.01;
+                    cube.rotation.y += 0.01;
+                    
+                    // Render
+                    renderer.render(scene, camera);
+                }
+                
+                isAnimating = true;
+                animate();
+                
+                log('Simple rotation animation started');
+                updateStatus('✅ Simple rotation animation running', 'success');
+                
+            } catch (error) {
+                log(`Simple rotation test failed: ${error.message}`);
+                updateStatus(`Simple rotation failed: ${error.message}`, 'error');
+            }
+        }
+
+        function testComplexAnimation() {
+            updateStatus('Testing complex animation...', 'warning');
+            
+            if (!initScene()) return;
+            
+            try {
+                // Create multiple objects
+                const cubeGeometry = new THREE.BoxGeometry();
+                const cubeMaterial = new THREE.MeshPhongMaterial({ color: 0x0077ff });
+                const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+                cube.position.x = -2;
+                cube.castShadow = true;
+                scene.add(cube);
+                
+                const sphereGeometry = new THREE.SphereGeometry(0.7, 32, 32);
+                const sphereMaterial = new THREE.MeshPhongMaterial({ color: 0xff7700 });
+                const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+                sphere.position.x = 2;
+                sphere.castShadow = true;
+                scene.add(sphere);
+                
+                const torusGeometry = new THREE.TorusGeometry(0.8, 0.3, 16, 100);
+                const torusMaterial = new THREE.MeshPhongMaterial({ color: 0x77ff77 });
+                const torus = new THREE.Mesh(torusGeometry, torusMaterial);
+                torus.position.y = 2;
+                torus.castShadow = true;
+                scene.add(torus);
+                
+                testObjects = [cube, sphere, torus];
+                
+                log('Multiple objects created, starting complex animation...');
+                
+                // Animation loop
+                function animate() {
+                    if (!isAnimating) return;
+                    
+                    animationId = requestAnimationFrame(animate);
+                    
+                    const time = Date.now() * 0.001;
+                    
+                    // Rotate cube
+                    cube.rotation.x += 0.01;
+                    cube.rotation.y += 0.01;
+                    
+                    // Bounce sphere
+                    sphere.rotation.x += 0.02;
+                    sphere.position.y = Math.sin(time * 2) * 0.5;
+                    
+                    // Spin torus
+                    torus.rotation.x += 0.005;
+                    torus.rotation.y += 0.01;
+                    torus.position.x = Math.cos(time) * 1.5;
+                    
+                    // Render
+                    renderer.render(scene, camera);
+                }
+                
+                isAnimating = true;
+                animate();
+                
+                log('Complex animation started');
+                updateStatus('✅ Complex animation running', 'success');
+                
+            } catch (error) {
+                log(`Complex animation test failed: ${error.message}`);
+                updateStatus(`Complex animation failed: ${error.message}`, 'error');
+            }
+        }
+
+        function testThunderboltAnimation() {
+            updateStatus('Testing thunderbolt animation...', 'warning');
+            
+            if (!initScene()) return;
+            
+            try {
+                // Create thunderbolt shape (simplified version)
+                const thunderboltShape = new THREE.Shape();
+                thunderboltShape.moveTo(0, 2);
+                thunderboltShape.lineTo(-0.3, 0.5);
+                thunderboltShape.lineTo(0.1, 0.5);
+                thunderboltShape.lineTo(-0.2, 0);
+                thunderboltShape.lineTo(0.4, 0);
+                thunderboltShape.lineTo(0, -2);
+                thunderboltShape.lineTo(0.3, -0.5);
+                thunderboltShape.lineTo(-0.1, -0.5);
+                thunderboltShape.lineTo(0.2, 0);
+                thunderboltShape.lineTo(-0.4, 0);
+                thunderboltShape.lineTo(0, 2);
+                
+                log('Thunderbolt shape created');
+                
+                const extrudeSettings = {
+                    depth: 0.2,
+                    bevelEnabled: true,
+                    bevelSegments: 4,
+                    steps: 1,
+                    bevelSize: 0.05,
+                    bevelThickness: 0.05
+                };
+                
+                const geometry = new THREE.ExtrudeGeometry(thunderboltShape, extrudeSettings);
+                const material = new THREE.MeshPhongMaterial({ 
+                    color: 0xffe66d,
+                    shininess: 100,
+                    emissive: new THREE.Color(0x111122)
+                });
+                
+                const thunderbolt = new THREE.Mesh(geometry, material);
+                thunderbolt.castShadow = true;
+                scene.add(thunderbolt);
+                
+                // Add some stars (particles)
+                const starsGeometry = new THREE.BufferGeometry();
+                const starsCount = 100;
+                const positions = new Float32Array(starsCount * 3);
+                
+                for (let i = 0; i < starsCount * 3; i++) {
+                    positions[i] = (Math.random() - 0.5) * 20;
+                }
+                
+                starsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                const starsMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.1 });
+                const stars = new THREE.Points(starsGeometry, starsMaterial);
+                scene.add(stars);
+                
+                testObjects = [thunderbolt, stars];
+                
+                log('Thunderbolt and stars created, starting animation...');
+                
+                // Animation loop
+                function animate() {
+                    if (!isAnimating) return;
+                    
+                    animationId = requestAnimationFrame(animate);
+                    
+                    const time = Date.now() * 0.001;
+                    
+                    // Rotate thunderbolt
+                    thunderbolt.rotation.x += 0.004;
+                    thunderbolt.rotation.y += 0.006;
+                    thunderbolt.rotation.z += 0.003;
+                    
+                    // Float thunderbolt
+                    thunderbolt.position.y = Math.sin(time * 1.2) * 0.15;
+                    thunderbolt.position.x = Math.cos(time * 0.8) * 0.08;
+                    thunderbolt.scale.setScalar(1 + Math.sin(time * 1.5) * 0.03);
+                    
+                    // Twinkle stars
+                    stars.rotation.y += 0.001;
+                    stars.rotation.x += 0.0005;
+                    
+                    // Render
+                    renderer.render(scene, camera);
+                }
+                
+                isAnimating = true;
+                animate();
+                
+                log('Thunderbolt animation started');
+                updateStatus('✅ Thunderbolt animation running', 'success');
+                
+            } catch (error) {
+                log(`Thunderbolt animation test failed: ${error.message}`);
+                updateStatus(`Thunderbolt animation failed: ${error.message}`, 'error');
+                console.error('Thunderbolt error:', error);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof THREE === 'undefined') {
+                updateStatus('Three.js not loaded', 'error');
+                log('THREE.js is not available');
+            } else {
+                updateStatus(`Three.js r${THREE.REVISION} ready for testing`, 'success');
+                log(`Three.js r${THREE.REVISION} is loaded and ready`);
+            }
+        });
+    </script>
+
+    <!-- Load Three.js -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js" 
+            onload="console.log('Three.js loaded from jsDelivr')" 
+            onerror="console.log('Failed to load Three.js from jsDelivr')"></script>
+</body>
+</html>

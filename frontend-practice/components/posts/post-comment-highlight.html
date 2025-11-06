@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Comment Highlight - Component</title>
+    
+    <!-- Design Tokens -->
+    <link rel="stylesheet" href="../../css/design-tokens.css">
+    
+    <!-- Navigation Component Styles -->
+    <link rel="stylesheet" href="../navigation/navigation.css">
+    
+    <!-- Component Styles -->
+    <link rel="stylesheet" href="post-comment-highlight.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="component-nav">
+        <div class="component-nav__container">
+            <a href="../index.html" class="component-nav__home">
+                <svg class="component-nav__home-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Component Library
+            </a>
+            <div class="component-nav__links">
+                <a href="../index.html" class="component-nav__link">Index</a>
+                <a href="../avatar/avatar.html" class="component-nav__link">Avatar</a>
+                <a href="../badge/badge.html" class="component-nav__link">Badge</a>
+                <a href="../button/button.html" class="component-nav__link">Button</a>
+                <a href="post-comment-highlight.html" class="component-nav__link component-nav__link--active">Post</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div style="max-width: 1400px; margin: 0 auto; padding: var(--space-xl);">
+    <!-- Post Comment Highlight Component -->
+    <!-- organisms/post/comment-highlight/text -->
+    <div class="post-comment-highlight" data-name="organisms/post/comment-highlight/text" data-node-id="7467:26678">
+        
+        <!-- Comment Post -->
+        <div class="comment-post" data-name="organisms/comment/post" data-node-id="7467:29898">
+            
+            <!-- Rows: Avatar + Comment Content -->
+            <div class="comment-row">
+                <!-- Avatar + Connector -->
+                <div class="avatar-connector">
+                    <div class="avatar-wrapper avatar-small">
+                        <img src="http://localhost:3845/assets/53ae4ac20766a46971fce0660f537cdb7265afd0.png" alt="User avatar" class="avatar" width="32" height="32">
+                        <div class="online-indicator">
+                            <img src="../../assets/icons/16/status/circle.svg" alt="Online" width="10" height="10">
+                        </div>
+                    </div>
+                    <div class="line-connector">
+                        <svg width="1" height="88" viewBox="0 0 1 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <line x1="0.5" y1="0" x2="0.5" y2="88" stroke="#e9e9ea" stroke-width="1"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- Author Info + Content -->
+                <div class="author-content">
+                    <!-- Author Header -->
+                    <div class="author-header">
+                        <div class="author-name-user">
+                            <span class="author-name">Gina Homolka</span>
+                            <span class="author-meta">@Gina-Skinnytaste • now</span>
+                        </div>
+                        
+                        <!-- Badges -->
+                        <div class="badges">
+                            <div class="badge badge-role">
+                                <img src="../../assets/icons/16/awards/shield-heart.svg" alt="Community Leader" width="16" height="16" class="badge-icon">
+                                <span class="badge-text">Community Leader</span>
+                            </div>
+                            <div class="badge badge-streak">
+                                <img src="../../assets/icons/16/awards/face-grin-hearts.svg" alt="Superfan" width="16" height="16" class="badge-icon">
+                                <span class="badge-text">Superfan</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Post Content -->
+                    <div class="post-content">
+                        <p class="post-text">This will taste as good as the wine, so bad wine may effect the flavor. That being said I am not sure!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Bar -->
+            <div class="action-bar-connector">
+                <div class="connector-line">
+                    <svg width="56" height="1" viewBox="0 0 56 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="0.5" x2="56" y2="0.5" stroke="#e9e9ea" stroke-width="1"/>
+                    </svg>
+                </div>
+                
+                <div class="action-bar">
+                    <!-- Reactions Count -->
+                    <div class="reactions-count">
+                        <div class="reactions-stack">
+                            <div class="reaction-icon reaction-heart">
+                                <img src="../../assets/icons/24/reactions/heart.svg" alt="Like" width="16" height="16">
+                            </div>
+                        </div>
+                        <span class="reaction-count">2</span>
+                    </div>
+                    
+                    <!-- Actions Right -->
+                    <div class="actions-right">
+                        <button class="button-icon-naked" aria-label="Add reaction">
+                            <img src="../../assets/icons/24/reactions/add-reaction.svg" alt="Add reaction" width="24" height="24">
+                        </button>
+                        <button class="button-small-naked">Reply</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mini Composer -->
+            <div class="mini-composer-wrapper">
+                <div class="mini-composer">
+                    <div class="composer-avatar">
+                        <img src="http://localhost:3845/assets/fe1dd4d99cd3ceb1a4871bf735fdfde1a67d6251.png" alt="User avatar" class="avatar" width="24" height="24">
+                    </div>
+                    <div class="composer-input">
+                        <div class="input-text">
+                            <p class="placeholder-text">Leave a comment...</p>
+                        </div>
+                        <div class="input-trailing-icons">
+                            <img src="http://localhost:3845/assets/513e769a014ed2d8850af6574fc12bec86846462.svg" alt="Image" width="16" height="16" class="input-icon">
+                            <div class="input-icon input-icon-arrow">
+                                <img src="../../assets/icons/24/UI/arrow-right.svg" alt="Send" width="16" height="16">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Author Row -->
+        <div class="author-row-section">
+            <div class="author-row" data-name="molecules/rows/author" data-node-id="7467:14331">
+                <div class="avatar-wrapper avatar-medium">
+                    <img src="http://localhost:3845/assets/1b374f56cf8bdfad9e010e5c3c6b29f84a7856e1.png" alt="Jemma Jones" class="avatar" width="40" height="40">
+                </div>
+                <div class="author-info">
+                    <div class="author-name-user">
+                        <span class="author-name">Jemma Jones</span>
+                    </div>
+                    <div class="badges">
+                        <div class="badge badge-streak">
+                            <img src="../../assets/icons/16/awards/face-grin-hearts.svg" alt="Superfan" width="16" height="16" class="badge-icon">
+                            <span class="badge-text">Superfan</span>
+                        </div>
+                        <div class="badge badge-streak">
+                            <img src="../../assets/icons/16/awards/crown.svg" alt="Tastemaker" width="16" height="16" class="badge-icon">
+                            <span class="badge-text">Tastemaker</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Post Content Section -->
+        <div class="post-content-section">
+            <p class="post-title">If you're looking to curry flavor with your family</p>
+            <p class="post-body">Look no further! Two great and super simple recipes from the OG book will curry your tastebuds to a far off land! (Chickpea and Potato Curry, pg. 260 and Turmeric-Roasted...</p>
+        </div>
+        
+        <!-- Post Action Bar -->
+        <div class="post-actionbar">
+            <!-- Reactions -->
+            <div class="reactions-bar">
+                <div class="reactions-count">
+                    <div class="reactions-stack">
+                        <div class="reaction-icon reaction-helpful">
+                            <img src="../../assets/icons/24/reactions/helpful-color.svg" alt="Helpful" width="16" height="16">
+                        </div>
+                        <div class="reaction-icon reaction-insightful">
+                            <img src="../../assets/icons/24/reactions/insightful-color.svg" alt="Insightful" width="16" height="16">
+                        </div>
+                        <div class="reaction-icon reaction-uplifting">
+                            <img src="../../assets/icons/24/reactions/uplifting-color.svg" alt="Uplifting" width="16" height="16">
+                        </div>
+                    </div>
+                    <span class="reaction-count">31</span>
+                </div>
+                
+                <div class="actions-right">
+                    <button class="button-outline-small">
+                        <img src="../../assets/icons/24/messaging/message.svg" alt="Comments" width="16" height="16">
+                        <span>12</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Reaction Buttons -->
+            <div class="reaction-buttons">
+                <div class="reaction-button-container">
+                    <button class="reaction-button">
+                        <img src="../../assets/icons/24/reactions/helpful-outline.svg" alt="Helpful" width="24" height="24">
+                    </button>
+                    <span class="reaction-label">Helpful</span>
+                </div>
+                <div class="reaction-button-container">
+                    <button class="reaction-button">
+                        <img src="../../assets/icons/24/reactions/insightful-outline.svg" alt="Insightful" width="24" height="24">
+                    </button>
+                    <span class="reaction-label">Insightful</span>
+                </div>
+                <div class="reaction-button-container">
+                    <button class="reaction-button">
+                        <img src="../../assets/icons/24/reactions/uplifting-outline.svg" alt="Uplifting" width="24" height="24">
+                    </button>
+                    <span class="reaction-label">Uplifting</span>
+                </div>
+                <div class="reaction-button-container">
+                    <button class="reaction-button">
+                        <img src="../../assets/icons/24/reactions/face-laugh-beam-outline.svg" alt="Haha" width="24" height="24">
+                    </button>
+                    <span class="reaction-label">Haha</span>
+                </div>
+                <div class="reaction-button-container">
+                    <button class="reaction-button">
+                        <img src="../../assets/icons/24/reactions/heart-outline.svg" alt="Like" width="24" height="24">
+                    </button>
+                    <span class="reaction-label">Like</span>
+                </div>
+            </div>
+            
+            <!-- Mini Composer -->
+            <div class="mini-composer-wrapper">
+                <div class="mini-composer">
+                    <div class="composer-avatar">
+                        <img src="http://localhost:3845/assets/1b374f56cf8bdfad9e010e5c3c6b29f84a7856e1.png" alt="User avatar" class="avatar" width="40" height="40">
+                    </div>
+                    <div class="composer-input">
+                        <div class="input-text">
+                            <p class="placeholder-text">Leave a comment...</p>
+                        </div>
+                        <div class="input-trailing-icons">
+                            <img src="http://localhost:3845/assets/513e769a014ed2d8850af6574fc12bec86846462.svg" alt="Image" width="16" height="16" class="input-icon">
+                            <div class="input-icon input-icon-arrow">
+                                <img src="../../assets/icons/24/UI/arrow-right.svg" alt="Send" width="16" height="16">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
+

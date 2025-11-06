@@ -1,0 +1,476 @@
+/**
+ * Button Component Styles
+ * Comprehensive button system with all variants, sizes, and states
+ * Uses design tokens from css/design-tokens.css
+ */
+
+@import url('../../css/design-tokens.css');
+
+/* ============================================
+   BASE BUTTON
+   ============================================ */
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* ============================================
+   BUTTON SIZES
+   ============================================ */
+.button--small {
+    height: var(--button-height-small);
+    padding: var(--button-padding-y-small) var(--button-padding-x-small);
+    border-radius: var(--button-border-radius-small);
+    gap: var(--button-gap);
+}
+
+.button--medium {
+    height: var(--button-height-medium);
+    padding: var(--button-padding-y-medium) var(--button-padding-x-medium);
+    border-radius: var(--button-border-radius-medium);
+    gap: var(--button-gap);
+}
+
+.button--xsmall {
+    height: var(--button-height-xsmall);
+    padding: var(--button-padding-y-xsmall) var(--button-padding-x-xsmall);
+    border-radius: var(--button-border-radius-xsmall);
+    gap: var(--button-gap);
+}
+
+/* ============================================
+   BUTTON TEXT
+   Typography tokens per size
+   ============================================ */
+.button__text {
+    font-family: var(--ff-primary);
+    font-weight: var(--fw-bold);
+    text-align: center;
+    white-space: pre;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+/* Small button uses label-lg-bold */
+.button--small .button__text {
+    font-size: var(--fs-label-lg);
+    line-height: var(--lh-sm);
+    letter-spacing: var(--ls-sm);
+}
+
+/* Medium button uses body-bold */
+.button--medium .button__text {
+    font-size: var(--fs-body-default);
+    line-height: var(--lh-md);
+    letter-spacing: var(--ls-sm);
+}
+
+/* Xsmall button uses label-sm-bold */
+.button--xsmall .button__text {
+    font-size: var(--fs-label-sm);
+    line-height: var(--lh-sm);
+    letter-spacing: var(--ls-md);
+}
+
+/* ============================================
+   BUTTON ICON
+   ============================================ */
+.button__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+.button--small .button__icon,
+.button--xsmall .button__icon {
+    width: var(--button-icon-size-small);
+    height: var(--button-icon-size-small);
+    padding: 4px 4px 6px;
+}
+
+.button--medium .button__icon {
+    width: var(--button-icon-size-medium);
+    height: var(--button-icon-size-medium);
+    padding: 4px 4px 6px;
+}
+
+/* Icon images use semantic button icon size tokens and colors */
+.button--small .button__icon img,
+.button--xsmall .button__icon img {
+    width: var(--button-icon-size-small);
+    height: var(--button-icon-size-small);
+    object-fit: contain;
+    display: block;
+}
+
+.button--medium .button__icon img {
+    width: var(--button-icon-size-medium);
+    height: var(--button-icon-size-medium);
+    object-fit: contain;
+    display: block;
+}
+
+/* ============================================
+   ICON COLORS - Semantic Button Tokens
+   Using CSS mask technique to apply colors to <img> tags
+   ============================================ */
+
+/* When using inline SVG, icons inherit color from fill: currentColor */
+.button__icon svg {
+    fill: currentColor;
+    width: 100%;
+    height: 100%;
+}
+
+/* Icon color control - using CSS filters to change icon colors */
+/* Base: icons are black by default, filters will convert them to desired colors */
+.button__icon {
+    position: relative;
+}
+
+/* Icon-only buttons */
+.button--icon-only {
+    padding: 0;
+}
+
+.button--small.button--icon-only,
+.button--xsmall.button--icon-only {
+    width: var(--button-height-small);
+    height: var(--button-height-small);
+}
+
+.button--medium.button--icon-only {
+    width: var(--button-height-medium);
+    height: var(--button-height-medium);
+    border-radius: var(--button-border-radius-medium-icon);
+    gap: var(--button-gap-medium-icon);
+    padding: 9px 12px;
+}
+
+/* ============================================
+   BUTTON VARIANTS - PRIMARY
+   ============================================ */
+.button--primary {
+    background-color: var(--primary-background-default);
+    color: var(--primary-text-default);
+}
+
+.button--primary .button__text {
+    color: var(--primary-text-default);
+}
+
+/* Primary Button Icon Colors - Using CSS filter to convert dark icons to white */
+.button--primary .button__icon {
+    color: var(--primary-icon-default);
+}
+
+.button--primary .button__icon img {
+    /* Convert dark icon (#242526 or black) to white using filter */
+    /* brightness(0) makes it pure black, then invert(1) makes it white */
+    filter: brightness(0) invert(1) !important;
+}
+
+.button--primary:hover .button__icon {
+    color: var(--primary-icon-hover);
+}
+
+.button--primary:active .button__icon,
+.button--primary.button--pressed .button__icon {
+    color: var(--primary-icon-pressed);
+}
+
+.button--primary:disabled .button__icon,
+.button--primary.button--disabled .button__icon {
+    color: var(--primary-icon-disabled);
+}
+
+.button--primary:disabled .button__icon img,
+.button--primary.button--disabled .button__icon img {
+    filter: brightness(0) invert(0.5); /* Gray for disabled */
+}
+
+.button--primary:hover {
+    background-color: var(--primary-background-hover);
+}
+
+.button--primary:active,
+.button--primary.button--pressed {
+    background-color: var(--primary-background-pressed);
+}
+
+.button--primary:disabled,
+.button--primary.button--disabled {
+    background-color: var(--primary-background-disabled);
+    color: var(--primary-text-disabled);
+    cursor: not-allowed;
+}
+
+.button--primary:disabled .button__text,
+.button--primary.button--disabled .button__text {
+    color: var(--primary-text-disabled);
+}
+
+/* ============================================
+   BUTTON VARIANTS - BRAND
+   ============================================ */
+.button--brand {
+    background-color: var(--brand-background-default);
+    color: var(--brand-text-default);
+}
+
+.button--brand .button__text {
+    color: var(--brand-text-default);
+}
+
+/* Brand Button Icon Colors */
+.button--brand .button__icon {
+    color: var(--brand-icon-default);
+}
+
+.button--brand:hover .button__icon {
+    color: var(--brand-icon-hover);
+}
+
+.button--brand:active .button__icon,
+.button--brand.button--pressed .button__icon {
+    color: var(--brand-icon-pressed);
+}
+
+.button--brand:disabled .button__icon,
+.button--brand.button--disabled .button__icon {
+    color: var(--brand-icon-disabled);
+}
+
+.button--brand:hover {
+    background-color: var(--brand-background-hover);
+}
+
+.button--brand:active,
+.button--brand.button--pressed {
+    background-color: var(--brand-background-pressed);
+}
+
+.button--brand:disabled,
+.button--brand.button--disabled {
+    background-color: var(--brand-background-disabled);
+    color: var(--brand-text-disabled);
+    cursor: not-allowed;
+}
+
+.button--brand:disabled .button__text,
+.button--brand.button--disabled .button__text {
+    color: var(--brand-text-disabled);
+}
+
+/* ============================================
+   BUTTON VARIANTS - SECONDARY
+   ============================================ */
+.button--secondary {
+    background-color: var(--secondary-background-default);
+    color: var(--secondary-text-default);
+}
+
+.button--secondary .button__text {
+    color: var(--secondary-text-default);
+}
+
+/* Secondary Button Icon Colors */
+.button--secondary .button__icon {
+    color: var(--secondary-icon-default);
+}
+
+.button--secondary:hover .button__icon {
+    color: var(--secondary-icon-hover);
+}
+
+.button--secondary:active .button__icon,
+.button--secondary.button--pressed .button__icon {
+    color: var(--secondary-icon-pressed);
+}
+
+.button--secondary:disabled .button__icon,
+.button--secondary.button--disabled .button__icon {
+    color: var(--secondary-icon-disabled);
+}
+
+.button--secondary:hover {
+    background-color: var(--secondary-background-hover);
+}
+
+.button--secondary:active,
+.button--secondary.button--pressed {
+    background-color: var(--secondary-background-pressed);
+}
+
+.button--secondary:disabled,
+.button--secondary.button--disabled {
+    background-color: var(--secondary-background-disabled);
+    color: var(--secondary-text-disabled);
+    cursor: not-allowed;
+}
+
+.button--secondary:disabled .button__text,
+.button--secondary.button--disabled .button__text {
+    color: var(--secondary-text-disabled);
+}
+
+/* ============================================
+   BUTTON VARIANTS - NAKED
+   ============================================ */
+.button--naked {
+    background-color: var(--naked-background-default);
+    color: var(--naked-text-default);
+}
+
+.button--naked .button__text {
+    color: var(--naked-text-default);
+}
+
+/* Naked Button Icon Colors */
+.button--naked .button__icon {
+    color: var(--naked-icon-default);
+}
+
+.button--naked:hover .button__icon {
+    color: var(--naked-icon-hover);
+}
+
+.button--naked:active .button__icon,
+.button--naked.button--pressed .button__icon {
+    color: var(--naked-icon-pressed);
+}
+
+.button--naked:disabled .button__icon,
+.button--naked.button--disabled .button__icon {
+    color: var(--naked-icon-disabled);
+}
+
+/* Special padding for naked small buttons */
+.button--naked.button--small {
+    padding: var(--button-padding-y-small-naked) var(--button-padding-x-small);
+}
+
+.button--naked:hover {
+    background-color: var(--naked-background-hover);
+}
+
+.button--naked:active,
+.button--naked.button--pressed {
+    background-color: var(--naked-background-pressed);
+}
+
+.button--naked:disabled,
+.button--naked.button--disabled {
+    background-color: var(--naked-background-disabled);
+    color: var(--naked-text-disabled);
+    cursor: not-allowed;
+}
+
+.button--naked:disabled .button__text,
+.button--naked.button--disabled .button__text {
+    color: var(--naked-text-disabled);
+}
+
+/* ============================================
+   BUTTON VARIANTS - OUTLINE
+   ============================================ */
+.button--outline {
+    background-color: var(--outline-background-default);
+    border: 1px solid var(--outline-stroke-default);
+    color: var(--outline-text-default);
+}
+
+.button--outline .button__text {
+    color: var(--outline-text-default);
+}
+
+/* Outline Button Icon Colors */
+.button--outline .button__icon {
+    color: var(--outline-icon-default);
+}
+
+.button--outline:hover .button__icon {
+    color: var(--outline-icon-hover);
+}
+
+.button--outline:active .button__icon,
+.button--outline.button--pressed .button__icon {
+    color: var(--outline-icon-pressed);
+}
+
+.button--outline:disabled .button__icon,
+.button--outline.button--disabled .button__icon {
+    color: var(--outline-icon-disabled);
+}
+
+.button--outline:hover {
+    background-color: var(--outline-background-hover);
+    border-color: var(--outline-stroke-hover);
+}
+
+.button--outline:active,
+.button--outline.button--pressed {
+    background-color: var(--outline-background-pressed);
+    border-color: var(--outline-stroke-pressed);
+}
+
+.button--outline:disabled,
+.button--outline.button--disabled {
+    background-color: var(--outline-background-disabled);
+    border-color: var(--outline-stroke-disabled);
+    color: var(--outline-text-disabled);
+    cursor: not-allowed;
+}
+
+.button--outline:disabled .button__text,
+.button--outline.button--disabled .button__text {
+    color: var(--outline-text-disabled);
+}
+
+/* ============================================
+   BUTTON CONFIGURATIONS
+   Leading, Trailing, Icon-only
+   ============================================ */
+.button--leading {
+    flex-direction: row;
+}
+
+.button--trailing {
+    flex-direction: row-reverse;
+}
+
+/* ============================================
+   FOCUS STATES
+   ============================================ */
+.button:focus-visible {
+    outline: 2px solid var(--brand-raptive-primary-blue);
+    outline-offset: 2px;
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+.button[aria-disabled="true"] {
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    .button {
+        transition: none;
+    }
+}

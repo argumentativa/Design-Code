@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badge Components</title>
+    
+    <!-- Design Tokens -->
+    <link rel="stylesheet" href="../../css/design-tokens.css">
+    
+    <!-- Navigation Component Styles -->
+    <link rel="stylesheet" href="../navigation/navigation.css">
+    
+    <!-- Badge Component Styles -->
+    <link rel="stylesheet" href="badge.css">
+    
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            background: var(--neutral-20);
+            font-family: var(--ff-primary);
+        }
+        
+        .demo-section {
+            background: var(--neutral-white);
+            padding: var(--space-lg);
+            border-radius: var(--border-radius-md);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .demo-section h2 {
+            font-family: var(--ff-primary);
+            font-weight: var(--fw-bold);
+            font-size: var(--fs-h2);
+            margin-bottom: var(--space-md);
+            color: var(--text-color-primary);
+        }
+        
+        .demo-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+            align-items: center;
+        }
+        
+        .demo-item {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+        }
+        
+        .demo-label {
+            font-family: var(--ff-primary);
+            font-size: var(--fs-label-md);
+            color: var(--text-color-secondary);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="component-nav">
+        <div class="component-nav__container">
+            <a href="../index.html" class="component-nav__home">
+                <svg class="component-nav__home-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Component Library
+            </a>
+            <div class="component-nav__links">
+                <a href="../index.html" class="component-nav__link">Index</a>
+                <a href="../avatar/avatar.html" class="component-nav__link">Avatar</a>
+                <a href="badge.html" class="component-nav__link component-nav__link--active">Badge</a>
+                <a href="../button/button.html" class="component-nav__link">Button</a>
+                <a href="../posts/post-comment-highlight.html" class="component-nav__link">Post</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div style="max-width: 1400px; margin: 0 auto; padding: var(--space-xl);">
+        <h1>Badge Components</h1>
+    
+    <!-- Superfan Badges -->
+    <div class="demo-section">
+        <h2>Superfan Badges (with Gradient)</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <div class="badge badge--small badge--superfan" data-name="streak=superfan-small">
+                    <img src="../../assets/icons/16/awards/face-grin-hearts.svg" alt="Superfan" class="badge__icon">
+                    <span class="badge__text">Superfan</span>
+                </div>
+                <span class="demo-label">Small (16px)</span>
+            </div>
+            
+            <div class="demo-item">
+                <div class="badge badge--large badge--superfan" data-name="streak=superfan-large">
+                    <img src="../../assets/icons/24/awards/face-grin-hearts.svg" alt="Superfan" class="badge__icon">
+                    <span class="badge__text">Superfan</span>
+                </div>
+                <span class="demo-label">Large (24px)</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contributor Badges -->
+    <div class="demo-section">
+        <h2>Contributor Badges (with Gradient)</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <div class="badge badge--small badge--contributor" data-name="streak=contributor-small">
+                    <img src="../../assets/icons/16/awards/hand-holding-heart.svg" alt="Contributor" class="badge__icon">
+                    <span class="badge__text">Contributor</span>
+                </div>
+                <span class="demo-label">Small (16px)</span>
+            </div>
+            
+            <div class="demo-item">
+                <div class="badge badge--large badge--contributor" data-name="streak=contributor-large">
+                    <img src="../../assets/icons/24/awards/hand-holding-heart.svg" alt="Contributor" class="badge__icon">
+                    <span class="badge__text">Contributor</span>
+                </div>
+                <span class="demo-label">Large (24px)</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Creator/Tastemaker Badges -->
+    <div class="demo-section">
+        <h2>Creator/Tastemaker Badges (with Gradient)</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <div class="badge badge--small badge--creator" data-name="streak=creator-small">
+                    <img src="../../assets/icons/16/awards/crown.svg" alt="Tastemaker" class="badge__icon">
+                    <span class="badge__text">Tastemaker</span>
+                </div>
+                <span class="demo-label">Small (16px)</span>
+            </div>
+            
+            <div class="demo-item">
+                <div class="badge badge--large badge--creator" data-name="streak=creator-large">
+                    <img src="../../assets/icons/24/awards/crown.svg" alt="Tastemaker" class="badge__icon">
+                    <span class="badge__text">Tastemaker</span>
+                </div>
+                <span class="demo-label">Large (24px)</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Author Badges (Role) -->
+    <div class="demo-section">
+        <h2>Author Badges (Role - No Icon)</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <div class="badge badge--small badge--author" data-name="type=author-small">
+                    <div class="badge__text-wrapper">
+                        <p class="badge__text">Author</p>
+                    </div>
+                </div>
+                <span class="demo-label">Small (16px)</span>
+            </div>
+            
+            <div class="demo-item">
+                <div class="badge badge--large badge--author" data-name="type=author-large">
+                    <p class="badge__text">Author</p>
+                </div>
+                <span class="demo-label">Large (24px)</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Leader Badges (Role) -->
+    <div class="demo-section">
+        <h2>Community Leader Badges (Role)</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <div class="badge badge--small badge--leader" data-name="type=leader-small">
+                    <div class="badge__icon-container">
+                        <img src="../../assets/icons/16/awards/shield-heart.svg" alt="Leader" class="badge__icon">
+                    </div>
+                    <div class="badge__text-wrapper">
+                        <p class="badge__text">Community Leader</p>
+                    </div>
+                </div>
+                <span class="demo-label">Small (16px)</span>
+            </div>
+            
+            <div class="demo-item">
+                <div class="badge badge--large badge--leader" data-name="type=leader-large">
+                    <div class="badge__icon-container">
+                        <img src="../../assets/icons/24/awards/shield-heart.svg" alt="Leader" class="badge__icon">
+                    </div>
+                    <div class="badge__text-wrapper">
+                        <p class="badge__text">Community Leader</p>
+                    </div>
+                </div>
+                <span class="demo-label">Large (24px)</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Creator Badges (Role) -->
+    <div class="demo-section">
+        <h2>Creator Badges (Role)</h2>
+        <div class="demo-grid">
+            <div class="demo-item">
+                <div class="badge badge--small badge--role-creator" data-name="type=creator-small">
+                    <div class="badge__icon-container">
+                        <img src="../../assets/icons/16/awards/crown.svg" alt="Creator" class="badge__icon" width="16" height="16">
+                    </div>
+                    <div class="badge__text-wrapper">
+                        <p class="badge__text">Creator</p>
+                    </div>
+                </div>
+                <span class="demo-label">Small (16px)</span>
+            </div>
+            
+            <div class="demo-item">
+                <div class="badge badge--large badge--role-creator" data-name="type=creator-large">
+                    <div class="badge__icon-container">
+                        <img src="../../assets/icons/24/awards/crown.svg" alt="Creator" class="badge__icon" width="24" height="24">
+                    </div>
+                    <p class="badge__text">Creator</p>
+                </div>
+                <span class="demo-label">Large (24px)</span>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
+

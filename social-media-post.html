@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Post</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            /* Colors */
+            --color-background-white: #ffffff;
+            --color-grey-white: #ffffff;
+            --neutral-white: #ffffff;
+            --neutral-30: #eff0f0;
+            --text-color-primary: #242526;
+            --text-color-secondary: #6b6e70;
+            --naked-text-default: #242526;
+            --outline-background-default: #ffffff;
+            --outline-background-hover: #e9e9ea;
+            --outline-text-default: #242526;
+            --outline-icon-default: #242526;
+            --outline-stroke-default-reactions: #e9e9ea;
+            --color-icon-black: #242526;
+            --color-icon-placeholder: #b3b5b7;
+            
+            /* Reaction Colors */
+            --green-100: #d1f7cc;
+            --yellow-100: #ffeea3;
+            --uplifting-bg: #fff6e7;
+            
+            /* Spacing */
+            --space-xxxs: 2px;
+            --space-xxs: 4px;
+            --space-xs: 8px;
+            --space-s: 16px;
+            --space-m: 24px;
+            
+            /* Typography */
+            --ff-primary: 'DM Sans', sans-serif;
+            --fw-regular: 400;
+            --fw-bold: 700;
+            --fs-body-default: 15px;
+            --fs-label-md: 12px;
+            --fs-label-sm: 10px;
+            --lh-md: 24px;
+            --lh-sm: 20px;
+            
+            /* Sizes */
+            --size-avatar-m: 40px;
+        }
+        
+        body {
+            font-family: var(--ff-primary);
+            background-color: #f5f5f5;
+        }
+        
+        .post-container {
+            background: var(--color-background-white);
+            max-width: 100%;
+        }
+        
+        .reaction-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 100px;
+            border: 2px solid var(--color-grey-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-xxxs);
+        }
+        
+        .reaction-helpful {
+            background: var(--green-100);
+        }
+        
+        .reaction-insightful {
+            background: var(--yellow-100);
+        }
+        
+        .reaction-uplifting {
+            background: var(--uplifting-bg);
+        }
+        
+        .reaction-button {
+            transition: all 0.2s ease;
+        }
+        
+        .reaction-button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .reaction-button.active {
+            background: var(--outline-background-hover);
+            border-color: var(--outline-stroke-default-reactions);
+        }
+        
+        .comment-input {
+            background: var(--neutral-30);
+        }
+        
+        .comment-input:focus {
+            outline: none;
+            background: var(--color-background-white);
+            border: 1px solid var(--outline-stroke-default-reactions);
+        }
+    </style>
+</head>
+<body class="p-4 bg-gray-100">
+    <div class="post-container mx-auto max-w-md shadow-sm">
+        <!-- Author Section -->
+        <div class="flex gap-2 items-center h-14 px-4 py-2">
+            <div class="relative shrink-0 w-10 h-10">
+                <img 
+                    class="absolute inset-0 w-full h-full rounded-full object-cover" 
+                    src="http://localhost:3845/assets/1b374f56cf8bdfad9e010e5c3c6b29f84a7856e1.png" 
+                    alt="Shari Patterson"
+                    width="40"
+                    height="40"
+                />
+            </div>
+            <div class="flex-1 flex flex-col items-start justify-center">
+                <div class="flex gap-1 items-center w-full">
+                    <p class="font-bold text-[15px] leading-6 text-[var(--text-color-primary)] tracking-[-0.2px]">
+                        Shari Patterson
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Media Section -->
+        <div class="flex gap-1 items-center overflow-hidden w-full">
+            <div class="flex-1 flex flex-col gap-1 h-[343px] items-start">
+                <div class="flex-1 min-h-0 min-w-0 w-full">
+                    <img 
+                        class="absolute inset-0 object-cover object-[50%_50%] pointer-events-none w-full h-full" 
+                        src="http://localhost:3845/assets/0621bb9c831ec3c48916aff6c6fa79a086035fb5.png" 
+                        alt="Post media"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <!-- Post Content -->
+        <div class="flex flex-col gap-2 items-start justify-center pt-2 pb-0 px-4 leading-6 text-[var(--text-color-primary)] text-[15px] tracking-[-0.2px]">
+            <p class="font-bold min-w-full shrink-0 w-min">
+                If you're looking to curry flavor with your family
+            </p>
+            <p class="font-normal min-w-full shrink-0 w-min">
+                Look no further! Two great and super simple recipes from the OG book will curry your tastebuds to a far off land! (Chickpea and Potato Curry, pg. 260 and Turmeric-Roasted Cauliflower, pg. 270). I served this with homemade naan instead of rice. What I love about these recipes is that they use pantry and fridge staples and come together quickly. Oh… and they taste amazing!
+            </p>
+        </div>
+
+        <!-- Action Bar -->
+        <div class="flex flex-col items-start justify-center px-0 py-1">
+            <!-- Reactions Count and Comment Count -->
+            <div class="flex gap-1 items-center justify-end px-4 py-0 w-full">
+                <div class="flex-1 flex gap-1 items-center">
+                    <div class="flex items-center pl-0 pr-[2px] py-0">
+                        <div class="reaction-icon reaction-helpful mr-[-2px]">
+                            <div class="flex flex-col gap-[6.667px] items-center justify-center overflow-hidden px-[2.667px] py-1 w-4 h-4">
+                                <img class="w-full h-full" src="http://localhost:3845/assets/6334e5d8d0fa4c6b1ab9d01dbf2e8d3a63dcac7d.svg" alt="Helpful" />
+                            </div>
+                        </div>
+                        <div class="reaction-icon reaction-insightful mr-[-2px]">
+                            <div class="flex flex-col gap-[6.667px] items-center justify-center overflow-hidden px-[2.667px] py-1 w-4 h-4">
+                                <img class="w-full h-full" src="http://localhost:3845/assets/e756981165b389b6e3a6c59e1103d2e327898311.svg" alt="Insightful" />
+                            </div>
+                        </div>
+                        <div class="reaction-icon reaction-uplifting mr-[-2px]">
+                            <div class="flex flex-col gap-[6.667px] items-center justify-center overflow-hidden px-[2.667px] py-1 w-4 h-4">
+                                <img class="w-full h-full" src="http://localhost:3845/assets/91d132fbcd3ee696911bac5c36155089653a4142.svg" alt="Uplifting" />
+                            </div>
+                        </div>
+                    </div>
+                    <p class="font-bold leading-5 shrink-0 text-[var(--naked-text-default)] text-[12px] whitespace-nowrap tracking-[-0.1px]" id="reactionCount">
+                        31
+                    </p>
+                </div>
+                <div class="flex items-center justify-end shrink-0">
+                    <div class="flex gap-1 items-center justify-center pl-3 pr-0 py-0 rounded-2xl">
+                        <div class="flex flex-col gap-[10px] items-center justify-center overflow-hidden px-1 py-1.5 w-6 h-6">
+                            <div class="relative w-4 h-4">
+                                <img class="block max-w-none w-full h-full" src="http://localhost:3845/assets/ca55ecec03def832b520232101a633e1cbd9a48f.svg" alt="Comment" />
+                            </div>
+                        </div>
+                        <p class="font-bold leading-5 shrink-0 text-[var(--outline-text-default)] text-[12px] text-center whitespace-nowrap tracking-[-0.1px]" id="commentCount">
+                            12
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reaction Buttons -->
+            <div class="flex gap-2 items-center px-4 py-2 w-full">
+                <!-- Helpful -->
+                <div class="flex-1 flex flex-col gap-[3px] items-start justify-center">
+                    <button 
+                        class="reaction-button bg-[var(--outline-background-default)] border border-[var(--outline-background-hover)] flex gap-[2px] items-center justify-center px-2 py-1 rounded-full w-full" 
+                        data-reaction="helpful"
+                        onclick="toggleReaction('helpful')"
+                    >
+                        <div class="flex flex-col gap-[10px] items-center justify-center overflow-hidden px-1 py-1.5 w-6 h-6">
+                            <img class="w-6 h-6" src="http://localhost:3845/assets/e55d86c18fd58793d9e04511445122b09c50ca14.svg" alt="Helpful" />
+                        </div>
+                    </button>
+                    <div class="flex flex-col justify-end leading-0 shrink-0 text-[var(--text-color-secondary)] text-[10px] text-center tracking-[-0.1px] w-full">
+                        <p class="leading-5">Helpful</p>
+                    </div>
+                </div>
+
+                <!-- Insightful -->
+                <div class="flex-1 flex flex-col gap-[3px] items-start justify-center">
+                    <button 
+                        class="reaction-button bg-[var(--outline-background-default)] border border-[var(--outline-background-hover)] flex gap-[2px] h-8 items-center justify-center px-2 py-1 rounded-full w-full" 
+                        data-reaction="insightful"
+                        onclick="toggleReaction('insightful')"
+                    >
+                        <div class="flex flex-col gap-[10px] items-center justify-center overflow-hidden px-1 py-1.5 w-6 h-6">
+                            <img class="w-6 h-6" src="http://localhost:3845/assets/5c36186b6a7f3fa417d91101efe214ca5e8125d3.svg" alt="Insightful" />
+                        </div>
+                    </button>
+                    <div class="flex flex-col justify-end leading-0 shrink-0 text-[var(--text-color-secondary)] text-[10px] text-center tracking-[-0.1px] w-full">
+                        <p class="leading-5">Insightful</p>
+                    </div>
+                </div>
+
+                <!-- Uplifting -->
+                <div class="flex-1 flex flex-col gap-[3px] items-start justify-center">
+                    <button 
+                        class="reaction-button bg-[var(--outline-background-default)] border border-[var(--outline-background-hover)] flex gap-[2px] h-8 items-center justify-center px-2 py-1 rounded-full w-full" 
+                        data-reaction="uplifting"
+                        onclick="toggleReaction('uplifting')"
+                    >
+                        <div class="flex flex-col gap-[10px] items-center justify-center overflow-hidden px-1 py-1.5 w-6 h-6">
+                            <img class="w-6 h-6" src="http://localhost:3845/assets/b3a065472b0897a7f0d3f87151d6c7dcd6981f78.svg" alt="Uplifting" />
+                        </div>
+                    </button>
+                    <div class="flex flex-col justify-end leading-0 shrink-0 text-[var(--text-color-secondary)] text-[10px] text-center tracking-[-0.1px] w-full">
+                        <p class="leading-5">Uplifting</p>
+                    </div>
+                </div>
+
+                <!-- Haha -->
+                <div class="flex-1 flex flex-col gap-[3px] items-start justify-center">
+                    <button 
+                        class="reaction-button bg-[var(--outline-background-default)] border border-[var(--outline-background-hover)] flex gap-[2px] h-8 items-center justify-center px-2 py-1 rounded-full w-full" 
+                        data-reaction="haha"
+                        onclick="toggleReaction('haha')"
+                    >
+                        <div class="flex flex-col gap-[10px] items-center justify-center overflow-hidden px-1 py-1.5 w-6 h-6">
+                            <img class="w-4 h-4" src="http://localhost:3845/assets/a85d0293a3e44c424c5c09d91fcd01cb5ace919c.svg" alt="Haha" />
+                        </div>
+                    </button>
+                    <div class="flex flex-col justify-end leading-0 shrink-0 text-[var(--text-color-secondary)] text-[10px] text-center tracking-[-0.1px] w-full">
+                        <p class="leading-5">Haha</p>
+                    </div>
+                </div>
+
+                <!-- Like -->
+                <div class="flex-1 flex flex-col gap-[3px] items-start justify-center">
+                    <button 
+                        class="reaction-button bg-[var(--outline-background-default)] border border-[var(--outline-background-hover)] flex gap-[2px] h-8 items-center justify-center px-2 py-1 rounded-full w-full" 
+                        data-reaction="like"
+                        onclick="toggleReaction('like')"
+                    >
+                        <div class="flex flex-col gap-[10px] items-center justify-center overflow-hidden px-1 py-1.5 w-6 h-6">
+                            <img class="w-4 h-4" src="http://localhost:3845/assets/57732ef2500b4d6d166c6ade54bd25a991c0bbae.svg" alt="Like" />
+                        </div>
+                    </button>
+                    <div class="flex flex-col justify-end leading-0 shrink-0 text-[var(--text-color-secondary)] text-[10px] text-center tracking-[-0.1px] w-full">
+                        <p class="leading-5">Like</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comment Composer -->
+            <div class="flex gap-2 items-center justify-center px-4 py-2 w-full">
+                <div class="flex-1 flex flex-col gap-2 items-start justify-center">
+                    <div class="flex gap-2 items-start w-full">
+                        <div class="relative shrink-0 w-10 h-10">
+                            <img 
+                                class="block max-w-none w-full h-full rounded-full" 
+                                src="http://localhost:3845/assets/1b374f56cf8bdfad9e010e5c3c6b29f84a7856e1.png" 
+                                alt="User avatar"
+                                width="40"
+                                height="40"
+                            />
+                        </div>
+                        <div class="comment-input flex gap-1 items-start pl-4 pr-1 py-1 rounded-3xl flex-1 w-[295px]">
+                            <div class="flex-1 flex flex-col gap-[10px] items-start px-0 py-1">
+                                <div class="flex gap-[10px] items-start w-full">
+                                    <input 
+                                        type="text" 
+                                        placeholder="Leave a comment..."
+                                        class="flex-1 font-normal leading-6 text-[var(--text-color-secondary)] text-[15px] tracking-[-0.2px] bg-transparent border-none outline-none"
+                                        id="commentInput"
+                                        onkeypress="handleCommentKeyPress(event)"
+                                    />
+                                </div>
+                            </div>
+                            <div class="flex gap-[10px] items-end justify-end pb-1 pl-0 pr-1 pt-0 self-stretch shrink-0">
+                                <div class="flex flex-col gap-[10px] items-center justify-center overflow-hidden px-1 py-1.5 w-6 h-6">
+                                    <img class="w-4 h-4" src="http://localhost:3845/assets/513e769a014ed2d8850af6574fc12bec86846462.svg" alt="Image" />
+                                </div>
+                                <button 
+                                    class="bg-[var(--color-icon-placeholder)] flex flex-col gap-[10px] items-center justify-center overflow-hidden px-1 py-1.5 rounded-full w-6 h-6"
+                                    onclick="submitComment()"
+                                >
+                                    <div class="h-4 w-3.5">
+                                        <img class="block max-w-none w-full h-full" src="http://localhost:3845/assets/469b4efd61d673a8108c19d5aa20df8deb580dcd.svg" alt="Send" />
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let reactions = {
+            helpful: false,
+            insightful: false,
+            uplifting: false,
+            haha: false,
+            like: false
+        };
+        
+        let reactionCount = 31;
+        let commentCount = 12;
+        let comments = [];
+
+        function toggleReaction(type) {
+            const button = document.querySelector(`[data-reaction="${type}"]`);
+            reactions[type] = !reactions[type];
+            
+            if (reactions[type]) {
+                button.classList.add('active');
+                reactionCount++;
+            } else {
+                button.classList.remove('active');
+                reactionCount--;
+            }
+            
+            updateReactionCount();
+        }
+
+        function updateReactionCount() {
+            document.getElementById('reactionCount').textContent = reactionCount;
+        }
+
+        function handleCommentKeyPress(event) {
+            if (event.key === 'Enter' && event.target.value.trim()) {
+                submitComment();
+            }
+        }
+
+        function submitComment() {
+            const input = document.getElementById('commentInput');
+            const comment = input.value.trim();
+            
+            if (comment) {
+                comments.push(comment);
+                commentCount++;
+                document.getElementById('commentCount').textContent = commentCount;
+                input.value = '';
+                
+                // Visual feedback
+                const button = event.target.closest('button');
+                if (button) {
+                    button.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        button.style.transform = '';
+                    }, 150);
+                }
+            }
+        }
+
+        // Add click animations
+        document.querySelectorAll('.reaction-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // Add hover effects
+        document.querySelectorAll('.reaction-button').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('active')) {
+                    this.style.backgroundColor = 'var(--outline-background-hover)';
+                }
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('active')) {
+                    this.style.backgroundColor = 'var(--outline-background-default)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+

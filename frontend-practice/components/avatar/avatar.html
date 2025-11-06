@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avatar Components - Figma Design</title>
+    
+    <!-- Google Fonts - DM Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="../../css/tailwind-final.css">
+    
+    <!-- Avatar Component Styles -->
+    <link rel="stylesheet" href="avatar-tailwind.css">
+</head>
+<body class="p-0 m-0 bg-neutral-20 font-primary">
+    <!-- Navigation -->
+    <nav class="sticky top-0 bg-neutral-white border-b border-neutral-100 px-xl py-md z-[1000] shadow-[0_2px_4px_rgba(0,0,0,0.05)]">
+        <div class="max-w-[1400px] mx-auto flex items-center justify-between gap-lg flex-wrap md:flex-nowrap">
+            <a href="../index.html" class="flex items-center gap-xs no-underline text-neutral-900 font-primary font-bold text-h2 transition-colors duration-200 hover:text-brand-raptive-primary-blue">
+                <svg class="w-6 h-6 block" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Component Library
+            </a>
+            <div class="flex items-center gap-md flex-wrap">
+                <a href="../index.html" class="inline-flex items-center px-sm py-xs no-underline text-neutral-700 font-primary text-body font-regular rounded-sm transition-all duration-200 whitespace-nowrap hover:text-neutral-900 hover:bg-neutral-50">Index</a>
+                <a href="avatar.html" class="inline-flex items-center px-sm py-xs no-underline text-neutral-700 font-primary text-body font-bold rounded-sm transition-all duration-200 whitespace-nowrap bg-neutral-50 text-brand-raptive-primary-blue">Avatar</a>
+                <a href="../badge/badge.html" class="inline-flex items-center px-sm py-xs no-underline text-neutral-700 font-primary text-body font-regular rounded-sm transition-all duration-200 whitespace-nowrap hover:text-neutral-900 hover:bg-neutral-50">Badge</a>
+                <a href="../button/button.html" class="inline-flex items-center px-sm py-xs no-underline text-neutral-700 font-primary text-body font-regular rounded-sm transition-all duration-200 whitespace-nowrap hover:text-neutral-900 hover:bg-neutral-50">Button</a>
+                <a href="../posts/post-comment-highlight.html" class="inline-flex items-center px-sm py-xs no-underline text-neutral-700 font-primary text-body font-regular rounded-sm transition-all duration-200 whitespace-nowrap hover:text-neutral-900 hover:bg-neutral-50">Post</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="max-w-[1400px] mx-auto px-xl py-xl">
+        <h1 class="font-primary font-bold text-display text-neutral-900 mb-lg">Avatar Components - Figma Design</h1>
+    
+    <!-- XXsmall Avatar -->
+    <div class="bg-neutral-white p-lg rounded-md mb-lg">
+        <h2 class="font-primary font-bold text-h2 text-neutral-900 mb-md">XXsmall Avatar (16px)</h2>
+        <div class="flex flex-wrap gap-md items-center">
+            <div class="flex flex-col gap-xs items-center">
+                <div class="avatar avatar--xxsmall">
+                    <img src="http://localhost:3845/assets/d1695c0a42275a574268a90c72ef399a54f300d5.png" alt="" class="avatar__image">
+                    <div class="avatar__online">
+                        <div>
+                            <img src="http://localhost:3845/assets/7ab1874196bcca0eb8d2960e4296f253db9615b4.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <span class="font-primary text-label-md text-neutral-700 text-center">XXsmall + Online</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Xsmall Avatar -->
+    <div class="bg-neutral-white p-lg rounded-md mb-lg">
+        <h2 class="font-primary font-bold text-h2 text-neutral-900 mb-md">Xsmall Avatar (24px)</h2>
+        <div class="flex flex-wrap gap-md items-center">
+            <div class="flex flex-col gap-xs items-center">
+                <div class="avatar avatar--xs">
+                    <img src="http://localhost:3845/assets/1dc693d44f1f701c9c0d8fee6c2011ab35a68b2e.png" alt="" class="avatar__image">
+                    <div class="avatar__online">
+                        <div>
+                            <img src="http://localhost:3845/assets/63d2dad3b13c2cb72321e574ca827a1495afd0de.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <span class="font-primary text-label-md text-neutral-700 text-center">Xsmall + Online</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Small Avatar -->
+    <div class="bg-neutral-white p-lg rounded-md mb-lg">
+        <h2 class="font-primary font-bold text-h2 text-neutral-900 mb-md">Small Avatar (32px)</h2>
+        <div class="flex flex-wrap gap-md items-center">
+            <div class="flex flex-col gap-xs items-center">
+                <div class="avatar avatar--small">
+                    <div class="avatar__image-wrapper">
+                        <img src="http://localhost:3845/assets/7f82790353d16495f0b4f8a54b290f82d5ceb52f.png" alt="" class="avatar__image">
+                    </div>
+                </div>
+                <span class="font-primary text-label-md text-neutral-700 text-center">Small Creator</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Medium Avatars -->
+    <div class="bg-neutral-white p-lg rounded-md mb-lg">
+        <h2 class="font-primary font-bold text-h2 text-neutral-900 mb-md">Medium Avatars (40px)</h2>
+        <div class="flex flex-wrap gap-md items-center">
+            <!-- Image -->
+            <div class="flex flex-col gap-xs items-center">
+                <div class="avatar avatar--medium">
+                    <img src="http://localhost:3845/assets/1b374f56cf8bdfad9e010e5c3c6b29f84a7856e1.png" alt="" class="avatar__image">
+                </div>
+                <span class="font-primary text-label-md text-neutral-700 text-center">Medium Image</span>
+            </div>
+            
+            <!-- Image with Online -->
+            <div class="flex flex-col gap-xs items-center">
+                <div class="avatar avatar--medium">
+                    <img src="http://localhost:3845/assets/1b374f56cf8bdfad9e010e5c3c6b29f84a7856e1.png" alt="" class="avatar__image">
+                    <div class="avatar__online">
+                        <div>
+                            <img src="http://localhost:3845/assets/a3d8bbd5f84a55360f2ccd9afaf4c737c5fab697.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <span class="font-primary text-label-md text-neutral-700 text-center">Medium + Online</span>
+            </div>
+            
+            <!-- Image with Creator -->
+            <div class="flex flex-col gap-xs items-center">
+                <div class="avatar avatar--medium">
+                    <img src="http://localhost:3845/assets/1b374f56cf8bdfad9e010e5c3c6b29f84a7856e1.png" alt="" class="avatar__image">
+                    <div class="avatar__creator-badge">
+                        <img src="http://localhost:3845/assets/fe1dd4d99cd3ceb1a4871bf735fdfde1a67d6251.png" alt="">
+                    </div>
+                </div>
+                <span class="font-primary text-label-md text-neutral-700 text-center">Medium + Creator</span>
+            </div>
+            
+            <!-- Icon -->
+            <div class="flex flex-col gap-xs items-center">
+                <div class="avatar avatar--medium">
+                    <div class="avatar__icon">
+                        <img src="http://localhost:3845/assets/2a4fa3505dc4b8f215be033282f3a6192a083f2b.svg" alt="">
+                    </div>
+                </div>
+                <span class="font-primary text-label-md text-neutral-700 text-center">Medium Icon</span>
+            </div>
+            
+            <!-- Icon with Creator -->
+            <div class="flex flex-col gap-xs items-center">
+                <div class="avatar avatar--medium">
+                    <div class="avatar__icon">
+                        <img src="http://localhost:3845/assets/2a4fa3505dc4b8f215be033282f3a6192a083f2b.svg" alt="">
+                    </div>
+                    <div class="avatar__creator-badge">
+                        <img src="http://localhost:3845/assets/fe1dd4d99cd3ceb1a4871bf735fdfde1a67d6251.png" alt="">
+                    </div>
+                </div>
+                <span class="font-primary text-label-md text-neutral-700 text-center">Medium Icon + Creator</span>
+            </div>
+            
+            <!-- Icon with Online -->
+            <div class="flex flex-col gap-xs items-center">
+                <div class="avatar avatar--medium">
+                    <div class="avatar__icon">
+                        <img src="http://localhost:3845/assets/2a4fa3505dc4b8f215be033282f3a6192a083f2b.svg" alt="">
+                    </div>
+                    <div class="avatar__online">
+                        <div>
+                            <img src="http://localhost:3845/assets/a3d8bbd5f84a55360f2ccd9afaf4c737c5fab697.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <span class="font-primary text-label-md text-neutral-700 text-center">Medium Icon + Online</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Large Avatars -->
+    <div class="bg-neutral-white p-lg rounded-md mb-lg">
+        <h2 class="font-primary font-bold text-h2 text-neutral-900 mb-md">Large Avatars (48px)</h2>
+        <div class="flex flex-wrap gap-md items-center">
+            <!-- Image with Online -->
+            <div class="flex flex-col gap-xs items-center">
+                <div class="avatar avatar--large">
+                    <img src="http://localhost:3845/assets/874f86703d7903f54928e714bda9fe5c21fc4691.png" alt="" class="avatar__image">
+                    <div class="avatar__online">
+                        <div>
+                            <img src="http://localhost:3845/assets/bf6d3a972f9af090a5994d8b25453a585adc9353.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <span class="font-primary text-label-md text-neutral-700 text-center">Large Image + Online</span>
+            </div>
+            
+            <!-- Initials with Online -->
+            <div class="flex flex-col gap-xs items-center">
+                <div class="avatar avatar--large">
+                    <div class="avatar__initials-fill">
+                        <img src="http://localhost:3845/assets/b7cc7bb06dddafc5ca3573b086ba172ce77cf03a.svg" alt="">
+                    </div>
+                    <div class="avatar__initials">
+                        <p>A</p>
+                    </div>
+                    <div class="avatar__online">
+                        <div>
+                            <img src="http://localhost:3845/assets/ca1fa3725cf6eadaf733cc72f4a923fc59434e41.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <span class="font-primary text-label-md text-neutral-700 text-center">Large Initials + Online</span>
+            </div>
+            
+            <!-- Initials with Online + Creator -->
+            <div class="flex flex-col gap-xs items-center">
+                <div class="avatar avatar--large">
+                    <div class="avatar__initials-fill">
+                        <img src="http://localhost:3845/assets/b7cc7bb06dddafc5ca3573b086ba172ce77cf03a.svg" alt="">
+                    </div>
+                    <div class="avatar__initials">
+                        <p>A</p>
+                    </div>
+                    <div class="avatar__online">
+                        <div>
+                            <img src="http://localhost:3845/assets/ca1fa3725cf6eadaf733cc72f4a923fc59434e41.svg" alt="">
+                        </div>
+                    </div>
+                    <div class="avatar__creator-badge">
+                        <img src="http://localhost:3845/assets/3315cffce0b49a0c0c7578c070297c9eb4eb3bc7.png" alt="">
+                    </div>
+                </div>
+                <span class="font-primary text-label-md text-neutral-700 text-center">Large Initials + Online + Creator</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- XLarge Avatar -->
+    <div class="bg-neutral-white p-lg rounded-md mb-lg">
+        <h2 class="font-primary font-bold text-h2 text-neutral-900 mb-md">XLarge Avatar (96px)</h2>
+        <div class="flex flex-wrap gap-md items-center">
+            <div class="flex flex-col gap-xs items-center">
+                <div class="avatar avatar--xlarge">
+                    <div class="avatar__initials-fill">
+                        <img src="http://localhost:3845/assets/59a48e8425d3451bae69b96179b56290c1165b50.svg" alt="">
+                    </div>
+                    <div class="avatar__initials">
+                        <p>A</p>
+                    </div>
+                    <div class="avatar__online">
+                        <div>
+                            <img src="http://localhost:3845/assets/ad7dfd7e28693f8feb25f31cbe0a5bab795eeb0e.svg" alt="">
+                        </div>
+                    </div>
+                    <div class="avatar__creator-badge">
+                        <div>
+                            <img src="http://localhost:3845/assets/5d6da2aa56939072c8fb8851116d028f2a85b04b.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <span class="font-primary text-label-md text-neutral-700 text-center">XLarge Initials + Online + Creator</span>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

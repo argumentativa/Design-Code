@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expandable Accordion Navigation</title>
+    <link rel="stylesheet" href="design-system.css">
+    <style>
+        /* Accordion Navigation Specific Styles */
+        .app-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: var(--space-6);
+        }
+
+        .main-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-8);
+            color: white;
+        }
+
+        .header h1 {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-2);
+        }
+
+        .header p {
+            font-size: var(--font-size-lg);
+            opacity: 0.9;
+        }
+
+        .accordion-container {
+            background: white;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid var(--gray-200);
+            transition: all var(--transition-normal);
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-5) var(--space-6);
+            background: white;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            position: relative;
+        }
+
+        .accordion-header:hover {
+            background: var(--gray-50);
+        }
+
+        .accordion-header.active {
+            background: var(--primary-50);
+            border-left: 4px solid var(--primary-500);
+        }
+
+        .accordion-title {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .accordion-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-lg);
+            background: var(--primary-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-600);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .accordion-info h3 {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            color: var(--gray-900);
+            margin-bottom: var(--space-1);
+        }
+
+        .accordion-info p {
+            font-size: var(--font-size-sm);
+            color: var(--gray-600);
+        }
+
+        .accordion-badges {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .badge-count {
+            background: var(--primary-100);
+            color: var(--primary-700);
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .badge-new {
+            background: var(--success-500);
+            color: white;
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .accordion-toggle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--gray-100);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            color: var(--gray-600);
+        }
+
+        .accordion-toggle:hover {
+            background: var(--gray-200);
+            color: var(--gray-700);
+        }
+
+        .accordion-toggle.active {
+            background: var(--primary-500);
+            color: white;
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-slow);
+            background: var(--gray-50);
+        }
+
+        .accordion-content.active {
+            max-height: 1000px;
+        }
+
+        .destination-list {
+            padding: var(--space-4) var(--space-6);
+        }
+
+        .destination-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            margin-bottom: var(--space-2);
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
+            transition: all var(--transition-normal);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .destination-item:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-200);
+        }
+
+        .destination-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .destination-item-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-md);
+            background: var(--gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-sm);
+            color: var(--gray-600);
+        }
+
+        .destination-item-info {
+            flex: 1;
+        }
+
+        .destination-item-info h4 {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--gray-900);
+            margin-bottom: var(--space-1);
+        }
+
+        .destination-item-info p {
+            font-size: var(--font-size-xs);
+            color: var(--gray-500);
+        }
+
+        .destination-item-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .meta-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success-500);
+        }
+
+        .meta-time {
+            font-size: var(--font-size-xs);
+            color: var(--gray-500);
+        }
+
+        .favorites-section {
+            background: white;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
+            margin-bottom: var(--space-6);
+            overflow: hidden;
+        }
+
+        .favorites-header {
+            padding: var(--space-4) var(--space-6);
+            background: var(--primary-50);
+            border-bottom: 1px solid var(--primary-200);
+        }
+
+        .favorites-header h2 {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            color: var(--primary-700);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-3);
+            padding: var(--space-4) var(--space-6);
+        }
+
+        .favorite-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3);
+            background: var(--gray-50);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
+            transition: all var(--transition-normal);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .favorite-item:hover {
+            background: var(--primary-50);
+            border-color: var(--primary-200);
+            transform: translateY(-1px);
+        }
+
+        .favorite-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: var(--radius-sm);
+            background: var(--primary-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-xs);
+            color: var(--primary-600);
+        }
+
+        .favorite-name {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--gray-700);
+        }
+
+        .search-bar {
+            background: white;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
+            margin-bottom: var(--space-6);
+            padding: var(--space-4) var(--space-6);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            padding-left: 2.5rem;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-base);
+            transition: all var(--transition-normal);
+            position: relative;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: var(--space-3);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+            font-size: var(--font-size-sm);
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                padding: var(--space-4);
+            }
+
+            .header h1 {
+                font-size: var(--font-size-2xl);
+            }
+
+            .accordion-header {
+                padding: var(--space-4) var(--space-4);
+            }
+
+            .destination-list {
+                padding: var(--space-3) var(--space-4);
+            }
+
+            .favorites-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation for accordion content */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .accordion-content.active .destination-list {
+            animation: slideDown 0.3s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>📚 Navigation Hub</h1>
+                <p>Organized destinations with smart categorization</p>
+            </header>
+
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="Search destinations...">
+                </div>
+            </div>
+
+            <!-- Favorites Section -->
+            <div class="favorites-section">
+                <div class="favorites-header">
+                    <h2>⭐ Quick Access</h2>
+                </div>
+                <div class="favorites-grid">
+                    <a href="#" class="favorite-item">
+                        <div class="favorite-icon">📊</div>
+                        <span class="favorite-name">Analytics</span>
+                    </a>
+                    <a href="#" class="favorite-item">
+                        <div class="favorite-icon">📧</div>
+                        <span class="favorite-name">Email</span>
+                    </a>
+                    <a href="#" class="favorite-item">
+                        <div class="favorite-icon">💼</div>
+                        <span class="favorite-name">Projects</span>
+                    </a>
+                    <a href="#" class="favorite-item">
+                        <div class="favorite-icon">💰</div>
+                        <span class="favorite-name">Finance</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Accordion Navigation -->
+            <div class="accordion-container">
+                <!-- Official Category -->
+                <div class="accordion-item">
+                    <div class="accordion-header" data-category="official">
+                        <div class="accordion-title">
+                            <div class="accordion-icon">🏢</div>
+                            <div class="accordion-info">
+                                <h3>Official Tools</h3>
+                                <p>Company-approved applications and resources</p>
+                            </div>
+                        </div>
+                        <div class="accordion-badges">
+                            <span class="badge-count">4 items</span>
+                            <span class="badge-new">2 new</span>
+                        </div>
+                        <button class="accordion-toggle">▼</button>
+                    </div>
+                    <div class="accordion-content" id="official-content">
+                        <div class="destination-list">
+                            <a href="#" class="destination-item">
+                                <div class="destination-item-icon">📊</div>
+                                <div class="destination-item-info">
+                                    <h4>Analytics Dashboard</h4>
+                                    <p>Real-time metrics and insights</p>
+                                </div>
+                                <div class="destination-item-meta">
+                                    <div class="meta-indicator"></div>
+                                    <span class="meta-time">2h ago</span>
+                                </div>
+                            </a>
+                            <a href="#" class="destination-item">
+                                <div class="destination-item-icon">📧</div>
+                                <div class="destination-item-info">
+                                    <h4>Email Campaigns</h4>
+                                    <p>Manage and track email outreach</p>
+                                </div>
+                                <div class="destination-item-meta">
+                                    <div class="meta-indicator"></div>
+                                    <span class="meta-time">1h ago</span>
+                                </div>
+                            </a>
+                            <a href="#" class="destination-item">
+                                <div class="destination-item-icon">💼</div>
+                                <div class="destination-item-info">
+                                    <h4>Project Management</h4>
+                                    <p>Track tasks and milestones</p>
+                                </div>
+                                <div class="destination-item-meta">
+                                    <div class="meta-indicator"></div>
+                                    <span class="meta-time">30m ago</span>
+                                </div>
+                            </a>
+                            <a href="#" class="destination-item">
+                                <div class="destination-item-icon">💰</div>
+                                <div class="destination-item-info">
+                                    <h4>Financial Reports</h4>
+                                    <p>Revenue and expense tracking</p>
+                                </div>
+                                <div class="destination-item-meta">
+                                    <div class="meta-indicator"></div>
+                                    <span class="meta-time">5m ago</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Community Category -->
+                <div class="accordion-item">
+                    <div class="accordion-header" data-category="community">
+                        <div class="accordion-title">
+                            <div class="accordion-icon">👥</div>
+                            <div class="accordion-info">
+                                <h3>Community Resources</h3>
+                                <p>Shared knowledge and collaborative spaces</p>
+                            </div>
+                        </div>
+                        <div class="accordion-badges">
+                            <span class="badge-count">3 items</span>
+                            <span class="badge-new">1 new</span>
+                        </div>
+                        <button class="accordion-toggle">▼</button>
+                    </div>
+                    <div class="accordion-content" id="community-content">
+                        <div class="destination-list">
+                            <a href="#" class="destination-item">
+                                <div class="destination-item-icon">💬</div>
+                                <div class="destination-item-info">
+                                    <h4>Discussion Forums</h4>
+                                    <p>Community conversations and Q&A</p>
+                                </div>
+                                <div class="destination-item-meta">
+                                    <div class="meta-indicator"></div>
+                                    <span class="meta-time">15m ago</span>
+                                </div>
+                            </a>
+                            <a href="#" class="destination-item">
+                                <div class="destination-item-icon">📚</div>
+                                <div class="destination-item-info">
+                                    <h4>Knowledge Base</h4>
+                                    <p>Shared resources and guides</p>
+                                </div>
+                                <div class="destination-item-meta">
+                                    <div class="meta-indicator"></div>
+                                    <span class="meta-time">1h ago</span>
+                                </div>
+                            </a>
+                            <a href="#" class="destination-item">
+                                <div class="destination-item-icon">🎯</div>
+                                <div class="destination-item-info">
+                                    <h4>Events & Meetups</h4>
+                                    <p>Upcoming community events</p>
+                                </div>
+                                <div class="destination-item-meta">
+                                    <div class="meta-indicator"></div>
+                                    <span class="meta-time">2h ago</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personal Category -->
+                <div class="accordion-item">
+                    <div class="accordion-header" data-category="personal">
+                        <div class="accordion-title">
+                            <div class="accordion-icon">👤</div>
+                            <div class="accordion-info">
+                                <h3>Personal Workspace</h3>
+                                <p>Your private tools and customizations</p>
+                            </div>
+                        </div>
+                        <div class="accordion-badges">
+                            <span class="badge-count">3 items</span>
+                        </div>
+                        <button class="accordion-toggle">▼</button>
+                    </div>
+                    <div class="accordion-content" id="personal-content">
+                        <div class="destination-list">
+                            <a href="#" class="destination-item">
+                                <div class="destination-item-icon">⭐</div>
+                                <div class="destination-item-info">
+                                    <h4>Favorites</h4>
+                                    <p>Your bookmarked destinations</p>
+                                </div>
+                                <div class="destination-item-meta">
+                                    <div class="meta-indicator"></div>
+                                    <span class="meta-time">1d ago</span>
+                                </div>
+                            </a>
+                            <a href="#" class="destination-item">
+                                <div class="destination-item-icon">📝</div>
+                                <div class="destination-item-info">
+                                    <h4>Personal Notes</h4>
+                                    <p>Your private workspace</p>
+                                </div>
+                                <div class="destination-item-meta">
+                                    <div class="meta-indicator"></div>
+                                    <span class="meta-time">3h ago</span>
+                                </div>
+                            </a>
+                            <a href="#" class="destination-item">
+                                <div class="destination-item-icon">🎨</div>
+                                <div class="destination-item-info">
+                                    <h4>Custom Themes</h4>
+                                    <p>Personalize your experience</p>
+                                </div>
+                                <div class="destination-item-meta">
+                                    <div class="meta-indicator"></div>
+                                    <span class="meta-time">1w ago</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Development Category -->
+                <div class="accordion-item">
+                    <div class="accordion-header" data-category="development">
+                        <div class="accordion-title">
+                            <div class="accordion-icon">⚡</div>
+                            <div class="accordion-info">
+                                <h3>Development Tools</h3>
+                                <p>Code repositories and development resources</p>
+                            </div>
+                        </div>
+                        <div class="accordion-badges">
+                            <span class="badge-count">5 items</span>
+                            <span class="badge-new">3 new</span>
+                        </div>
+                        <button class="accordion-toggle">▼</button>
+                    </div>
+                    <div class="accordion-content" id="development-content">
+                        <div class="destination-list">
+                            <a href="#" class="destination-item">
+                                <div class="destination-item-icon">📦</div>
+                                <div class="destination-item-info">
+                                    <h4>GitHub Repositories</h4>
+                                    <p>Source code and version control</p>
+                                </div>
+                                <div class="destination-item-meta">
+                                    <div class="meta-indicator"></div>
+                                    <span class="meta-time">10m ago</span>
+                                </div>
+                            </a>
+                            <a href="#" class="destination-item">
+                                <div class="destination-item-icon">🚀</div>
+                                <div class="destination-item-info">
+                                    <h4>CI/CD Pipeline</h4>
+                                    <p>Automated deployment workflows</p>
+                                </div>
+                                <div class="destination-item-meta">
+                                    <div class="meta-indicator"></div>
+                                    <span class="meta-time">25m ago</span>
+                                </div>
+                            </a>
+                            <a href="#" class="destination-item">
+                                <div class="destination-item-icon">🐛</div>
+                                <div class="destination-item-info">
+                                    <h4>Bug Tracker</h4>
+                                    <p>Issue management and bug reports</p>
+                                </div>
+                                <div class="destination-item-meta">
+                                    <div class="meta-indicator"></div>
+                                    <span class="meta-time">45m ago</span>
+                                </div>
+                            </a>
+                            <a href="#" class="destination-item">
+                                <div class="destination-item-icon">📊</div>
+                                <div class="destination-item-info">
+                                    <h4>Performance Monitoring</h4>
+                                    <p>Application performance metrics</p>
+                                </div>
+                                <div class="destination-item-meta">
+                                    <div class="meta-indicator"></div>
+                                    <span class="meta-time">1h ago</span>
+                                </div>
+                            </a>
+                            <a href="#" class="destination-item">
+                                <div class="destination-item-icon">🔒</div>
+                                <div class="destination-item-info">
+                                    <h4>Security Dashboard</h4>
+                                    <p>Security monitoring and alerts</p>
+                                </div>
+                                <div class="destination-item-meta">
+                                    <div class="meta-indicator"></div>
+                                    <span class="meta-time">2h ago</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Accordion functionality
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const toggle = header.querySelector('.accordion-toggle');
+                
+                // Close other accordion items
+                document.querySelectorAll('.accordion-content').forEach(item => {
+                    if (item !== content) {
+                        item.classList.remove('active');
+                        item.previousElementSibling.classList.remove('active');
+                        item.previousElementSibling.querySelector('.accordion-toggle').classList.remove('active');
+                    }
+                });
+                
+                // Toggle current item
+                content.classList.toggle('active');
+                header.classList.toggle('active');
+                toggle.classList.toggle('active');
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const destinationItems = document.querySelectorAll('.destination-item');
+            
+            destinationItems.forEach(item => {
+                const title = item.querySelector('h4').textContent.toLowerCase();
+                const description = item.querySelector('p').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Show/hide accordion sections based on search
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            accordionItems.forEach(item => {
+                const visibleDestinations = item.querySelectorAll('.destination-item[style="display: flex"]').length;
+                const totalDestinations = item.querySelectorAll('.destination-item').length;
+                
+                if (searchTerm === '' || visibleDestinations > 0) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        // Add hover effects
+        document.querySelectorAll('.destination-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.transform = 'translateX(8px)';
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = 'translateX(4px)';
+            });
+        });
+
+        // Add click effects
+        document.querySelectorAll('.destination-item, .favorite-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Add ripple effect
+                const ripple = document.createElement('div');
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(59, 130, 246, 0.3)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.left = '50%';
+                ripple.style.top = '50%';
+                ripple.style.width = '20px';
+                ripple.style.height = '20px';
+                ripple.style.marginLeft = '-10px';
+                ripple.style.marginTop = '-10px';
+                
+                item.style.position = 'relative';
+                item.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
+
+
+
+
+

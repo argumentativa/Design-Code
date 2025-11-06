@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Component Example</title>
+    
+    <!-- Google Fonts - DM Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Design Tokens -->
+    <link rel="stylesheet" href="../../css/design-tokens.css">
+    
+    <!-- Button Component Styles -->
+    <link rel="stylesheet" href="button.css">
+    
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            padding: 2rem;
+            background: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+        
+        .example-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .example-section h2 {
+            margin-bottom: 1rem;
+            color: #14532d;
+        }
+        
+        .example-section p {
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="example-section">
+        <h2>Brand Button with Leading Icon</h2>
+        <p>This is the button component from your Figma design with all design tokens applied.</p>
+        <button 
+            class="button button--brand button--medium button--leading" 
+            type="button"
+            data-name="atoms/button/medium/brand/leading/default"
+            data-node-id="6834:27881"
+            aria-label="Button with icon">
+            <div class="button__icon" data-name="icon" data-node-id="6834:27829">
+                <img 
+                    src="../../assets/icons/24/awards/trophy.svg" 
+                    alt=""
+                    class="button__icon-img">
+            </div>
+            <span class="button__text">Label</span>
+        </button>
+    </div>
+    
+    <div class="example-section">
+        <h2>Design Tokens Reference</h2>
+        <p>All design tokens are available in <code>css/design-tokens.css</code>:</p>
+        <ul style="color: #666; line-height: 1.8;">
+            <li><strong>Brand Background:</strong> <code>--brand-background-default</code> (#d2ff66)</li>
+            <li><strong>Brand Text:</strong> <code>--brand-text-default</code> (#14532d)</li>
+            <li><strong>Font:</strong> <code>--ff-primary</code> (DM Sans, 700 weight)</li>
+            <li><strong>Size:</strong> <code>--fs-body-default</code> (15px)</li>
+            <li><strong>Border Radius:</strong> <code>--border-radius-xl</code> (24px)</li>
+            <li><strong>Height:</strong> <code>--button-height-medium</code> (44px)</li>
+        </ul>
+    </div>
+</body>
+</html>
+

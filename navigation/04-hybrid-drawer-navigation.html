@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Drawer + Quick Access Navigation</title>
+    <link rel="stylesheet" href="design-system.css">
+    <style>
+        /* Hybrid Drawer Navigation Specific Styles */
+        .app-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: var(--space-6);
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-8);
+            color: white;
+        }
+
+        .header h1 {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-2);
+        }
+
+        .header p {
+            font-size: var(--font-size-lg);
+            opacity: 0.9;
+        }
+
+        .quick-access-section {
+            background: white;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
+            margin-bottom: var(--space-6);
+            overflow: hidden;
+        }
+
+        .quick-access-header {
+            padding: var(--space-4) var(--space-6);
+            background: var(--primary-50);
+            border-bottom: 1px solid var(--primary-200);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .quick-access-header h2 {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            color: var(--primary-700);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .drawer-toggle {
+            background: var(--primary-500);
+            color: white;
+            border: none;
+            border-radius: var(--radius-lg);
+            padding: var(--space-2) var(--space-4);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .drawer-toggle:hover {
+            background: var(--primary-600);
+            transform: translateY(-1px);
+        }
+
+        .quick-access-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-3);
+            padding: var(--space-4) var(--space-6);
+        }
+
+        .quick-access-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-4);
+            background: var(--gray-50);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
+            transition: all var(--transition-normal);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-access-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-500), var(--primary-600));
+            transform: scaleX(0);
+            transition: transform var(--transition-normal);
+        }
+
+        .quick-access-item:hover {
+            background: var(--primary-50);
+            border-color: var(--primary-200);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .quick-access-item:hover::before {
+            transform: scaleX(1);
+        }
+
+        .quick-access-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-lg);
+            background: var(--primary-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-600);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .quick-access-info h3 {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--gray-900);
+            margin-bottom: var(--space-1);
+        }
+
+        .quick-access-info p {
+            font-size: var(--font-size-sm);
+            color: var(--gray-600);
+        }
+
+        .quick-access-meta {
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .meta-badge {
+            background: var(--success-500);
+            color: white;
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: var(--z-modal);
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-normal);
+        }
+
+        .drawer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            z-index: var(--z-popover);
+            transition: right var(--transition-slow);
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .drawer.active {
+            right: 0;
+        }
+
+        .drawer-header {
+            padding: var(--space-4) var(--space-6);
+            background: var(--primary-500);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .drawer-header h2 {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .drawer-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: var(--font-size-xl);
+            cursor: pointer;
+            padding: var(--space-1);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-normal);
+        }
+
+        .drawer-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .drawer-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--space-4);
+        }
+
+        .drawer-section {
+            margin-bottom: var(--space-6);
+        }
+
+        .drawer-section-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin-bottom: var(--space-3);
+            padding-bottom: var(--space-2);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .drawer-section-header h3 {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--gray-700);
+        }
+
+        .drawer-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            margin-bottom: var(--space-2);
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-normal);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .drawer-item:hover {
+            background: var(--gray-50);
+            transform: translateX(4px);
+        }
+
+        .drawer-item-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-md);
+            background: var(--gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-sm);
+            color: var(--gray-600);
+        }
+
+        .drawer-item-info {
+            flex: 1;
+        }
+
+        .drawer-item-info h4 {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--gray-900);
+            margin-bottom: var(--space-1);
+        }
+
+        .drawer-item-info p {
+            font-size: var(--font-size-xs);
+            color: var(--gray-500);
+        }
+
+        .drawer-item-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .meta-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success-500);
+        }
+
+        .meta-time {
+            font-size: var(--font-size-xs);
+            color: var(--gray-500);
+        }
+
+        .recommendations-section {
+            background: white;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
+            margin-bottom: var(--space-6);
+            overflow: hidden;
+        }
+
+        .recommendations-header {
+            padding: var(--space-4) var(--space-6);
+            background: var(--success-50);
+            border-bottom: 1px solid var(--success-200);
+        }
+
+        .recommendations-header h2 {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            color: var(--success-700);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-4);
+            padding: var(--space-4) var(--space-6);
+        }
+
+        .recommendation-card {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            transition: all var(--transition-normal);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recommendation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--success-500), var(--success-600));
+            transform: scaleX(0);
+            transition: transform var(--transition-normal);
+        }
+
+        .recommendation-card:hover {
+            background: var(--success-50);
+            border-color: var(--success-200);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .recommendation-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .recommendation-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-3);
+        }
+
+        .recommendation-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-lg);
+            background: var(--success-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--success-600);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .recommendation-info h3 {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--gray-900);
+            margin-bottom: var(--space-1);
+        }
+
+        .recommendation-info p {
+            font-size: var(--font-size-sm);
+            color: var(--gray-600);
+        }
+
+        .recommendation-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-top: var(--space-3);
+            padding-top: var(--space-3);
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            font-size: var(--font-size-xs);
+            color: var(--gray-500);
+        }
+
+        .search-bar {
+            background: white;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
+            margin-bottom: var(--space-6);
+            padding: var(--space-4) var(--space-6);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            padding-left: 2.5rem;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-base);
+            transition: all var(--transition-normal);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: var(--space-3);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+            font-size: var(--font-size-sm);
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                padding: var(--space-4);
+            }
+
+            .header h1 {
+                font-size: var(--font-size-2xl);
+            }
+
+            .drawer {
+                width: 100%;
+                right: -100%;
+            }
+
+            .quick-access-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .recommendations-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation for drawer items */
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .drawer-item {
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        .drawer-item:nth-child(1) { animation-delay: 0.1s; }
+        .drawer-item:nth-child(2) { animation-delay: 0.2s; }
+        .drawer-item:nth-child(3) { animation-delay: 0.3s; }
+        .drawer-item:nth-child(4) { animation-delay: 0.4s; }
+        .drawer-item:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>🎯 Hybrid Navigation</h1>
+                <p>Quick access with contextual drawer</p>
+            </header>
+
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="Search destinations...">
+                </div>
+            </div>
+
+            <!-- Quick Access Section -->
+            <div class="quick-access-section">
+                <div class="quick-access-header">
+                    <h2>⭐ Quick Access</h2>
+                    <button class="drawer-toggle" id="drawerToggle">
+                        <span>📋</span>
+                        <span>More Options</span>
+                    </button>
+                </div>
+                <div class="quick-access-grid">
+                    <a href="#" class="quick-access-item">
+                        <div class="quick-access-icon">📊</div>
+                        <div class="quick-access-info">
+                            <h3>Analytics Dashboard</h3>
+                            <p>Real-time metrics and insights</p>
+                        </div>
+                        <div class="quick-access-meta">
+                            <span class="meta-badge">Live</span>
+                        </div>
+                    </a>
+
+                    <a href="#" class="quick-access-item">
+                        <div class="quick-access-icon">📧</div>
+                        <div class="quick-access-info">
+                            <h3>Email Campaigns</h3>
+                            <p>Manage and track email outreach</p>
+                        </div>
+                        <div class="quick-access-meta">
+                            <span class="meta-badge">156 sent</span>
+                        </div>
+                    </a>
+
+                    <a href="#" class="quick-access-item">
+                        <div class="quick-access-icon">💼</div>
+                        <div class="quick-access-info">
+                            <h3>Project Management</h3>
+                            <p>Track tasks and milestones</p>
+                        </div>
+                        <div class="quick-access-meta">
+                            <span class="meta-badge">12 done</span>
+                        </div>
+                    </a>
+
+                    <a href="#" class="quick-access-item">
+                        <div class="quick-access-icon">💰</div>
+                        <div class="quick-access-info">
+                            <h3>Financial Reports</h3>
+                            <p>Revenue and expense tracking</p>
+                        </div>
+                        <div class="quick-access-meta">
+                            <span class="meta-badge">$45.2k</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Recommendations Section -->
+            <div class="recommendations-section">
+                <div class="recommendations-header">
+                    <h2>🎯 Recommended for You</h2>
+                </div>
+                <div class="recommendations-grid">
+                    <div class="recommendation-card">
+                        <div class="recommendation-header">
+                            <div class="recommendation-icon">📈</div>
+                            <div class="recommendation-info">
+                                <h3>Performance Review</h3>
+                                <p>Based on your recent activity</p>
+                            </div>
+                        </div>
+                        <div class="recommendation-meta">
+                            <span class="meta-item">📊 15% improvement</span>
+                            <span class="meta-item">🕒 2h ago</span>
+                        </div>
+                    </div>
+
+                    <div class="recommendation-card">
+                        <div class="recommendation-header">
+                            <div class="recommendation-icon">🎯</div>
+                            <div class="recommendation-info">
+                                <h3>Goal Tracking</h3>
+                                <p>You're 80% to your monthly target</p>
+                            </div>
+                        </div>
+                        <div class="recommendation-meta">
+                            <span class="meta-item">🎯 80% complete</span>
+                            <span class="meta-item">🕒 1d ago</span>
+                        </div>
+                    </div>
+
+                    <div class="recommendation-card">
+                        <div class="recommendation-header">
+                            <div class="recommendation-icon">📚</div>
+                            <div class="recommendation-info">
+                                <h3>New Documentation</h3>
+                                <p>Updated guides available</p>
+                            </div>
+                        </div>
+                        <div class="recommendation-meta">
+                            <span class="meta-item">📖 3 new guides</span>
+                            <span class="meta-item">🕒 4h ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Drawer Overlay -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <!-- Navigation Drawer -->
+    <div class="drawer" id="drawer">
+        <div class="drawer-header">
+            <h2>📋 All Destinations</h2>
+            <button class="drawer-close" id="drawerClose">×</button>
+        </div>
+        <div class="drawer-content">
+            <!-- Official Tools Section -->
+            <div class="drawer-section">
+                <div class="drawer-section-header">
+                    <span>🏢</span>
+                    <h3>Official Tools</h3>
+                </div>
+                <a href="#" class="drawer-item">
+                    <div class="drawer-item-icon">📊</div>
+                    <div class="drawer-item-info">
+                        <h4>Analytics Dashboard</h4>
+                        <p>Real-time metrics and insights</p>
+                    </div>
+                    <div class="drawer-item-meta">
+                        <div class="meta-indicator"></div>
+                        <span class="meta-time">2h ago</span>
+                    </div>
+                </a>
+                <a href="#" class="drawer-item">
+                    <div class="drawer-item-icon">📧</div>
+                    <div class="drawer-item-info">
+                        <h4>Email Campaigns</h4>
+                        <p>Manage and track email outreach</p>
+                    </div>
+                    <div class="drawer-item-meta">
+                        <div class="meta-indicator"></div>
+                        <span class="meta-time">1h ago</span>
+                    </div>
+                </a>
+                <a href="#" class="drawer-item">
+                    <div class="drawer-item-icon">💼</div>
+                    <div class="drawer-item-info">
+                        <h4>Project Management</h4>
+                        <p>Track tasks and milestones</p>
+                    </div>
+                    <div class="drawer-item-meta">
+                        <div class="meta-indicator"></div>
+                        <span class="meta-time">30m ago</span>
+                    </div>
+                </a>
+                <a href="#" class="drawer-item">
+                    <div class="drawer-item-icon">💰</div>
+                    <div class="drawer-item-info">
+                        <h4>Financial Reports</h4>
+                        <p>Revenue and expense tracking</p>
+                    </div>
+                    <div class="drawer-item-meta">
+                        <div class="meta-indicator"></div>
+                        <span class="meta-time">5m ago</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Community Resources Section -->
+            <div class="drawer-section">
+                <div class="drawer-section-header">
+                    <span>👥</span>
+                    <h3>Community Resources</h3>
+                </div>
+                <a href="#" class="drawer-item">
+                    <div class="drawer-item-icon">💬</div>
+                    <div class="drawer-item-info">
+                        <h4>Discussion Forums</h4>
+                        <p>Community conversations and Q&A</p>
+                    </div>
+                    <div class="drawer-item-meta">
+                        <div class="meta-indicator"></div>
+                        <span class="meta-time">15m ago</span>
+                    </div>
+                </a>
+                <a href="#" class="drawer-item">
+                    <div class="drawer-item-icon">📚</div>
+                    <div class="drawer-item-info">
+                        <h4>Knowledge Base</h4>
+                        <p>Shared resources and guides</p>
+                    </div>
+                    <div class="drawer-item-meta">
+                        <div class="meta-indicator"></div>
+                        <span class="meta-time">1h ago</span>
+                    </div>
+                </a>
+                <a href="#" class="drawer-item">
+                    <div class="drawer-item-icon">🎯</div>
+                    <div class="drawer-item-info">
+                        <h4>Events & Meetups</h4>
+                        <p>Upcoming community events</p>
+                    </div>
+                    <div class="drawer-item-meta">
+                        <div class="meta-indicator"></div>
+                        <span class="meta-time">2h ago</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Personal Workspace Section -->
+            <div class="drawer-section">
+                <div class="drawer-section-header">
+                    <span>👤</span>
+                    <h3>Personal Workspace</h3>
+                </div>
+                <a href="#" class="drawer-item">
+                    <div class="drawer-item-icon">⭐</div>
+                    <div class="drawer-item-info">
+                        <h4>Favorites</h4>
+                        <p>Your bookmarked destinations</p>
+                    </div>
+                    <div class="drawer-item-meta">
+                        <div class="meta-indicator"></div>
+                        <span class="meta-time">1d ago</span>
+                    </div>
+                </a>
+                <a href="#" class="drawer-item">
+                    <div class="drawer-item-icon">📝</div>
+                    <div class="drawer-item-info">
+                        <h4>Personal Notes</h4>
+                        <p>Your private workspace</p>
+                    </div>
+                    <div class="drawer-item-meta">
+                        <div class="meta-indicator"></div>
+                        <span class="meta-time">3h ago</span>
+                    </div>
+                </a>
+                <a href="#" class="drawer-item">
+                    <div class="drawer-item-icon">🎨</div>
+                    <div class="drawer-item-info">
+                        <h4>Custom Themes</h4>
+                        <p>Personalize your experience</p>
+                    </div>
+                    <div class="drawer-item-meta">
+                        <div class="meta-indicator"></div>
+                        <span class="meta-time">1w ago</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Development Tools Section -->
+            <div class="drawer-section">
+                <div class="drawer-section-header">
+                    <span>⚡</span>
+                    <h3>Development Tools</h3>
+                </div>
+                <a href="#" class="drawer-item">
+                    <div class="drawer-item-icon">📦</div>
+                    <div class="drawer-item-info">
+                        <h4>GitHub Repositories</h4>
+                        <p>Source code and version control</p>
+                    </div>
+                    <div class="drawer-item-meta">
+                        <div class="meta-indicator"></div>
+                        <span class="meta-time">10m ago</span>
+                    </div>
+                </a>
+                <a href="#" class="drawer-item">
+                    <div class="drawer-item-icon">🚀</div>
+                    <div class="drawer-item-info">
+                        <h4>CI/CD Pipeline</h4>
+                        <p>Automated deployment workflows</p>
+                    </div>
+                    <div class="drawer-item-meta">
+                        <div class="meta-indicator"></div>
+                        <span class="meta-time">25m ago</span>
+                    </div>
+                </a>
+                <a href="#" class="drawer-item">
+                    <div class="drawer-item-icon">🐛</div>
+                    <div class="drawer-item-info">
+                        <h4>Bug Tracker</h4>
+                        <p>Issue management and bug reports</p>
+                    </div>
+                    <div class="drawer-item-meta">
+                        <div class="meta-indicator"></div>
+                        <span class="meta-time">45m ago</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Drawer functionality
+        const drawerToggle = document.getElementById('drawerToggle');
+        const drawerClose = document.getElementById('drawerClose');
+        const drawer = document.getElementById('drawer');
+        const drawerOverlay = document.getElementById('drawerOverlay');
+
+        function openDrawer() {
+            drawer.classList.add('active');
+            drawerOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDrawer() {
+            drawer.classList.remove('active');
+            drawerOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        drawerToggle.addEventListener('click', openDrawer);
+        drawerClose.addEventListener('click', closeDrawer);
+        drawerOverlay.addEventListener('click', closeDrawer);
+
+        // Close drawer on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && drawer.classList.contains('active')) {
+                closeDrawer();
+            }
+        });
+
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const quickAccessItems = document.querySelectorAll('.quick-access-item');
+            const drawerItems = document.querySelectorAll('.drawer-item');
+            const recommendationCards = document.querySelectorAll('.recommendation-card');
+            
+            // Search in quick access items
+            quickAccessItems.forEach(item => {
+                const title = item.querySelector('h3').textContent.toLowerCase();
+                const description = item.querySelector('p').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Search in drawer items
+            drawerItems.forEach(item => {
+                const title = item.querySelector('h4').textContent.toLowerCase();
+                const description = item.querySelector('p').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // Search in recommendation cards
+            recommendationCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const description = card.querySelector('p').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Add hover effects and click animations
+        document.querySelectorAll('.quick-access-item, .drawer-item, .recommendation-card').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Add ripple effect
+                const ripple = document.createElement('div');
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(59, 130, 246, 0.3)';
+                ripple.style.transform = 'scale(0)';
+                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.left = '50%';
+                ripple.style.top = '50%';
+                ripple.style.width = '20px';
+                ripple.style.height = '20px';
+                ripple.style.marginLeft = '-10px';
+                ripple.style.marginTop = '-10px';
+                
+                item.style.position = 'relative';
+                item.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Simulate real-time updates
+        setInterval(() => {
+            const indicators = document.querySelectorAll('.meta-indicator');
+            indicators.forEach(indicator => {
+                if (Math.random() > 0.8) {
+                    indicator.style.background = '#f59e0b';
+                    setTimeout(() => {
+                        indicator.style.background = '#10b981';
+                    }, 2000);
+                }
+            });
+        }, 5000);
+    </script>
+</body>
+</html>
+
+
+
+
+

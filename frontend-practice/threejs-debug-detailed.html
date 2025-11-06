@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detailed Three.js Initialization Debug</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #f8f9fa;
+        }
+        .debug-section {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success { border-left: 4px solid #28a745; }
+        .error { border-left: 4px solid #dc3545; }
+        .warning { border-left: 4px solid #ffc107; }
+        .info { border-left: 4px solid #17a2b8; }
+        
+        .step {
+            margin: 1rem 0;
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+        .step.pending { background: #fff3cd; }
+        .step.running { background: #d1ecf1; }
+        .step.success { background: #d4edda; }
+        .step.failed { background: #f8d7da; }
+        
+        pre {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            border: 1px solid #e9ecef;
+        }
+        
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.5rem;
+            font-size: 0.9rem;
+        }
+        button:hover { background: #0056b3; }
+        button.success { background: #28a745; }
+        button.danger { background: #dc3545; }
+        
+        .test-canvas {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem 0;
+            background: #f8f9fa;
+        }
+        
+        .logs {
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔬 Detailed Three.js Initialization Debug</h1>
+    
+    <div class="debug-section info">
+        <h3>Current Status</h3>
+        <div id="overall-status">Initializing diagnostic tools...</div>
+    </div>
+
+    <div class="debug-section">
+        <h3>Step-by-Step Initialization Test</h3>
+        <div id="initialization-steps">
+            <div class="step pending" id="step-webgl">1. WebGL Support Check</div>
+            <div class="step pending" id="step-threejs">2. Three.js Library Load</div>
+            <div class="step pending" id="step-scene">3. Scene Creation</div>
+            <div class="step pending" id="step-camera">4. Camera Setup</div>
+            <div class="step pending" id="step-renderer">5. WebGL Renderer Creation</div>
+            <div class="step pending" id="step-geometry">6. Geometry Creation</div>
+            <div class="step pending" id="step-material">7. Material Creation</div>
+            <div class="step pending" id="step-mesh">8. Mesh Creation</div>
+            <div class="step pending" id="step-render">9. First Render</div>
+        </div>
+        <button onclick="runFullTest()">🧪 Run Full Initialization Test</button>
+        <button onclick="runStepByStep()">📋 Run Step-by-Step Test</button>
+        <button onclick="clearAllTests()">🗑️ Clear Tests</button>
+    </div>
+
+    <div class="debug-section">
+        <h3>Test Canvas</h3>
+        <div id="test-canvas" class="test-canvas">
+            <p>Canvas will appear here during tests</p>
+        </div>
+    </div>
+
+    <div class="debug-section">
+        <h3>Detailed Error Logs</h3>
+        <pre id="error-logs" class="logs">Ready for testing...\n</pre>
+        <button onclick="clearLogs()">Clear Logs</button>
+        <button onclick="copyLogs()">Copy Logs</button>
+    </div>
+
+    <div class="debug-section">
+        <h3>System Information</h3>
+        <pre id="system-info">Loading system information...</pre>
+    </div>
+
+    <div class="debug-section">
+        <h3>Manual Tests</h3>
+        <button onclick="testBasicWebGL()">Test Basic WebGL</button>
+        <button onclick="testThreeJSMinimal()">Test Minimal Three.js</button>
+        <button onclick="testComplexScene()">Test Complex Scene</button>
+        <button onclick="testYourOriginalCode()">Test Your Original Code</button>
+    </div>
+
+    <!-- Load Three.js -->
+    <script>
+        let debugLogs = [];
+        let currentStep = 0;
+        let testRenderer = null;
+        let testScene = null;
+        let testCamera = null;
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${type.toUpperCase()}: ${message}`;
+            debugLogs.push(logEntry);
+            
+            const logElement = document.getElementById('error-logs');
+            logElement.textContent = debugLogs.join('\n') + '\n';
+            logElement.scrollTop = logElement.scrollHeight;
+            
+            console.log(`[Three.js Debug] ${logEntry}`);
+        }
+
+        function updateStatus(message, type = 'info') {
+            const statusElement = document.getElementById('overall-status');
+            statusElement.textContent = message;
+            statusElement.style.color = type === 'error' ? '#dc3545' : type === 'success' ? '#28a745' : '#17a2b8';
+            log(message, type);
+        }
+
+        function updateStep(stepId, status, message = '') {
+            const stepElement = document.getElementById(stepId);
+            stepElement.className = `step ${status}`;
+            stepElement.textContent = stepElement.textContent.split(':')[0] + (message ? `: ${message}` : '');
+        }
+
+        function clearLogs() {
+            debugLogs = [];
+            document.getElementById('error-logs').textContent = 'Logs cleared...\n';
+        }
+
+        function copyLogs() {
+            navigator.clipboard.writeText(debugLogs.join('\n')).then(() => {
+                alert('Logs copied to clipboard!');
+            });
+        }
+
+        function clearAllTests() {
+            const steps = ['step-webgl', 'step-threejs', 'step-scene', 'step-camera', 'step-renderer', 'step-geometry', 'step-material', 'step-mesh', 'step-render'];
+            steps.forEach(stepId => updateStep(stepId, 'pending'));
+            
+            const canvas = document.getElementById('test-canvas');
+            canvas.innerHTML = '<p>Canvas cleared</p>';
+            
+            if (testRenderer) {
+                testRenderer.dispose();
+                testRenderer = null;
+            }
+            
+            clearLogs();
+            log('All tests cleared');
+        }
+
+        // Step 1: WebGL Support
+        function testWebGLSupport() {
+            updateStep('step-webgl', 'running');
+            log('Testing WebGL support...');
+            
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                
+                if (!gl) {
+                    updateStep('step-webgl', 'failed', 'WebGL not supported');
+                    log('WebGL is not supported by this browser', 'error');
+                    return false;
+                }
+                
+                updateStep('step-webgl', 'success', 'WebGL supported');
+                log('WebGL is supported');
+                
+                // Get WebGL info
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                if (debugInfo) {
+                    log(`WebGL Vendor: ${gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL)}`);
+                    log(`WebGL Renderer: ${gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)}`);
+                }
+                
+                return true;
+            } catch (e) {
+                updateStep('step-webgl', 'failed', `Error: ${e.message}`);
+                log(`WebGL test failed: ${e.message}`, 'error');
+                return false;
+            }
+        }
+
+        // Step 2: Three.js Load
+        function testThreeJSLoad() {
+            updateStep('step-threejs', 'running');
+            log('Testing Three.js availability...');
+            
+            if (typeof THREE === 'undefined') {
+                updateStep('step-threejs', 'failed', 'THREE not defined');
+                log('THREE object is not defined', 'error');
+                return false;
+            }
+            
+            updateStep('step-threejs', 'success', `Three.js r${THREE.REVISION} loaded`);
+            log(`Three.js r${THREE.REVISION} is loaded and available`);
+            return true;
+        }
+
+        // Step 3: Scene Creation
+        function testSceneCreation() {
+            updateStep('step-scene', 'running');
+            log('Creating Three.js scene...');
+            
+            try {
+                testScene = new THREE.Scene();
+                updateStep('step-scene', 'success', 'Scene created');
+                log('Scene created successfully');
+                return true;
+            } catch (e) {
+                updateStep('step-scene', 'failed', `Error: ${e.message}`);
+                log(`Scene creation failed: ${e.message}`, 'error');
+                console.error(e);
+                return false;
+            }
+        }
+
+        // Step 4: Camera Setup
+        function testCameraSetup() {
+            updateStep('step-camera', 'running');
+            log('Setting up camera...');
+            
+            try {
+                testCamera = new THREE.PerspectiveCamera(75, 600/400, 0.1, 1000);
+                testCamera.position.z = 5;
+                updateStep('step-camera', 'success', 'Camera created');
+                log('Camera created and positioned');
+                return true;
+            } catch (e) {
+                updateStep('step-camera', 'failed', `Error: ${e.message}`);
+                log(`Camera setup failed: ${e.message}`, 'error');
+                console.error(e);
+                return false;
+            }
+        }
+
+        // Step 5: Renderer Creation
+        function testRendererCreation() {
+            updateStep('step-renderer', 'running');
+            log('Creating WebGL renderer...');
+            
+            try {
+                const canvas = document.getElementById('test-canvas');
+                canvas.innerHTML = '';
+                
+                testRenderer = new THREE.WebGLRenderer({ antialias: true });
+                testRenderer.setSize(600, 400);
+                testRenderer.setClearColor(0x87ceeb);
+                
+                canvas.appendChild(testRenderer.domElement);
+                
+                updateStep('step-renderer', 'success', 'Renderer created');
+                log('WebGL renderer created and added to DOM');
+                return true;
+            } catch (e) {
+                updateStep('step-renderer', 'failed', `Error: ${e.message}`);
+                log(`Renderer creation failed: ${e.message}`, 'error');
+                console.error(e);
+                return false;
+            }
+        }
+
+        // Step 6: Geometry Creation
+        function testGeometryCreation() {
+            updateStep('step-geometry', 'running');
+            log('Creating geometry...');
+            
+            try {
+                const geometry = new THREE.BoxGeometry();
+                updateStep('step-geometry', 'success', 'BoxGeometry created');
+                log('BoxGeometry created successfully');
+                return geometry;
+            } catch (e) {
+                updateStep('step-geometry', 'failed', `Error: ${e.message}`);
+                log(`Geometry creation failed: ${e.message}`, 'error');
+                console.error(e);
+                return false;
+            }
+        }
+
+        // Step 7: Material Creation
+        function testMaterialCreation() {
+            updateStep('step-material', 'running');
+            log('Creating material...');
+            
+            try {
+                const material = new THREE.MeshBasicMaterial({ color: 0x0077ff });
+                updateStep('step-material', 'success', 'Material created');
+                log('MeshBasicMaterial created successfully');
+                return material;
+            } catch (e) {
+                updateStep('step-material', 'failed', `Error: ${e.message}`);
+                log(`Material creation failed: ${e.message}`, 'error');
+                console.error(e);
+                return false;
+            }
+        }
+
+        // Step 8: Mesh Creation
+        function testMeshCreation(geometry, material) {
+            updateStep('step-mesh', 'running');
+            log('Creating mesh...');
+            
+            try {
+                const mesh = new THREE.Mesh(geometry, material);
+                testScene.add(mesh);
+                updateStep('step-mesh', 'success', 'Mesh created and added');
+                log('Mesh created and added to scene');
+                return mesh;
+            } catch (e) {
+                updateStep('step-mesh', 'failed', `Error: ${e.message}`);
+                log(`Mesh creation failed: ${e.message}`, 'error');
+                console.error(e);
+                return false;
+            }
+        }
+
+        // Step 9: Render
+        function testRender() {
+            updateStep('step-render', 'running');
+            log('Attempting first render...');
+            
+            try {
+                testRenderer.render(testScene, testCamera);
+                updateStep('step-render', 'success', 'Render successful');
+                log('First render completed successfully');
+                return true;
+            } catch (e) {
+                updateStep('step-render', 'failed', `Error: ${e.message}`);
+                log(`Render failed: ${e.message}`, 'error');
+                console.error(e);
+                return false;
+            }
+        }
+
+        // Full Test
+        async function runFullTest() {
+            clearAllTests();
+            updateStatus('Running full initialization test...', 'info');
+            
+            if (!testWebGLSupport()) return;
+            if (!testThreeJSLoad()) return;
+            if (!testSceneCreation()) return;
+            if (!testCameraSetup()) return;
+            if (!testRendererCreation()) return;
+            
+            const geometry = testGeometryCreation();
+            if (!geometry) return;
+            
+            const material = testMaterialCreation();
+            if (!material) return;
+            
+            const mesh = testMeshCreation(geometry, material);
+            if (!mesh) return;
+            
+            if (!testRender()) return;
+            
+            updateStatus('✅ All tests passed! Three.js is working correctly.', 'success');
+        }
+
+        // Step by step test
+        async function runStepByStep() {
+            clearAllTests();
+            // Same as runFullTest but with delays for visual effect
+            const steps = [
+                testWebGLSupport,
+                testThreeJSLoad,
+                testSceneCreation,
+                testCameraSetup,
+                testRendererCreation,
+                () => { 
+                    const geom = testGeometryCreation();
+                    const mat = testMaterialCreation();
+                    if (geom && mat) {
+                        testMeshCreation(geom, mat);
+                    }
+                },
+                testRender
+            ];
+            
+            for (let i = 0; i < steps.length; i++) {
+                await new Promise(resolve => setTimeout(resolve, 500));
+                const result = steps[i]();
+                if (result === false) break;
+            }
+        }
+
+        // Test your original code structure
+        function testYourOriginalCode() {
+            log('Testing structure similar to your original code...', 'info');
+            clearAllTests();
+            
+            try {
+                // Simulate your initThreeJS function structure
+                const container = document.getElementById('test-canvas');
+                container.innerHTML = '';
+                
+                // Scene setup
+                const scene = new THREE.Scene();
+                scene.background = new THREE.Color(0x87ceeb);
+                log('Scene created with background color');
+
+                // Camera setup
+                const camera = new THREE.PerspectiveCamera(75, 600/400, 0.1, 1000);
+                camera.position.z = 5;
+                log('Camera created and positioned');
+
+                // Renderer setup
+                const renderer = new THREE.WebGLRenderer({ antialias: true });
+                renderer.setSize(600, 400);
+                renderer.shadowMap.enabled = true;
+                renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+                container.appendChild(renderer.domElement);
+                log('Renderer created with shadow mapping');
+
+                // Create thunderbolt-like shape (simplified)
+                const thunderboltShape = new THREE.Shape();
+                thunderboltShape.moveTo(0, 3);
+                thunderboltShape.lineTo(-0.5, 1);
+                thunderboltShape.lineTo(0.2, 1);
+                thunderboltShape.lineTo(-0.3, 0);
+                thunderboltShape.lineTo(0.8, 0);
+                thunderboltShape.lineTo(0, -3);
+                thunderboltShape.lineTo(0.5, -1);
+                thunderboltShape.lineTo(-0.2, -1);
+                thunderboltShape.lineTo(0.3, 0);
+                thunderboltShape.lineTo(-0.8, 0);
+                thunderboltShape.lineTo(0, 3);
+                log('Thunderbolt shape created');
+
+                const extrudeSettings = {
+                    depth: 0.3,
+                    bevelEnabled: true,
+                    bevelSegments: 8,
+                    steps: 1,
+                    bevelSize: 0.1,
+                    bevelThickness: 0.1
+                };
+
+                const geometry = new THREE.ExtrudeGeometry(thunderboltShape, extrudeSettings);
+                log('Extrude geometry created');
+
+                const material = new THREE.MeshPhongMaterial({ 
+                    color: 0xffe66d,
+                    shininess: 100,
+                    transparent: false,
+                    opacity: 1.0,
+                    reflectivity: 0.3,
+                    emissive: new THREE.Color(0x111122)
+                });
+                log('Phong material created');
+
+                const thunderbolt = new THREE.Mesh(geometry, material);
+                thunderbolt.castShadow = true;
+                scene.add(thunderbolt);
+                log('Thunderbolt mesh added to scene');
+
+                // Add lighting
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+                scene.add(ambientLight);
+
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                directionalLight.position.set(5, 5, 5);
+                directionalLight.castShadow = true;
+                scene.add(directionalLight);
+                log('Lighting added');
+
+                // Render
+                renderer.render(scene, camera);
+                log('Scene rendered successfully');
+
+                updateStatus('✅ Original code structure test completed successfully!', 'success');
+
+            } catch (error) {
+                log(`❌ Original code test failed: ${error.message}`, 'error');
+                console.error('Original code test error:', error);
+                updateStatus(`❌ Original code test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Load system information
+        function loadSystemInfo() {
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            
+            let info = 'BROWSER & SYSTEM INFORMATION\n';
+            info += '================================\n\n';
+            
+            info += `User Agent: ${navigator.userAgent}\n`;
+            info += `Platform: ${navigator.platform}\n`;
+            info += `Language: ${navigator.language}\n`;
+            info += `Hardware Concurrency: ${navigator.hardwareConcurrency || 'Unknown'}\n`;
+            info += `Screen: ${screen.width}x${screen.height} (${screen.colorDepth} bit)\n\n`;
+            
+            if (gl) {
+                info += 'WEBGL INFORMATION\n';
+                info += '=================\n';
+                info += `Version: ${gl.getParameter(gl.VERSION)}\n`;
+                info += `Vendor: ${gl.getParameter(gl.VENDOR)}\n`;
+                info += `Renderer: ${gl.getParameter(gl.RENDERER)}\n`;
+                info += `Max Texture Size: ${gl.getParameter(gl.MAX_TEXTURE_SIZE)}\n`;
+                
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                if (debugInfo) {
+                    info += `Unmasked Vendor: ${gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL)}\n`;
+                    info += `Unmasked Renderer: ${gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)}\n`;
+                }
+            } else {
+                info += 'WEBGL: NOT AVAILABLE\n';
+            }
+            
+            if (typeof THREE !== 'undefined') {
+                info += `\nTHREE.JS: r${THREE.REVISION}\n`;
+            } else {
+                info += '\nTHREE.JS: NOT LOADED\n';
+            }
+            
+            document.getElementById('system-info').textContent = info;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStatus('Debug tools initialized. Ready for testing.', 'info');
+            log('Three.js Debug Tool initialized');
+            
+            // Load Three.js and then load system info
+            setTimeout(() => {
+                loadSystemInfo();
+                if (typeof THREE !== 'undefined') {
+                    log(`Three.js r${THREE.REVISION} detected`);
+                } else {
+                    log('Three.js not detected - loading...', 'warning');
+                }
+            }, 1000);
+        });
+    </script>
+
+    <!-- Load Three.js with fallbacks -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r158/three.min.js" 
+            onload="log('Three.js loaded from CDNJS')" 
+            onerror="log('Failed to load Three.js from CDNJS', 'error')"></script>
+</body>
+</html>

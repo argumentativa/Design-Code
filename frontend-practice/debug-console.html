@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Console for Main Site</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 2rem;
+            background: #f8f9fa;
+        }
+        .debug-panel {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        #console-output {
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            border: 2px solid #333;
+        }
+        .error { color: #ff6b6b; }
+        .warning { color: #ffa500; }
+        .success { color: #51cf66; }
+        .info { color: #74c0fc; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.25rem;
+        }
+        button:hover { background: #0056b3; }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Debug Console for Main Site</h1>
+    
+    <div class="debug-panel">
+        <h3>Live Console Output</h3>
+        <div id="console-output">Waiting for console messages...\n</div>
+        <button onclick="clearConsole()">Clear Console</button>
+        <button onclick="checkThreeJS()">Check Three.js Status</button>
+        <button onclick="checkAnimationStatus()">Check Animation Status</button>
+    </div>
+
+    <div class="debug-panel">
+        <h3>Main Site (Embedded)</h3>
+        <iframe id="main-site" src="index.html"></iframe>
+    </div>
+
+    <script>
+        let consoleDiv = document.getElementById('console-output');
+        let messageCount = 0;
+
+        function addToConsole(message, type = 'info') {
+            messageCount++;
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type || 'info';
+            const prefix = type === 'error' ? '❌' : type === 'warning' ? '⚠️' : type === 'success' ? '✅' : 'ℹ️';
+            
+            consoleDiv.innerHTML += `<span class="${className}">[${timestamp}] ${prefix} ${message}</span>\n`;
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        }
+
+        function clearConsole() {
+            consoleDiv.innerHTML = 'Console cleared...\n';
+            messageCount = 0;
+        }
+
+        function checkThreeJS() {
+            const iframe = document.getElementById('main-site');
+            const iframeWindow = iframe.contentWindow;
+            
+            try {
+                if (iframeWindow.THREE) {
+                    addToConsole(`Three.js detected: r${iframeWindow.THREE.REVISION}`, 'success');
+                    addToConsole(`Available objects: ${Object.keys(iframeWindow.THREE).slice(0, 10).join(', ')}...`, 'info');
+                } else {
+                    addToConsole('Three.js NOT detected in iframe', 'error');
+                }
+            } catch (e) {
+                addToConsole(`Error checking Three.js: ${e.message}`, 'error');
+            }
+        }
+
+        function checkAnimationStatus() {
+            const iframe = document.getElementById('main-site');
+            const iframeWindow = iframe.contentWindow;
+            
+            try {
+                const status = {
+                    scene: !!iframeWindow.scene,
+                    camera: !!iframeWindow.camera,
+                    renderer: !!iframeWindow.renderer,
+                    thunderbolt: !!iframeWindow.thunderbolt,
+                    isAnimating: iframeWindow.isAnimating,
+                    isMouseOver: iframeWindow.isMouseOver,
+                    roomScene: !!iframeWindow.roomScene,
+                    roomCamera: !!iframeWindow.roomCamera,
+                    roomRenderer: !!iframeWindow.roomRenderer
+                };
+                
+                addToConsole('Animation Status:', 'info');
+                Object.entries(status).forEach(([key, value]) => {
+                    const type = value ? 'success' : 'error';
+                    addToConsole(`  ${key}: ${value}`, type);
+                });
+                
+            } catch (e) {
+                addToConsole(`Error checking animation status: ${e.message}`, 'error');
+            }
+        }
+
+        // Override console methods to capture iframe console messages
+        function setupConsoleCapture() {
+            const iframe = document.getElementById('main-site');
+            
+            iframe.onload = function() {
+                const iframeWindow = iframe.contentWindow;
+                
+                // Capture console messages from iframe
+                const originalLog = iframeWindow.console.log;
+                const originalError = iframeWindow.console.error;
+                const originalWarn = iframeWindow.console.warn;
+                
+                iframeWindow.console.log = function(...args) {
+                    originalLog.apply(iframeWindow.console, args);
+                    addToConsole(args.join(' '), 'info');
+                };
+                
+                iframeWindow.console.error = function(...args) {
+                    originalError.apply(iframeWindow.console, args);
+                    addToConsole(args.join(' '), 'error');
+                };
+                
+                iframeWindow.console.warn = function(...args) {
+                    originalWarn.apply(iframeWindow.console, args);
+                    addToConsole(args.join(' '), 'warning');
+                };
+                
+                // Check status after load
+                setTimeout(() => {
+                    addToConsole('Main site loaded, checking status...', 'info');
+                    checkThreeJS();
+                    checkAnimationStatus();
+                }, 3000);
+            };
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            addToConsole('Debug console initialized', 'success');
+            setupConsoleCapture();
+        });
+
+        // Monitor iframe changes
+        setInterval(() => {
+            // Auto-check every 10 seconds
+        }, 10000);
+    </script>
+</body>
+</html>
