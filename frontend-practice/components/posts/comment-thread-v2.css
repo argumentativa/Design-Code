@@ -1,0 +1,472 @@
+/* ============================================
+   COMMENT THREAD V2 - IMPROVED FROM FIGMA
+   Based on improved Figma naming conventions
+   ============================================ */
+
+@import url('../../css/design-tokens.css');
+@import url('../avatar/avatar.css');
+@import url('../badge/badge.css');
+@import url('../button/button.css');
+
+/* ============================================
+   COMMENT THREAD CONTAINER
+   ============================================ */
+
+.comment-thread {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: var(--neutral-white);
+}
+
+/* ============================================
+   COMMENT POST (Main Comment)
+   Figma: organisms/comment/post
+   ============================================ */
+
+.comment-post {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: var(--space-xxs) 0;
+    background-color: var(--neutral-white);
+}
+
+/* Comment Post Row
+   Figma: comment-post__row */
+.comment-post__row {
+    display: flex;
+    gap: var(--space-xs);
+    padding: var(--space-xxs) var(--space-s);
+    padding-bottom: 0;
+    background-color: var(--neutral-white);
+}
+
+/* Comment Post Avatar Column
+   Figma: comment-post__avatar */
+.comment-post__avatar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxs);
+    flex-shrink: 0;
+}
+
+.line-connector {
+    width: 32px;
+    height: 100%;
+    opacity: 0; /* Hidden by default, shown on hover/active */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Author Content Bubble
+   Figma: author-content */
+.author-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: var(--space-xxs) var(--space-xs);
+    background-color: var(--neutral-20);
+    border-radius: var(--border-radius-sm);
+}
+
+/* Author Header: Name + User + Timestamp
+   Figma: author-header__name-user-timestamp */
+.author-header__name-user-timestamp {
+    display: flex;
+    gap: var(--space-xxxs);
+    align-items: center;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.author-name {
+    font-family: var(--ff-primary);
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-label-md);
+    line-height: var(--lh-sm);
+    letter-spacing: var(--ls-md);
+    color: var(--text-color-primary);
+    white-space: nowrap;
+}
+
+.author-meta {
+    font-family: var(--ff-primary);
+    font-weight: var(--fw-medium);
+    font-size: var(--fs-label-md);
+    line-height: var(--lh-sm);
+    letter-spacing: var(--ls-md);
+    color: var(--text-color-secondary);
+    white-space: nowrap;
+}
+
+/* Author Header: Badges
+   Figma: author-header__badges */
+.author-header__badges {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+}
+
+/* Post Content
+   Figma: post-content */
+.post-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-xxs) 0;
+    width: 100%;
+}
+
+.post-text {
+    font-family: var(--ff-primary);
+    font-weight: var(--fw-regular);
+    font-size: var(--fs-body-default);
+    line-height: var(--lh-md);
+    letter-spacing: var(--ls-sm);
+    color: var(--text-color-primary);
+    margin: 0;
+}
+
+.post-text .mention {
+    text-decoration: underline;
+    color: var(--text-color-primary);
+}
+
+/* ============================================
+   ACTION BAR
+   Figma: action-bar__row, action-bar__content
+   ============================================ */
+
+.action-bar__row {
+    display: flex;
+    width: 100%;
+}
+
+.action-bar__connector-spacer {
+    width: 56px;
+    flex-shrink: 0;
+}
+
+.action-bar__content {
+    flex: 1;
+    display: flex;
+    gap: var(--space-xxs);
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 var(--space-xs) 0 0;
+    background-color: var(--neutral-white);
+}
+
+/* Action Bar: Reactions Count
+   Figma: action-bar__reactions-count */
+.action-bar__reactions-count {
+    flex: 1;
+    display: flex;
+    gap: var(--space-xxs);
+    align-items: center;
+}
+
+/* Reactions Stack
+   Figma: reactions-stack */
+.reactions-stack {
+    display: flex;
+    align-items: center;
+    padding-right: 2px;
+}
+
+.reaction-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+    border: 1px solid var(--neutral-white);
+    padding: var(--space-xxxs);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: -2px;
+    flex-shrink: 0;
+}
+
+.reaction-helpful {
+    background-color: var(--green-100);
+}
+
+.reaction-insightful {
+    background-color: var(--yellow-100);
+}
+
+.reaction-uplifting {
+    background-color: #fff6e7;
+}
+
+.reaction-icon-inner {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.reaction-count {
+    font-family: var(--ff-primary);
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-label-md);
+    line-height: 20px;
+    letter-spacing: var(--ls-md);
+    color: var(--text-color-primary);
+    white-space: nowrap;
+}
+
+/* Action Bar: Actions (Buttons)
+   Figma: action-bar__actions */
+.action-bar__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+    gap: 0;
+}
+
+/* ============================================
+   MINI COMPOSER
+   Figma: mini-composer__container, mini-composer__field
+   ============================================ */
+
+.mini-composer-wrapper {
+    width: 100%;
+    padding: var(--space-xs) var(--space-s);
+    padding-left: 56px;
+    background-color: var(--neutral-white);
+}
+
+.mini-composer__container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.mini-composer__field {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.mini-composer__avatar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xxs);
+    padding-bottom: var(--space-xs);
+}
+
+.mini-composer__input {
+    flex: 1;
+    display: flex;
+    gap: var(--space-xxs);
+    align-items: flex-start;
+    padding: var(--space-xxs);
+    padding-left: var(--space-s);
+    background-color: var(--neutral-30);
+    border-radius: var(--space-m);
+}
+
+.input-text-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: var(--space-xxs) 0;
+}
+
+.input-text-wrapper {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.placeholder-text {
+    font-family: var(--ff-primary);
+    font-weight: var(--fw-regular);
+    font-size: var(--fs-body-default);
+    line-height: var(--lh-md);
+    letter-spacing: var(--ls-sm);
+    color: var(--text-color-secondary);
+}
+
+.input-trailing-icons {
+    display: flex;
+    gap: 0;
+    align-items: flex-end;
+    padding: var(--space-xxs);
+    padding-left: 0;
+}
+
+.input-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.input-icon:hover {
+    background-color: var(--neutral-40);
+}
+
+.input-icon-arrow {
+    background-color: var(--neutral-400);
+    border-radius: 100px;
+}
+
+.input-icon-arrow:hover {
+    background-color: var(--neutral-500);
+}
+
+/* ============================================
+   COMMENT REPLY
+   Figma: organisms/comment/reply
+   ============================================ */
+
+.comment-reply {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: var(--space-xxs) 0;
+    background-color: var(--neutral-white);
+}
+
+/* Comment Reply Row
+   Figma: comment-reply__row */
+.comment-reply__row {
+    display: flex;
+    gap: var(--space-xxs);
+    padding: var(--space-xxxs) var(--space-s) 0;
+    padding-left: 56px;
+    background-color: var(--neutral-white);
+}
+
+/* Reply Avatar + Connector */
+.reply-avatar-connector {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.reply-line-connector {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    padding: 0 var(--space-xxxs) 0 0;
+}
+
+.line-connector__line {
+    width: 1px;
+    height: 100%;
+    background-color: #d9d9d9;
+}
+
+/* Reply Action Bar */
+.reply-action-bar-container {
+    display: flex;
+    width: 100%;
+    padding-left: 56px;
+}
+
+.reply-connector-spacer {
+    width: 22px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    padding: 0 11px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .comment-post__row,
+    .comment-reply__row {
+        padding-left: var(--space-xs);
+        padding-right: var(--space-xs);
+    }
+    
+    .mini-composer-wrapper,
+    .reply-action-bar-container {
+        padding-left: 48px;
+    }
+    
+    .action-bar__connector-spacer,
+    .reply-connector-spacer {
+        width: 48px;
+    }
+}
+
+@media (max-width: 480px) {
+    .comment-post__row,
+    .comment-reply__row {
+        gap: var(--space-xxs);
+    }
+    
+    .author-header__name-user-timestamp {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-xxxs);
+    }
+}
+
+/* ============================================
+   STATES & INTERACTIONS
+   ============================================ */
+
+/* Hover state for entire comment */
+.comment-post:hover .line-connector,
+.comment-reply:hover .reply-line-connector {
+    opacity: 1;
+}
+
+/* Focus states for buttons (handled by button.css) */
+
+/* Active/selected state for comments */
+.comment-post.is-selected,
+.comment-reply.is-selected {
+    background-color: var(--neutral-10);
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus visible for keyboard navigation */
+.comment-post:focus-visible,
+.comment-reply:focus-visible {
+    outline: 2px solid var(--primary-500);
+    outline-offset: 2px;
+}
+

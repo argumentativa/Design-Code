@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment Thread - Component</title>
+    
+    <!-- Design Tokens -->
+    <link rel="stylesheet" href="../../css/design-tokens.css">
+    
+    <!-- Avatar Component -->
+    <link rel="stylesheet" href="../avatar/avatar.css">
+    
+    <!-- Badge Component -->
+    <link rel="stylesheet" href="../badge/badge.css">
+    
+    <!-- Button Component -->
+    <link rel="stylesheet" href="../button/button.css">
+    
+    <!-- Navigation Component Styles -->
+    <link rel="stylesheet" href="../navigation/navigation.css">
+    
+    <!-- Component Styles -->
+    <link rel="stylesheet" href="comment-thread.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="component-nav">
+        <div class="component-nav__container">
+            <a href="../index.html" class="component-nav__home">
+                <svg class="component-nav__home-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Component Library
+            </a>
+            <div class="component-nav__links">
+                <a href="../index.html" class="component-nav__link">Index</a>
+                <a href="../avatar/avatar.html" class="component-nav__link">Avatar</a>
+                <a href="../badge/badge.html" class="component-nav__link">Badge</a>
+                <a href="../button/button.html" class="component-nav__link">Button</a>
+                <a href="comment-thread.html" class="component-nav__link component-nav__link--active">Comment Thread</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div style="max-width: 1400px; margin: 0 auto; padding: var(--space-xl); background-color: var(--neutral-white);">
+        <!-- Comment Thread Component -->
+        <!-- organisms/comment/thread -->
+        <div class="comment-thread" data-name="type=comments" data-node-id="1:969">
+            
+            <!-- Main Comment Post -->
+            <div class="comment-post" data-name="organisms/comment/post" data-node-id="1:971">
+                
+                <!-- Comment Row: Avatar + Content -->
+                <div class="comment-row">
+                    <!-- Avatar + Connector -->
+                    <div class="avatar-connector">
+                        <div class="avatar avatar--small">
+                            <img src="https://i.pravatar.cc/32?img=1" alt="Amy L Week" class="avatar__image">
+                        </div>
+                        <div class="line-connector">
+                            <!-- Connector line (hidden with opacity: 0) -->
+                        </div>
+                    </div>
+                    
+                    <!-- Author Content Bubble -->
+                    <div class="author-content">
+                        <!-- Author Name + User -->
+                        <div class="author-name-user">
+                            <span class="author-name">Amy L Week</span>
+                            <span class="author-meta">@amyl518 • 4h</span>
+                        </div>
+                        
+                        <!-- Badges -->
+                        <div class="badges">
+                            <div class="badge badge--small badge--leader">
+                                <div class="badge__icon-container">
+                                    <img src="../../assets/icons/16/awards/shield-heart.svg" alt="Community Leader" class="badge__icon">
+                                </div>
+                                <div class="badge__text-wrapper">
+                                    <p class="badge__text">Community Leader</p>
+                                </div>
+                            </div>
+                            <div class="badge badge--small badge--superfan">
+                                <img src="../../assets/icons/16/awards/face-grin-hearts.svg" alt="Superfan" class="badge__icon">
+                                <span class="badge__text">Superfan</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Post Content -->
+                        <div class="post-content">
+                            <p class="post-text">I definitely agree with everything you said! Faye was the person who came to mind when I posted about needing help with the post stitches. Besides being super helpful and knowledgeable, Faye is always so uplifting and encouraging and keeps me going! Never stop being you, Faye​ ❤️</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Action Bar with Reactions -->
+                <div class="action-bar-container">
+                    <div class="connector-spacer"></div>
+                    
+                    <div class="action-bar">
+                        <div class="action-bar-inner">
+                            <!-- Reactions Count -->
+                            <div class="reactions-count">
+                                <div class="reactions-stack">
+                                    <div class="reaction-icon reaction-helpful">
+                                        <div class="reaction-icon-inner">
+                                            <img src="../../assets/icons/16/reactions/helpful-color.svg" alt="Helpful" width="16" height="16">
+                                        </div>
+                                    </div>
+                                    <div class="reaction-icon reaction-insightful">
+                                        <div class="reaction-icon-inner">
+                                            <img src="../../assets/icons/16/reactions/insightful-color.svg" alt="Insightful" width="16" height="16">
+                                        </div>
+                                    </div>
+                                    <div class="reaction-icon reaction-uplifting">
+                                        <div class="reaction-icon-inner">
+                                            <img src="../../assets/icons/16/reactions/uplifting-color.svg" alt="Uplifting" width="16" height="16">
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="reaction-count">5</span>
+                            </div>
+                            
+                            <!-- Actions Right -->
+                            <div class="actions-right">
+                                <button class="button button--small button--icon-only button--naked" aria-label="Add reaction">
+                                    <div class="button__icon">
+                                        <img src="../../assets/icons/24/reactions/add-reaction.svg" alt="Add reaction" width="17.27" height="14.535">
+                                    </div>
+                                </button>
+                                <button class="button button--small button--naked">
+                                    <span class="button__text">Reply</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mini Composer -->
+                <div class="mini-composer-wrapper">
+                    <div class="mini-composer-container">
+                        <div class="mini-composer">
+                            <div class="composer-avatar-container">
+                                <div class="composer-avatar-wrapper">
+                                    <div class="avatar avatar--xs">
+                                        <img src="https://i.pravatar.cc/24?img=5" alt="Your avatar" class="avatar__image">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="composer-input">
+                                <div class="input-text-container">
+                                    <div class="input-text-wrapper">
+                                        <p class="placeholder-text">Leave a comment...</p>
+                                    </div>
+                                </div>
+                                <div class="input-trailing-icons">
+                                    <div class="input-icon">
+                                        <img src="../../assets/icons/24/media/image.svg" alt="Add image" width="16" height="16">
+                                    </div>
+                                    <div class="input-icon input-icon-arrow">
+                                        <img src="../../assets/icons/24/UI/arrow-right.svg" alt="Send" width="14" height="16">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Reply 1: Faye Williams-Smith -->
+            <div class="comment-reply" data-name="organisms/comment/reply" data-node-id="1:972">
+                
+                <!-- Reply Row -->
+                <div class="reply-row">
+                    <!-- Avatar + Connector -->
+                    <div class="reply-avatar-connector">
+                        <div class="avatar avatar--xs">
+                            <img src="https://i.pravatar.cc/24?img=2" alt="Faye Williams-Smith" class="avatar__image">
+                        </div>
+                        <div class="reply-line-connector">
+                            <div class="reply-line-rect"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Author Content Bubble -->
+                    <div class="author-content">
+                        <!-- Author Name + User -->
+                        <div class="author-name-user">
+                            <span class="author-name">Faye Williams-Smith</span>
+                            <span class="author-meta">@Faye-Williams-S... • 2h</span>
+                        </div>
+                        
+                        <!-- Badges -->
+                        <div class="badges">
+                            <div class="badge badge--small badge--leader">
+                                <div class="badge__icon-container">
+                                    <img src="../../assets/icons/16/awards/shield-heart.svg" alt="Community Leader" class="badge__icon">
+                                </div>
+                                <div class="badge__text-wrapper">
+                                    <p class="badge__text">Community Leader</p>
+                                </div>
+                            </div>
+                            <div class="badge badge--small badge--contributor">
+                                <img src="../../assets/icons/16/awards/hand-holding-heart.svg" alt="Contributor" class="badge__icon">
+                                <span class="badge__text">Contributor</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Post Content -->
+                        <div class="post-content">
+                            <p class="post-text"><span class="mention">@amyl518</span> thank you 😄</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reply Action Bar -->
+                <div class="reply-action-bar-container">
+                    <div class="reply-connector-spacer">
+                        <div class="reply-line-rect"></div>
+                    </div>
+                    
+                    <div class="reply-action-bar">
+                        <div class="reply-action-bar-inner">
+                            <!-- Reactions Count -->
+                            <div class="reactions-count">
+                                <div class="reactions-stack">
+                                    <div class="reaction-icon reaction-helpful">
+                                        <div class="reaction-icon-inner">
+                                            <img src="../../assets/icons/16/reactions/helpful-color.svg" alt="Helpful" width="16" height="16">
+                                        </div>
+                                    </div>
+                                    <div class="reaction-icon reaction-insightful">
+                                        <div class="reaction-icon-inner">
+                                            <img src="../../assets/icons/16/reactions/insightful-color.svg" alt="Insightful" width="16" height="16">
+                                        </div>
+                                    </div>
+                                    <div class="reaction-icon reaction-uplifting">
+                                        <div class="reaction-icon-inner">
+                                            <img src="../../assets/icons/16/reactions/uplifting-color.svg" alt="Uplifting" width="16" height="16">
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="reaction-count">14</span>
+                            </div>
+                            
+                            <!-- Actions Right -->
+                            <div class="actions-right">
+                                <button class="button button--small button--icon-only button--naked" aria-label="Add reaction">
+                                    <div class="button__icon">
+                                        <img src="../../assets/icons/24/reactions/add-reaction.svg" alt="Add reaction" width="17.27" height="14.535">
+                                    </div>
+                                </button>
+                                <button class="button button--small button--naked">
+                                    <span class="button__text">Reply</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Reply 2: Jess -->
+            <div class="comment-reply" data-name="organisms/comment/reply" data-node-id="1:973">
+                
+                <!-- Reply Row -->
+                <div class="reply-row">
+                    <!-- Avatar + Connector -->
+                    <div class="reply-avatar-connector">
+                        <div class="avatar avatar--xs">
+                            <img src="https://i.pravatar.cc/24?img=3" alt="Jess" class="avatar__image">
+                        </div>
+                        <div class="reply-line-connector">
+                            <div class="reply-line-rect"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Author Content Bubble -->
+                    <div class="author-content">
+                        <!-- Author Name + User -->
+                        <div class="author-name-user">
+                            <span class="author-name">Jess</span>
+                            <span class="author-meta">@Jess-makeanddocrew • 1h</span>
+                        </div>
+                        
+                        <!-- Badges -->
+                        <div class="badges">
+                            <div class="badge badge--small badge--author">
+                                <div class="badge__text-wrapper">
+                                    <p class="badge__text">Author</p>
+                                </div>
+                            </div>
+                            <div class="badge badge--small badge--creator">
+                                <img src="../../assets/icons/16/awards/crown.svg" alt="Tastemaker" class="badge__icon">
+                                <span class="badge__text">Tastemaker</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Post Content -->
+                        <div class="post-content">
+                            <p class="post-text"><span class="mention">@Faye_Williams-Smith</span> you really came through on that post stitches help. And so many other things! ❤️</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reply Action Bar -->
+                <div class="reply-action-bar-container">
+                    <div class="reply-connector-spacer">
+                        <div class="reply-line-rect"></div>
+                    </div>
+                    
+                    <div class="reply-action-bar">
+                        <div class="reply-action-bar-inner">
+                            <!-- Reactions Count -->
+                            <div class="reactions-count">
+                                <div class="reactions-stack">
+                                    <div class="reaction-icon reaction-helpful">
+                                        <div class="reaction-icon-inner">
+                                            <img src="../../assets/icons/16/reactions/helpful-color.svg" alt="Helpful" width="16" height="16">
+                                        </div>
+                                    </div>
+                                    <div class="reaction-icon reaction-insightful">
+                                        <div class="reaction-icon-inner">
+                                            <img src="../../assets/icons/16/reactions/insightful-color.svg" alt="Insightful" width="16" height="16">
+                                        </div>
+                                    </div>
+                                    <div class="reaction-icon reaction-uplifting">
+                                        <div class="reaction-icon-inner">
+                                            <img src="../../assets/icons/16/reactions/uplifting-color.svg" alt="Uplifting" width="16" height="16">
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="reaction-count">7</span>
+                            </div>
+                            
+                            <!-- Actions Right -->
+                            <div class="actions-right">
+                                <button class="button button--small button--icon-only button--naked" aria-label="Add reaction">
+                                    <div class="button__icon">
+                                        <img src="../../assets/icons/24/reactions/add-reaction.svg" alt="Add reaction" width="17.27" height="14.535">
+                                    </div>
+                                </button>
+                                <button class="button button--small button--naked">
+                                    <span class="button__text">Reply</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

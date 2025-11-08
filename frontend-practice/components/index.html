@@ -30,7 +30,9 @@
                 <a href="avatar/avatar.html" class="inline-flex items-center px-sm py-xs no-underline text-neutral-700 font-primary text-body font-regular rounded-sm transition-all duration-200 whitespace-nowrap hover:text-neutral-900 hover:bg-neutral-50">Avatar</a>
                 <a href="badge/badge.html" class="inline-flex items-center px-sm py-xs no-underline text-neutral-700 font-primary text-body font-regular rounded-sm transition-all duration-200 whitespace-nowrap hover:text-neutral-900 hover:bg-neutral-50">Badge</a>
                 <a href="button/button.html" class="inline-flex items-center px-sm py-xs no-underline text-neutral-700 font-primary text-body font-regular rounded-sm transition-all duration-200 whitespace-nowrap hover:text-neutral-900 hover:bg-neutral-50">Button</a>
+                <a href="actionbar/actionbar.html" class="inline-flex items-center px-sm py-xs no-underline text-neutral-700 font-primary text-body font-regular rounded-sm transition-all duration-200 whitespace-nowrap hover:text-neutral-900 hover:bg-neutral-50">Action Bar</a>
                 <a href="posts/post-comment-highlight.html" class="inline-flex items-center px-sm py-xs no-underline text-neutral-700 font-primary text-body font-regular rounded-sm transition-all duration-200 whitespace-nowrap hover:text-neutral-900 hover:bg-neutral-50">Post</a>
+                <a href="posts/comment-thread.html" class="inline-flex items-center px-sm py-xs no-underline text-neutral-700 font-primary text-body font-regular rounded-sm transition-all duration-200 whitespace-nowrap hover:text-neutral-900 hover:bg-neutral-50">Comment Thread</a>
             </div>
         </div>
     </nav>
@@ -145,8 +147,76 @@
             </a>
         </div>
         
+        <h2 class="font-primary font-bold text-h1 text-neutral-900 mt-xxl mb-lg pb-sm border-b-2 border-neutral-100">Molecules</h2>
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-lg mb-xl">
+            <!-- Action Bar Component -->
+            <a href="actionbar/actionbar.html" class="bg-neutral-white rounded-md p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 no-underline text-inherit block hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] motion-reduce:transition-none">
+                <div class="flex items-center gap-sm mb-md">
+                    <div class="w-10 h-10 bg-purple-100 rounded-sm flex items-center justify-center shrink-0">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 24px; height: 24px; max-width: 24px; max-height: 24px;">
+                            <circle cx="7" cy="12" r="2" fill="currentColor"/>
+                            <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                            <circle cx="17" cy="12" r="2" fill="currentColor"/>
+                            <path d="M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-primary font-bold text-h2 text-neutral-900 m-0">Action Bar</h3>
+                </div>
+                <p class="font-primary text-body text-neutral-700 leading-[24px] mb-md">
+                    Comment action bar with reaction counts, add reaction button, and reply button. Shows overlapping reaction icons.
+                </p>
+                <div class="flex gap-md font-primary text-label-md text-neutral-500">
+                    <span class="flex items-center gap-xxs">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; max-width: 16px; max-height: 16px;">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                            <polyline points="2 17 12 22 22 17"/>
+                            <polyline points="2 12 12 17 22 12"/>
+                        </svg>
+                        Molecule
+                    </span>
+                    <span class="flex items-center gap-xxs">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; max-width: 16px; max-height: 16px;">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        </svg>
+                        Figma
+                    </span>
+                </div>
+            </a>
+        </div>
+        
         <h2 class="font-primary font-bold text-h1 text-neutral-900 mt-xxl mb-lg pb-sm border-b-2 border-neutral-100">Organisms</h2>
         <div class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-lg mb-xl">
+            <!-- Comment Thread Component -->
+            <a href="posts/comment-thread.html" class="bg-neutral-white rounded-md p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 no-underline text-inherit block hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] motion-reduce:transition-none">
+                <div class="flex items-center gap-sm mb-md">
+                    <div class="w-10 h-10 bg-purple-100 rounded-sm flex items-center justify-center shrink-0">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 24px; height: 24px; max-width: 24px; max-height: 24px;">
+                            <path d="M8 12H8.01M12 12H12.01M16 12H16.01M21 12C21 16.4183 16.9706 20 12 20C10.4607 20 9.01172 19.6565 7.74467 19.0511L3 20L4.39499 16.28C3.51156 15.0423 3 13.5743 3 12C3 7.58172 7.02944 4 12 4C16.9706 4 21 7.58172 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-primary font-bold text-h2 text-neutral-900 m-0">Comment Thread</h3>
+                </div>
+                <p class="font-primary text-body text-neutral-700 leading-[24px] mb-md">
+                    Pixel-perfect threaded comments with nested replies, badges, reactions, and mini composer. Direct from Figma.
+                </p>
+                <div class="flex gap-md font-primary text-label-md text-neutral-500">
+                    <span class="flex items-center gap-xxs">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; max-width: 16px; max-height: 16px;">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                            <polyline points="2 17 12 22 22 17"/>
+                            <polyline points="2 12 12 17 22 12"/>
+                        </svg>
+                        Comments
+                    </span>
+                    <span class="flex items-center gap-xxs">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; max-width: 16px; max-height: 16px;">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        </svg>
+                        Figma
+                    </span>
+                </div>
+            </a>
+            
             <!-- Post Comment Highlight Component -->
             <a href="posts/post-comment-highlight.html" class="bg-neutral-white rounded-md p-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 no-underline text-inherit block hover:-translate-y-0.5 hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] motion-reduce:transition-none">
                 <div class="flex items-center gap-sm mb-md">

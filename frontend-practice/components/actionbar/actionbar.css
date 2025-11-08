@@ -1,0 +1,156 @@
+/**
+ * Action Bar Component
+ * molecules/actionbar/comment/reactions
+ * Uses design tokens from css/design-tokens.css
+ * Figma Source: https://www.figma.com/design/2jfreCV5b1jUbsWqeFw9By/Figma-MCP?node-id=3-1164
+ */
+
+@import url('../../css/design-tokens.css');
+@import url('../button/button.css');
+
+/* ============================================
+   BASE ACTION BAR
+   ============================================ */
+.actionbar {
+    background-color: var(--neutral-white);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: var(--space-xxs) 0;
+    width: 100%;
+}
+
+/* Action Bar Inner */
+.actionbar__inner {
+    background-color: var(--neutral-white);
+    display: flex;
+    gap: var(--space-xxs);
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 var(--space-s);
+    width: 100%;
+}
+
+/* ============================================
+   REACTIONS COUNT SECTION
+   ============================================ */
+.actionbar__reactions {
+    flex: 1;
+    display: flex;
+    gap: var(--space-xxs);
+    align-items: center;
+    min-height: 1px;
+    min-width: 1px;
+}
+
+/* Reactions Stack - Overlapping Icons */
+.actionbar__reactions-stack {
+    display: flex;
+    align-items: center;
+    padding-left: 0;
+    padding-right: 2px;
+}
+
+/* Individual Reaction Icon */
+.actionbar__reaction-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+    border: 1px solid var(--neutral-white);
+    padding: var(--space-xxxs);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: -2px;
+    gap: var(--space-xxxs);
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+/* Reaction Icon Inner Container */
+.actionbar__reaction-icon-inner {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    padding: 2.667px 2.667px 4px;
+    overflow: hidden;
+}
+
+.actionbar__reaction-icon-inner img {
+    width: 16px;
+    height: 16px;
+    display: block;
+    flex-shrink: 0;
+}
+
+/* Reaction Icon Variants */
+.actionbar__reaction-icon--helpful {
+    background-color: var(--green-100);
+}
+
+.actionbar__reaction-icon--insightful {
+    background-color: var(--yellow-100);
+}
+
+.actionbar__reaction-icon--uplifting {
+    background-color: #fff6e7;
+}
+
+.actionbar__reaction-icon--haha {
+    background-color: var(--yellow-100);
+}
+
+.actionbar__reaction-icon--like {
+    background-color: var(--pink-100);
+}
+
+/* Reaction Count Text */
+.actionbar__reaction-count {
+    font-family: var(--ff-primary);
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-label-md);
+    line-height: 20px;
+    letter-spacing: var(--ls-md);
+    color: var(--text-color-primary);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* ============================================
+   ACTION BUTTONS SECTION
+   ============================================ */
+.actionbar__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0;
+    flex-shrink: 0;
+}
+
+/* Buttons are styled using the button component classes */
+/* Example: .button.button--small.button--icon-only.button--naked (add reaction) */
+/* Example: .button.button--small.button--naked (reply) */
+
+/* ============================================
+   VARIANTS
+   ============================================ */
+
+/* No Reactions State */
+.actionbar--no-reactions .actionbar__reactions-stack {
+    display: none;
+}
+
+.actionbar--no-reactions .actionbar__reaction-count {
+    display: none;
+}
+
+/* With Comment Count (for posts) */
+.actionbar--with-comment-count .actionbar__actions {
+    gap: var(--space-xxs);
+}
+

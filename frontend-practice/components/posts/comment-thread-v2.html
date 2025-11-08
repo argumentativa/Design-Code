@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment Thread Component v2 - Improved from Figma</title>
+    <link rel="stylesheet" href="../../css/design-tokens.css">
+    <link rel="stylesheet" href="../avatar/avatar.css">
+    <link rel="stylesheet" href="../badge/badge.css">
+    <link rel="stylesheet" href="../button/button.css">
+    <link rel="stylesheet" href="comment-thread-v2.css">
+</head>
+<body>
+    <!-- Component Showcase -->
+    <div style="max-width: 1400px; margin: 0 auto; padding: var(--space-xl); background-color: var(--neutral-white);">
+        
+        <!-- Comment Thread Component v2 -->
+        <!-- Generated from improved Figma naming structure -->
+        <div class="comment-thread" data-figma-name="organisms/comment/thread">
+            
+            <!-- Main Comment Post -->
+            <article class="comment-post" data-figma-name="organisms/comment/post">
+                
+                <!-- Comment Post Row: Avatar + Content -->
+                <div class="comment-post__row" data-figma-name="comment-post__row">
+                    
+                    <!-- Avatar Column with Connector -->
+                    <div class="comment-post__avatar" data-figma-name="comment-post__avatar">
+                        <div class="avatar avatar--small">
+                            <img src="https://i.pravatar.cc/32?img=1" alt="Amy L Week" class="avatar__image">
+                        </div>
+                        <div class="line-connector"></div>
+                    </div>
+                    
+                    <!-- Author Content Bubble -->
+                    <div class="author-content" data-figma-name="author-content">
+                        
+                        <!-- Author Header: Name + User + Timestamp -->
+                        <div class="author-header__name-user-timestamp" data-figma-name="author-header__name-user-timestamp">
+                            <span class="author-name">Amy L Week</span>
+                            <span class="author-meta">@amyl518 • 4h</span>
+                        </div>
+                        
+                        <!-- Author Header: Badges -->
+                        <div class="author-header__badges" data-figma-name="author-header__badges">
+                            <div class="badge badge--small badge--leader" data-figma-name="badge--small--leader">
+                                <div class="badge__icon-container">
+                                    <img src="../../assets/icons/16/awards/shield-heart.svg" alt="Community Leader" class="badge__icon">
+                                </div>
+                                <div class="badge__text-wrapper">
+                                    <p class="badge__text">Community Leader</p>
+                                </div>
+                            </div>
+                            <div class="badge badge--small badge--superfan" data-figma-name="badge--small--superfan">
+                                <img src="../../assets/icons/16/awards/face-grin-hearts.svg" alt="Superfan" class="badge__icon">
+                                <span class="badge__text">Superfan</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Post Content -->
+                        <div class="post-content" data-figma-name="post-content">
+                            <p class="post-text">I definitely agree with everything you said! Faye was the person who came to mind when I posted about needing help with the post stitches. Besides being super helpful and knowledgeable, Faye is always so uplifting and encouraging and keeps me going! Never stop being you, Faye ❤️</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Action Bar Row -->
+                <div class="action-bar__row" data-figma-name="action-bar__row">
+                    <div class="action-bar__connector-spacer"></div>
+                    <div class="action-bar__content" data-figma-name="action-bar__content">
+                        
+                        <!-- Reactions Count Section -->
+                        <div class="action-bar__reactions-count" data-figma-name="action-bar__reactions-count">
+                            <div class="reactions-stack" data-figma-name="reactions-stack">
+                                <div class="reaction-icon reaction-helpful">
+                                    <div class="reaction-icon-inner">
+                                        <img src="../../assets/icons/16/reactions/helpful-color.svg" alt="Helpful" width="16" height="16">
+                                    </div>
+                                </div>
+                                <div class="reaction-icon reaction-insightful">
+                                    <div class="reaction-icon-inner">
+                                        <img src="../../assets/icons/16/reactions/insightful-color.svg" alt="Insightful" width="16" height="16">
+                                    </div>
+                                </div>
+                                <div class="reaction-icon reaction-uplifting">
+                                    <div class="reaction-icon-inner">
+                                        <img src="../../assets/icons/16/reactions/uplifting-color.svg" alt="Uplifting" width="16" height="16">
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="reaction-count">5</span>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="action-bar__actions" data-figma-name="action-bar__actions">
+                            <button class="button button--small button--icon-only button--naked" aria-label="Add reaction">
+                                <div class="button__icon">
+                                    <img src="../../assets/icons/16/reactions/add-reaction.svg" alt="Add reaction" width="11.514" height="9.689">
+                                </div>
+                            </button>
+                            <button class="button button--small button--naked">
+                                <span class="button__text">Reply</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mini Composer -->
+                <div class="mini-composer-wrapper">
+                    <div class="mini-composer__container" data-figma-name="mini-composer__container">
+                        <div class="mini-composer__field" data-figma-name="mini-composer__field">
+                            <div class="mini-composer__avatar" data-figma-name="mini-composer__avatar">
+                                <div class="avatar avatar--xs">
+                                    <img src="https://i.pravatar.cc/24?img=10" alt="" class="avatar__image">
+                                </div>
+                            </div>
+                            <div class="mini-composer__input">
+                                <div class="input-text-container">
+                                    <div class="input-text-wrapper">
+                                        <span class="placeholder-text">Leave a comment...</span>
+                                    </div>
+                                </div>
+                                <div class="input-trailing-icons">
+                                    <button class="input-icon" aria-label="Add image">
+                                        <img src="../../assets/icons/24/media/image.svg" alt="Add image" width="16" height="16">
+                                    </button>
+                                    <button class="input-icon input-icon-arrow" aria-label="Send comment">
+                                        <img src="../../assets/icons/24/UI/arrow-right.svg" alt="Send" width="14" height="16">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- Reply Comment 1 -->
+            <article class="comment-reply" data-figma-name="organisms/comment/reply">
+                
+                <!-- Reply Row -->
+                <div class="comment-reply__row" data-figma-name="comment-reply__row">
+                    
+                    <!-- Reply Avatar + Connector -->
+                    <div class="reply-avatar-connector">
+                        <div class="avatar avatar--xs">
+                            <img src="https://i.pravatar.cc/24?img=2" alt="Faye Williams-Smith" class="avatar__image">
+                        </div>
+                        <div class="reply-line-connector">
+                            <div class="line-connector__line" data-figma-name="line-connector__line"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reply Content -->
+                    <div class="author-content" data-figma-name="author-content">
+                        
+                        <!-- Author Header -->
+                        <div class="author-header__name-user-timestamp" data-figma-name="author-header__name-user-timestamp">
+                            <span class="author-name">Faye Williams-Smith</span>
+                            <span class="author-meta">@Faye-Williams-S... • 2h</span>
+                        </div>
+                        
+                        <!-- Badges -->
+                        <div class="author-header__badges" data-figma-name="author-header__badges">
+                            <div class="badge badge--small badge--leader" data-figma-name="badge--small--leader">
+                                <div class="badge__icon-container">
+                                    <img src="../../assets/icons/16/awards/shield-heart.svg" alt="Community Leader" class="badge__icon">
+                                </div>
+                                <div class="badge__text-wrapper">
+                                    <p class="badge__text">Community Leader</p>
+                                </div>
+                            </div>
+                            <div class="badge badge--small badge--contributor" data-figma-name="badge--small--contributor">
+                                <img src="../../assets/icons/16/awards/hand-holding-heart.svg" alt="Contributor" class="badge__icon">
+                                <span class="badge__text">Contributor</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Reply Content -->
+                        <div class="post-content" data-figma-name="post-content">
+                            <p class="post-text"><a href="#" class="mention">@amyl518</a> thank you 😄</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reply Action Bar -->
+                <div class="reply-action-bar-container">
+                    <div class="reply-connector-spacer"></div>
+                    <div class="action-bar__row" data-figma-name="action-bar__row">
+                        <div class="action-bar__content" data-figma-name="action-bar__content">
+                            <div class="action-bar__reactions-count" data-figma-name="action-bar__reactions-count">
+                                <div class="reactions-stack" data-figma-name="reactions-stack">
+                                    <div class="reaction-icon reaction-helpful">
+                                        <div class="reaction-icon-inner">
+                                            <img src="../../assets/icons/16/reactions/helpful-color.svg" alt="Helpful" width="16" height="16">
+                                        </div>
+                                    </div>
+                                    <div class="reaction-icon reaction-insightful">
+                                        <div class="reaction-icon-inner">
+                                            <img src="../../assets/icons/16/reactions/insightful-color.svg" alt="Insightful" width="16" height="16">
+                                        </div>
+                                    </div>
+                                    <div class="reaction-icon reaction-uplifting">
+                                        <div class="reaction-icon-inner">
+                                            <img src="../../assets/icons/16/reactions/uplifting-color.svg" alt="Uplifting" width="16" height="16">
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="reaction-count">14</span>
+                            </div>
+                            <div class="action-bar__actions" data-figma-name="action-bar__actions">
+                                <button class="button button--small button--icon-only button--naked" aria-label="Add reaction">
+                                    <div class="button__icon">
+                                        <img src="../../assets/icons/16/reactions/add-reaction.svg" alt="Add reaction" width="11.514" height="9.689">
+                                    </div>
+                                </button>
+                                <button class="button button--small button--naked">
+                                    <span class="button__text">Reply</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            
+            <!-- Reply Comment 2 -->
+            <article class="comment-reply" data-figma-name="organisms/comment/reply">
+                
+                <!-- Reply Row -->
+                <div class="comment-reply__row" data-figma-name="comment-reply__row">
+                    
+                    <!-- Reply Avatar + Connector -->
+                    <div class="reply-avatar-connector">
+                        <div class="avatar avatar--xs">
+                            <img src="https://i.pravatar.cc/24?img=3" alt="Jess" class="avatar__image">
+                        </div>
+                        <div class="reply-line-connector">
+                            <div class="line-connector__line" data-figma-name="line-connector__line"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reply Content -->
+                    <div class="author-content" data-figma-name="author-content">
+                        
+                        <!-- Author Header -->
+                        <div class="author-header__name-user-timestamp" data-figma-name="author-header__name-user-timestamp">
+                            <span class="author-name">Jess</span>
+                            <span class="author-meta">@Jess-makeanddocrew • 1h</span>
+                        </div>
+                        
+                        <!-- Badges -->
+                        <div class="author-header__badges" data-figma-name="author-header__badges">
+                            <div class="badge badge--small badge--author" data-figma-name="badge--small--author">
+                                <div class="badge__text-wrapper">
+                                    <p class="badge__text">Author</p>
+                                </div>
+                            </div>
+                            <div class="badge badge--small badge--tastemaker" data-figma-name="badge--small--tastemaker">
+                                <img src="../../assets/icons/16/awards/crown.svg" alt="Tastemaker" class="badge__icon">
+                                <span class="badge__text">Tastemaker</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Reply Content -->
+                        <div class="post-content" data-figma-name="post-content">
+                            <p class="post-text"><a href="#" class="mention">@Faye_Williams-Smith</a> you really came through on that post stitches help. And so many other things! ❤️</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reply Action Bar -->
+                <div class="reply-action-bar-container">
+                    <div class="reply-connector-spacer"></div>
+                    <div class="action-bar__row" data-figma-name="action-bar__row">
+                        <div class="action-bar__content" data-figma-name="action-bar__content">
+                            <div class="action-bar__reactions-count" data-figma-name="action-bar__reactions-count">
+                                <div class="reactions-stack" data-figma-name="reactions-stack">
+                                    <div class="reaction-icon reaction-helpful">
+                                        <div class="reaction-icon-inner">
+                                            <img src="../../assets/icons/16/reactions/helpful-color.svg" alt="Helpful" width="16" height="16">
+                                        </div>
+                                    </div>
+                                    <div class="reaction-icon reaction-insightful">
+                                        <div class="reaction-icon-inner">
+                                            <img src="../../assets/icons/16/reactions/insightful-color.svg" alt="Insightful" width="16" height="16">
+                                        </div>
+                                    </div>
+                                    <div class="reaction-icon reaction-uplifting">
+                                        <div class="reaction-icon-inner">
+                                            <img src="../../assets/icons/16/reactions/uplifting-color.svg" alt="Uplifting" width="16" height="16">
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="reaction-count">7</span>
+                            </div>
+                            <div class="action-bar__actions" data-figma-name="action-bar__actions">
+                                <button class="button button--small button--icon-only button--naked" aria-label="Add reaction">
+                                    <div class="button__icon">
+                                        <img src="../../assets/icons/16/reactions/add-reaction.svg" alt="Add reaction" width="11.514" height="9.689">
+                                    </div>
+                                </button>
+                                <button class="button button--small button--naked">
+                                    <span class="button__text">Reply</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            
+        </div>
+        
+    </div>
+</body>
+</html>
+

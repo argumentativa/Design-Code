@@ -1,0 +1,489 @@
+/**
+ * Comment Thread Component
+ * organisms/comment/thread
+ * Uses design tokens from css/design-tokens.css
+ * Figma Source: https://www.figma.com/design/2jfreCV5b1jUbsWqeFw9By/Figma-MCP?node-id=1-2894
+ */
+
+@import url('../../css/design-tokens.css');
+@import url('../avatar/avatar.css');
+@import url('../badge/badge.css');
+@import url('../button/button.css');
+
+/* ============================================
+   BASE COMPONENT
+   ============================================ */
+.comment-thread {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 375px;
+}
+
+/* ============================================
+   COMMENT POST (Main Comment)
+   ============================================ */
+.comment-post {
+    background-color: var(--neutral-white);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-xxs) 0;
+    width: 100%;
+}
+
+/* Comment Row - Main container for avatar + content */
+.comment-row {
+    background-color: var(--neutral-white);
+    display: flex;
+    gap: var(--space-xs);
+    align-items: flex-start;
+    padding-bottom: 0;
+    padding-top: var(--space-xxs);
+    padding-left: var(--space-s);
+    padding-right: var(--space-s);
+    width: 100%;
+}
+
+/* Avatar + Connector Column */
+.avatar-connector {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxs);
+    align-items: flex-start;
+    align-self: stretch;
+}
+
+/* Avatar wrapper is handled by avatar component */
+
+/* Line Connector (hidden by default with opacity: 0) */
+.line-connector {
+    flex: 1;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    width: 100%;
+    min-height: 1px;
+    min-width: 1px;
+}
+
+/* Author Content Bubble */
+.author-content {
+    flex: 1;
+    background-color: var(--neutral-20);
+    padding: var(--space-xxs) var(--space-xs);
+    border-radius: var(--border-radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 1px;
+    min-width: 1px;
+}
+
+/* Author Name + User */
+.author-name-user {
+    display: flex;
+    gap: var(--space-xxxs);
+    align-items: center;
+    line-height: 0;
+    width: 100%;
+}
+
+.author-name {
+    font-family: var(--ff-primary);
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-label-md);
+    line-height: 20px;
+    letter-spacing: var(--ls-md);
+    color: var(--text-color-primary);
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.author-meta {
+    font-family: var(--ff-primary);
+    font-weight: var(--fw-medium);
+    font-size: var(--fs-label-md);
+    line-height: 20px;
+    letter-spacing: var(--ls-md);
+    color: var(--text-color-secondary);
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+/* Badges Container - layout only, styling handled by badge component */
+.badges {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    width: 100%;
+}
+
+/* Post Content */
+.post-content {
+    padding: var(--space-xxs) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+}
+
+.post-text {
+    font-family: var(--ff-primary);
+    font-weight: var(--fw-regular);
+    font-size: var(--fs-label-lg);
+    line-height: var(--lh-md);
+    letter-spacing: var(--ls-sm);
+    color: var(--text-color-primary);
+    min-width: 100%;
+    width: min-content;
+}
+
+.post-text .mention {
+    text-decoration: underline;
+    text-decoration-skip-ink: none;
+    text-underline-position: from-font;
+}
+
+/* ============================================
+   ACTION BAR WITH REACTIONS
+   ============================================ */
+.action-bar-container {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.connector-spacer {
+    width: 56px;
+    flex-shrink: 0;
+}
+
+.action-bar {
+    flex: 1;
+    background-color: var(--neutral-white);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 1px;
+    min-width: 1px;
+}
+
+.action-bar-inner {
+    background-color: var(--neutral-white);
+    display: flex;
+    gap: var(--space-xxs);
+    align-items: center;
+    justify-content: flex-end;
+    padding-left: 0;
+    padding-right: var(--space-xs);
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 100%;
+}
+
+/* Reactions Count */
+.reactions-count {
+    flex: 1;
+    display: flex;
+    gap: var(--space-xxs);
+    align-items: center;
+    min-height: 1px;
+    min-width: 1px;
+}
+
+.reactions-stack {
+    display: flex;
+    align-items: center;
+    padding-left: 0;
+    padding-right: 2px;
+}
+
+.reaction-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+    border: 1px solid var(--neutral-white);
+    padding: var(--space-xxxs);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: -2px;
+    gap: var(--space-xxxs);
+    flex-shrink: 0;
+}
+
+.reaction-helpful {
+    background-color: var(--green-100);
+}
+
+.reaction-insightful {
+    background-color: var(--yellow-100);
+}
+
+.reaction-uplifting {
+    background-color: #fff6e7;
+}
+
+.reaction-icon-inner {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.reaction-count {
+    font-family: var(--ff-primary);
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-label-md);
+    line-height: 20px;
+    letter-spacing: var(--ls-md);
+    color: var(--text-color-primary);
+    white-space: nowrap;
+}
+
+/* Actions Right - buttons are handled by button component */
+.actions-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+}
+
+/* ============================================
+   MINI COMPOSER
+   ============================================ */
+.mini-composer-wrapper {
+    background-color: var(--neutral-white);
+    padding: var(--space-xs) var(--space-s);
+    display: flex;
+    gap: var(--space-xs);
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding-left: 56px;
+}
+
+.mini-composer-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 1px;
+    min-width: 1px;
+}
+
+.mini-composer {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.composer-avatar-container {
+    display: flex;
+    gap: var(--space-xxs);
+    align-items: center;
+    align-self: stretch;
+}
+
+.composer-avatar-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding-bottom: var(--space-xs);
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    height: 100%;
+}
+
+.composer-input {
+    background-color: var(--neutral-30);
+    border-radius: var(--space-md);
+    padding: var(--space-xxs) var(--space-xxs) var(--space-xxs) var(--space-s);
+    display: flex;
+    gap: var(--space-xxs);
+    align-items: flex-start;
+    width: 311px;
+    flex-shrink: 0;
+}
+
+.input-text-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    padding: var(--space-xxs) 0;
+    min-height: 1px;
+    min-width: 1px;
+}
+
+.input-text-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.placeholder-text {
+    flex: 1;
+    font-family: var(--ff-primary);
+    font-weight: var(--fw-regular);
+    font-size: var(--fs-body-default);
+    line-height: var(--lh-md);
+    letter-spacing: var(--ls-sm);
+    color: var(--text-color-secondary);
+    min-height: 1px;
+    min-width: 1px;
+    align-self: stretch;
+}
+
+.input-trailing-icons {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding-bottom: var(--space-xxs);
+    padding-left: 0;
+    padding-right: var(--space-xxs);
+    padding-top: 0;
+    align-self: stretch;
+}
+
+.input-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 4px 6px 4px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.input-icon-arrow {
+    background-color: var(--neutral-300);
+    border-radius: 100px;
+}
+
+/* ============================================
+   COMMENT REPLY (Nested Comments)
+   ============================================ */
+.comment-reply {
+    background-color: var(--neutral-white);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-xxs) 0;
+    width: 100%;
+}
+
+.reply-row {
+    background-color: var(--neutral-white);
+    display: flex;
+    gap: var(--space-xxs);
+    align-items: flex-start;
+    padding-bottom: 0;
+    padding-left: 56px;
+    padding-right: var(--space-s);
+    padding-top: var(--space-xxxs);
+    width: 100%;
+}
+
+.reply-avatar-connector {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    align-self: stretch;
+}
+
+.reply-line-connector {
+    flex: 1;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    padding-left: 0;
+    padding-right: var(--space-xxxs);
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 100%;
+    min-height: 1px;
+    min-width: 1px;
+}
+
+.reply-line-rect {
+    background-color: #d9d9d9;
+    height: 100%;
+    width: 1px;
+    flex-shrink: 0;
+}
+
+/* Reply Action Bar Container */
+.reply-action-bar-container {
+    display: flex;
+    align-items: flex-start;
+    padding-left: 56px;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 100%;
+}
+
+.reply-connector-spacer {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    padding: 0 11px;
+    align-self: stretch;
+    width: 22px;
+}
+
+.reply-action-bar {
+    flex: 1;
+    background-color: var(--neutral-white);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding-left: 4px;
+    padding-right: var(--space-xs);
+    padding-top: 0;
+    padding-bottom: 0;
+    min-height: 1px;
+    min-width: 1px;
+}
+
+.reply-action-bar-inner {
+    background-color: var(--neutral-white);
+    display: flex;
+    gap: var(--space-xxs);
+    align-items: center;
+    justify-content: flex-end;
+    padding-left: 0;
+    padding-right: var(--space-xs);
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 100%;
+}
+

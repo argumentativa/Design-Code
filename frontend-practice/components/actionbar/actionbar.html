@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Action Bar - Component</title>
+    
+    <!-- Design Tokens -->
+    <link rel="stylesheet" href="../../css/design-tokens.css">
+    
+    <!-- Button Component -->
+    <link rel="stylesheet" href="../button/button.css">
+    
+    <!-- Navigation Component Styles -->
+    <link rel="stylesheet" href="../navigation/navigation.css">
+    
+    <!-- Component Styles -->
+    <link rel="stylesheet" href="actionbar.css">
+    
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            background: var(--neutral-20);
+            font-family: var(--ff-primary);
+        }
+        
+        .demo-section {
+            background: var(--neutral-white);
+            padding: var(--space-lg);
+            border-radius: var(--border-radius-md);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .demo-section h2 {
+            font-family: var(--ff-primary);
+            font-weight: var(--fw-bold);
+            font-size: var(--fs-h2);
+            margin-bottom: var(--space-md);
+            color: var(--text-color-primary);
+        }
+        
+        .demo-section h3 {
+            font-family: var(--ff-primary);
+            font-weight: var(--fw-bold);
+            font-size: var(--fs-label-lg);
+            margin-top: var(--space-md);
+            margin-bottom: var(--space-xs);
+            color: var(--text-color-secondary);
+        }
+        
+        .demo-container {
+            max-width: 375px;
+            background: var(--neutral-white);
+            border: 1px solid var(--neutral-100);
+            border-radius: var(--border-radius-md);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="component-nav">
+        <div class="component-nav__container">
+            <a href="../index.html" class="component-nav__home">
+                <svg class="component-nav__home-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Component Library
+            </a>
+            <div class="component-nav__links">
+                <a href="../index.html" class="component-nav__link">Index</a>
+                <a href="../avatar/avatar.html" class="component-nav__link">Avatar</a>
+                <a href="../badge/badge.html" class="component-nav__link">Badge</a>
+                <a href="../button/button.html" class="component-nav__link">Button</a>
+                <a href="actionbar.html" class="component-nav__link component-nav__link--active">Action Bar</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div style="max-width: 1400px; margin: 0 auto; padding: var(--space-xl);">
+        <h1 style="font-family: var(--ff-primary); font-weight: var(--fw-bold); font-size: var(--fs-display); margin-bottom: var(--space-lg); color: var(--text-color-primary);">Action Bar Components</h1>
+        
+        <!-- Default Action Bar with Reactions -->
+        <div class="demo-section">
+            <h2>Default Action Bar (With Reactions)</h2>
+            <p style="font-family: var(--ff-primary); font-size: var(--fs-body-default); color: var(--text-color-secondary); margin-bottom: var(--space-md);">
+                Standard action bar showing 3 reactions with count, add reaction button, and reply button.
+            </p>
+            
+            <div class="demo-container">
+                <!-- Action Bar with Reactions -->
+                <div class="actionbar" data-name="molecules/actionbar/comment/reactions">
+                    <div class="actionbar__inner">
+                        <!-- Reactions Count -->
+                        <div class="actionbar__reactions">
+                            <div class="actionbar__reactions-stack">
+                                <div class="actionbar__reaction-icon actionbar__reaction-icon--helpful">
+                                    <div class="actionbar__reaction-icon-inner">
+                                        <img src="../../assets/icons/16/reactions/helpful-color.svg" alt="Helpful" width="16" height="16">
+                                    </div>
+                                </div>
+                                <div class="actionbar__reaction-icon actionbar__reaction-icon--insightful">
+                                    <div class="actionbar__reaction-icon-inner">
+                                        <img src="../../assets/icons/16/reactions/insightful-color.svg" alt="Insightful" width="16" height="16">
+                                    </div>
+                                </div>
+                                <div class="actionbar__reaction-icon actionbar__reaction-icon--uplifting">
+                                    <div class="actionbar__reaction-icon-inner">
+                                        <img src="../../assets/icons/16/reactions/uplifting-color.svg" alt="Uplifting" width="16" height="16">
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="actionbar__reaction-count">31</span>
+                        </div>
+                        
+                        <!-- Actions Right -->
+                        <div class="actionbar__actions">
+                            <button class="button button--small button--icon-only button--naked" aria-label="Add reaction">
+                                <div class="button__icon">
+                                    <img src="../../assets/icons/24/reactions/add-reaction.svg" alt="Add reaction" width="17.27" height="14.535">
+                                </div>
+                            </button>
+                            <button class="button button--small button--naked">
+                                <span class="button__text">Reply</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Action Bar - No Reactions -->
+        <div class="demo-section">
+            <h2>Action Bar (No Reactions Yet)</h2>
+            <p style="font-family: var(--ff-primary); font-size: var(--fs-body-default); color: var(--text-color-secondary); margin-bottom: var(--space-md);">
+                Action bar for comments that haven't received any reactions yet.
+            </p>
+            
+            <div class="demo-container">
+                <!-- Action Bar without Reactions -->
+                <div class="actionbar actionbar--no-reactions">
+                    <div class="actionbar__inner">
+                        <!-- Reactions Count (hidden) -->
+                        <div class="actionbar__reactions">
+                            <div class="actionbar__reactions-stack">
+                                <!-- No reactions displayed -->
+                            </div>
+                            <span class="actionbar__reaction-count">0</span>
+                        </div>
+                        
+                        <!-- Actions Right -->
+                        <div class="actionbar__actions">
+                            <button class="button button--small button--icon-only button--naked" aria-label="Add reaction">
+                                <div class="button__icon">
+                                    <img src="../../assets/icons/24/reactions/add-reaction.svg" alt="Add reaction" width="17.27" height="14.535">
+                                </div>
+                            </button>
+                            <button class="button button--small button--naked">
+                                <span class="button__text">Reply</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Different Reaction Combinations -->
+        <div class="demo-section">
+            <h2>Different Reaction Combinations</h2>
+            
+            <h3>Like, Haha, Uplifting (5 total)</h3>
+            <div class="demo-container" style="margin-bottom: var(--space-md);">
+                <div class="actionbar">
+                    <div class="actionbar__inner">
+                        <div class="actionbar__reactions">
+                            <div class="actionbar__reactions-stack">
+                                <div class="actionbar__reaction-icon actionbar__reaction-icon--like">
+                                    <div class="actionbar__reaction-icon-inner">
+                                        <img src="../../assets/icons/16/reactions/heart.svg" alt="Like" width="16" height="16">
+                                    </div>
+                                </div>
+                                <div class="actionbar__reaction-icon actionbar__reaction-icon--haha">
+                                    <div class="actionbar__reaction-icon-inner">
+                                        <img src="../../assets/icons/16/reactions/face-laugh-beam-fill.svg" alt="Haha" width="16" height="16">
+                                    </div>
+                                </div>
+                                <div class="actionbar__reaction-icon actionbar__reaction-icon--uplifting">
+                                    <div class="actionbar__reaction-icon-inner">
+                                        <img src="../../assets/icons/16/reactions/uplifting-color.svg" alt="Uplifting" width="16" height="16">
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="actionbar__reaction-count">5</span>
+                        </div>
+                        
+                        <div class="actionbar__actions">
+                            <button class="button button--small button--icon-only button--naked" aria-label="Add reaction">
+                                <div class="button__icon">
+                                    <img src="../../assets/icons/24/reactions/add-reaction.svg" alt="Add reaction">
+                                </div>
+                            </button>
+                            <button class="button button--small button--naked">
+                                <span class="button__text">Reply</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Single Reaction Type (14 helpful reactions)</h3>
+            <div class="demo-container">
+                <div class="actionbar">
+                    <div class="actionbar__inner">
+                        <div class="actionbar__reactions">
+                            <div class="actionbar__reactions-stack">
+                                <div class="actionbar__reaction-icon actionbar__reaction-icon--helpful">
+                                    <div class="actionbar__reaction-icon-inner">
+                                        <img src="../../assets/icons/16/reactions/helpful-color.svg" alt="Helpful" width="16" height="16">
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="actionbar__reaction-count">14</span>
+                        </div>
+                        
+                        <div class="actionbar__actions">
+                            <button class="button button--small button--icon-only button--naked" aria-label="Add reaction">
+                                <div class="button__icon">
+                                    <img src="../../assets/icons/24/reactions/add-reaction.svg" alt="Add reaction">
+                                </div>
+                            </button>
+                            <button class="button button--small button--naked">
+                                <span class="button__text">Reply</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Component Usage -->
+        <div class="demo-section">
+            <h2>Usage</h2>
+            <pre style="background: var(--neutral-30); padding: var(--space-md); border-radius: var(--border-radius-sm); overflow-x: auto; font-family: 'Courier New', monospace; font-size: 14px;"><code>&lt;!-- Action Bar with Reactions --&gt;
+&lt;div class="actionbar"&gt;
+    &lt;div class="actionbar__inner"&gt;
+        &lt;!-- Reactions Count --&gt;
+        &lt;div class="actionbar__reactions"&gt;
+            &lt;div class="actionbar__reactions-stack"&gt;
+                &lt;div class="actionbar__reaction-icon actionbar__reaction-icon--helpful"&gt;
+                    &lt;div class="actionbar__reaction-icon-inner"&gt;
+                        &lt;img src="path/to/helpful-icon.svg" alt="Helpful"&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;!-- More reaction icons... --&gt;
+            &lt;/div&gt;
+            &lt;span class="actionbar__reaction-count"&gt;31&lt;/span&gt;
+        &lt;/div&gt;
+        
+        &lt;!-- Actions --&gt;
+        &lt;div class="actionbar__actions"&gt;
+            &lt;button class="button button--small button--icon-only button--naked"&gt;
+                &lt;!-- Add reaction icon --&gt;
+            &lt;/button&gt;
+            &lt;button class="button button--small button--naked"&gt;
+                &lt;span class="button__text"&gt;Reply&lt;/span&gt;
+            &lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+    </div>
+</body>
+</html>
+
